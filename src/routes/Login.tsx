@@ -69,7 +69,7 @@ const Login = () => {
                   <Input
                     id="password"
                     type={showPassword ? "text" : "password"}
-                    placeholder="Password"
+                    placeholder="password"
                   />
                   <InputRightElement width="4.5rem">
                     <Button h="1.75rem" size="sm" onClick={handleShowClick}>
@@ -81,6 +81,7 @@ const Login = () => {
                   <Link>forgot password?</Link>
                 </FormHelperText>
               </FormControl>
+
               <Button
                 borderRadius="md"
                 type="submit"
