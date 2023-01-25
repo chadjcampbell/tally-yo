@@ -1,18 +1,20 @@
 import {
+  Button,
   chakra,
   FormControl,
   Input,
   InputGroup,
   InputLeftElement,
-  InputProps,
-  useMultiStyleConfig,
+  InputRightElement,
 } from "@chakra-ui/react";
+import { useRef } from "react";
 import { FaImage } from "react-icons/fa";
 
 const CFaImage = chakra(FaImage);
 
-export const FileInput = (props: InputProps) => {
-  const styles = useMultiStyleConfig("Button", { variant: "outline" });
+export const FileInput = () => {
+  const inputRef = useRef();
+  const fileStatus = "choose file...";
 
   return (
     <FormControl>
@@ -22,21 +24,18 @@ export const FileInput = (props: InputProps) => {
           color="gray.300"
           children={<CFaImage color="gray.300" />}
         />
-        <Input
-          id="avatar"
-          variant="unstyled"
+        <input
           type="file"
           accept="image/*"
-          sx={{
-            "::file-selector-button": {
-              border: "none",
-              outline: "none",
-              mr: 2,
-              ...styles,
-            },
-          }}
-          {...props}
+          ref={inputRef}
+          style={{ display: "none" }}
         />
+        <Input border="none" placeholder={fileStatus} readOnly type="text" />
+        <InputRightElement width="8rem">
+          <Button onClick={() => inputRef.current.click()} id="avatar">
+            Upload Avatar
+          </Button>
+        </InputRightElement>
       </InputGroup>
     </FormControl>
   );

@@ -81,7 +81,6 @@ const Login = () => {
                   <Link>forgot password?</Link>
                 </FormHelperText>
               </FormControl>
-
               <Button
                 borderRadius="md"
                 type="submit"
@@ -97,7 +96,7 @@ const Login = () => {
       </Stack>
       <Box>
         New to us?{" "}
-        <Link color="teal.500" href="#">
+        <Link color="teal.500" href="/register">
           Sign Up
         </Link>
       </Box>

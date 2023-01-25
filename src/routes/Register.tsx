@@ -128,7 +128,7 @@ const Register = () => {
       </Stack>
       <Box>
         Already have an account?{" "}
-        <Link color="teal.500" href="#">
+        <Link color="teal.500" href="/login">
           Login
         </Link>
       </Box>
