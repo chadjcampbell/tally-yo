@@ -16,6 +16,7 @@ import {
   InputRightElement,
 } from "@chakra-ui/react";
 import { FaUserAlt, FaLock } from "react-icons/fa";
+import { Link as ReactRouterLink } from "react-router-dom";
 
 const CFaUserAlt = chakra(FaUserAlt);
 const CFaLock = chakra(FaLock);
@@ -96,7 +97,7 @@ const Login = () => {
       </Stack>
       <Box>
         New to us?{" "}
-        <Link color="teal.500" href="/register">
+        <Link as={ReactRouterLink} to="/register" color="teal.500">
           Sign Up
         </Link>
       </Box>

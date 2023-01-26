@@ -16,6 +16,7 @@ import {
 } from "@chakra-ui/react";
 import { FaUserAlt, FaLock, FaMask, FaImage } from "react-icons/fa";
 import { FileInput } from "../components/FileInput";
+import { Link as ReactRouterLink } from "react-router-dom";
 
 const CFaUserAlt = chakra(FaUserAlt);
 const CFaLock = chakra(FaLock);
@@ -127,7 +128,7 @@ const Register = () => {
       </Stack>
       <Box>
         Already have an account?{" "}
-        <Link color="teal.500" href="/login">
+        <Link as={ReactRouterLink} to="/login" color="teal.500">
           Login
         </Link>
       </Box>

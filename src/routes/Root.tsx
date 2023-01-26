@@ -17,7 +17,6 @@ import {
   FlexProps,
   Menu,
   MenuButton,
-  MenuDivider,
   MenuItem,
   MenuList,
 } from "@chakra-ui/react";
@@ -31,15 +30,17 @@ import {
 } from "react-icons/fi";
 import { IconType } from "react-icons";
 import { Outlet } from "react-router-dom";
+import { Link as ReactRouterLink } from "react-router-dom";
 
 interface LinkItemProps {
   name: string;
   icon: IconType;
+  path: string;
 }
 const LinkItems: Array<LinkItemProps> = [
-  { name: "Chat", icon: FiHome },
-  { name: "Collection", icon: FiTrendingUp },
-  { name: "Settings", icon: FiSettings },
+  { name: "Chat", icon: FiHome, path: "/" },
+  { name: "Collection", icon: FiTrendingUp, path: "/collection" },
+  { name: "Settings", icon: FiSettings, path: "/settings" },
 ];
 
 export default function Root() {
@@ -100,7 +101,7 @@ const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
         <CloseButton display={{ base: "flex", md: "none" }} onClick={onClose} />
       </Flex>
       {LinkItems.map((link) => (
-        <NavItem key={link.name} icon={link.icon}>
+        <NavItem key={link.name} icon={link.icon} path={link.path}>
           {link.name}
         </NavItem>
       ))}
@@ -110,12 +111,14 @@ const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
 
 interface NavItemProps extends FlexProps {
   icon: IconType;
+  path: string;
   children: string | number;
 }
-const NavItem = ({ icon, children, ...rest }: NavItemProps) => {
+const NavItem = ({ icon, path, children, ...rest }: NavItemProps) => {
   return (
     <Link
-      href="#"
+      as={ReactRouterLink}
+      to={path}
       style={{ textDecoration: "none" }}
       _focus={{ boxShadow: "none" }}
     >
