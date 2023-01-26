@@ -14,7 +14,7 @@ const CFaImage = chakra(FaImage);
 
 export const FileInput = () => {
   const inputRef = useRef<HTMLInputElement | null>(null);
-  const fileStatus = "choose file...";
+  const fileStatus = "add an avatar";
 
   return (
     <FormControl>
