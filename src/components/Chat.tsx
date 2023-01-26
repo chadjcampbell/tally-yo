@@ -24,7 +24,7 @@ const Chat = () => {
       >
         <Heading size="md"> Chat with ...</Heading>
       </CardHeader>
-      <CardBody>
+      <CardBody width="full">
         <ChatArea />
       </CardBody>
       <CardFooter width="full" borderRadius="0 0 1em 1em">
@@ -33,7 +33,7 @@ const Chat = () => {
             <Input
               id="userMessage"
               type="textarea"
-              placeholder="Say hi!"
+              placeholder="Send message..."
               width="full"
             />
             <InputRightElement width="4.5rem">
