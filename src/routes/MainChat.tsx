@@ -10,6 +10,7 @@ import {
   DrawerFooter,
 } from "@chakra-ui/react";
 import { useRef } from "react";
+import Chat from "../components/Chat";
 import Search from "../components/Search";
 
 const MainChat = () => {
@@ -43,6 +44,7 @@ const MainChat = () => {
           </DrawerFooter>
         </DrawerContent>
       </Drawer>
+      <Chat />
     </>
   );
 };
