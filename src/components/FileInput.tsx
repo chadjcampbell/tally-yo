@@ -13,7 +13,7 @@ import { FaImage } from "react-icons/fa";
 const CFaImage = chakra(FaImage);
 
 export const FileInput = () => {
-  const inputRef = useRef();
+  const inputRef = useRef<HTMLInputElement | null>(null);
   const fileStatus = "choose file...";
 
   return (
@@ -32,7 +32,7 @@ export const FileInput = () => {
         />
         <Input border="none" placeholder={fileStatus} readOnly type="text" />
         <InputRightElement width="8rem">
-          <Button onClick={() => inputRef.current.click()} id="avatar">
+          <Button onClick={() => inputRef.current?.click()} id="avatar">
             Upload Avatar
           </Button>
         </InputRightElement>
