@@ -10,7 +10,7 @@ import Root from "./routes/Root";
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <Root children={undefined} />,
+    element: <Root />,
     children: [{ path: "/", element: <MainChat />, index: true }],
   },
   {

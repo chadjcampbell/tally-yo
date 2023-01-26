@@ -1,4 +1,3 @@
-import { ReactNode } from "react";
 import {
   IconButton,
   Avatar,
@@ -43,7 +42,7 @@ const LinkItems: Array<LinkItemProps> = [
   { name: "Settings", icon: FiSettings },
 ];
 
-export default function Root({ children }: { children: ReactNode }) {
+export default function Root() {
   const { isOpen, onOpen, onClose } = useDisclosure();
   return (
     <Box minH="100vh" bg={useColorModeValue("gray.100", "gray.900")}>
