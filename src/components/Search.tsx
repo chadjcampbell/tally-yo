@@ -1,5 +1,7 @@
+import { Input } from "@chakra-ui/react";
+
 const Search = () => {
-  return <></>;
+  return <Input placeholder="Search..." />;
 };
 
 export default Search;
