@@ -1,5 +1,5 @@
 import { ChakraProvider } from "@chakra-ui/react";
-import React from "react";
+import React, { Children } from "react";
 import ReactDOM from "react-dom/client";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Login from "./routes/Login";
@@ -9,7 +9,7 @@ import Root from "./routes/Root";
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <Root />,
+    element: <Root children={undefined} />,
   },
   {
     path: "login",
