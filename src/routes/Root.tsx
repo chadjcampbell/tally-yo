@@ -31,6 +31,7 @@ import {
   FiChevronDown,
 } from "react-icons/fi";
 import { IconType } from "react-icons";
+import { Outlet } from "react-router-dom";
 
 interface LinkItemProps {
   name: string;
@@ -66,7 +67,7 @@ export default function Root({ children }: { children: ReactNode }) {
       {/* mobilenav */}
       <MobileNav onOpen={onOpen} />
       <Box ml={{ base: 0, md: 60 }} p="4">
-        {children}
+        <Outlet />
       </Box>
     </Box>
   );
@@ -200,7 +201,7 @@ const MobileNav = ({ onOpen, ...rest }: MobileProps) => {
                 <Avatar
                   size={"sm"}
                   src={
-                    "https://images.unsplash.com/photo-1619946794135-5bc917a27793?ixlib=rb-0.3.5&q=80&fm=jpg&crop=faces&fit=crop&h=200&w=200&s=b616b2c5b373a80ffc9636ba24f7a4a9"
+                    "https://media.licdn.com/dms/image/C4E03AQGRaNunSFq5mw/profile-displayphoto-shrink_100_100/0/1648668478446?e=1680134400&v=beta&t=Fa-nemeA3Z3s13dKeoVBJrn-JImdjYf84tE4Z1KUM2E"
                   }
                 />
                 <VStack
@@ -210,9 +211,6 @@ const MobileNav = ({ onOpen, ...rest }: MobileProps) => {
                   ml="2"
                 >
                   <Text fontSize="sm">Chad Campbell</Text>
-                  <Text fontSize="xs" color="gray.600">
-                    Admin
-                  </Text>
                 </VStack>
                 <Box display={{ base: "none", md: "flex" }}>
                   <FiChevronDown />
@@ -223,10 +221,6 @@ const MobileNav = ({ onOpen, ...rest }: MobileProps) => {
               bg={useColorModeValue("white", "gray.900")}
               borderColor={useColorModeValue("gray.200", "gray.700")}
             >
-              <MenuItem>Profile</MenuItem>
-              <MenuItem>Settings</MenuItem>
-              <MenuItem>Billing</MenuItem>
-              <MenuDivider />
               <MenuItem>Sign out</MenuItem>
             </MenuList>
           </Menu>

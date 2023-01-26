@@ -3,6 +3,7 @@ import React, { Children } from "react";
 import ReactDOM from "react-dom/client";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Login from "./routes/Login";
+import MainChat from "./routes/MainChat";
 import Register from "./routes/Register";
 import Root from "./routes/Root";
 
@@ -10,6 +11,7 @@ const router = createBrowserRouter([
   {
     path: "/",
     element: <Root children={undefined} />,
+    children: [{ path: "/", element: <MainChat />, index: true }],
   },
   {
     path: "login",
