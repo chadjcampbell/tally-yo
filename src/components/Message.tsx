@@ -1,4 +1,4 @@
-import { Avatar, Box, Flex, Stack } from "@chakra-ui/react";
+import { Avatar, Box, Flex } from "@chakra-ui/react";
 
 interface MessageProps {
   justify: string;
