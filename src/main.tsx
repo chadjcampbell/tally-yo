@@ -1,5 +1,5 @@
 import { ChakraProvider } from "@chakra-ui/react";
-import React, { Children } from "react";
+import React from "react";
 import ReactDOM from "react-dom/client";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Collection from "./routes/Collection";
