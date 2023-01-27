@@ -5,11 +5,9 @@ import {
   CardBody,
   CardFooter,
   Button,
-  Box,
   FormControl,
   Input,
   InputGroup,
-  InputLeftElement,
   InputRightElement,
 } from "@chakra-ui/react";
 import ChatArea from "./ChatArea";
