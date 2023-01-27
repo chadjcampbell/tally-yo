@@ -14,9 +14,11 @@ import {
   FormControl,
   InputRightElement,
 } from "@chakra-ui/react";
-import { FaUserAlt, FaLock, FaMask, FaImage } from "react-icons/fa";
+import { FaUserAlt, FaLock, FaMask } from "react-icons/fa";
 import { FileInput } from "../components/FileInput";
 import { Link as ReactRouterLink } from "react-router-dom";
+import { createUserWithEmailAndPassword } from "firebase/auth";
+import { auth } from "../firebase";
 
 const CFaUserAlt = chakra(FaUserAlt);
 const CFaLock = chakra(FaLock);
@@ -26,6 +28,25 @@ const Register = () => {
   const [showPassword, setShowPassword] = useState(false);
 
   const handleShowClick = () => setShowPassword(!showPassword);
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const displayName = e.currentTarget.displayName.value;
+    const email = e.currentTarget.email.value;
+    const password = e.currentTarget.password.value;
+    const confirmPassword = e.currentTarget.confirmPassword.value;
+    const file = e.currentTarget.file.value;
+    createUserWithEmailAndPassword(auth, email, password)
+      .then((userCredential) => {
+        // Signed in
+        const user = userCredential.user;
+        // ...
+      })
+      .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        // ..
+      });
+  };
 
   return (
     <Flex
@@ -45,7 +66,7 @@ const Register = () => {
         <Avatar bg="teal.500" />
         <Heading color="teal.400">Sign Up</Heading>
         <Box minW={{ base: "90%", md: "468px" }}>
-          <form>
+          <form onSubmit={(event) => handleSubmit(event)}>
             <Stack
               spacing={4}
               p="1rem"

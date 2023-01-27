@@ -25,6 +25,7 @@ export const FileInput = () => {
           children={<CFaImage color="gray.300" />}
         />
         <input
+          id="file"
           type="file"
           accept="image/*"
           ref={inputRef}
