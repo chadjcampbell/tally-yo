@@ -18,10 +18,11 @@ import {
 } from "@chakra-ui/react";
 import { FaUserAlt, FaLock, FaMask } from "react-icons/fa";
 import { FileInput } from "../components/FileInput";
-import { Link as ReactRouterLink } from "react-router-dom";
+import { Link as ReactRouterLink, useNavigate } from "react-router-dom";
 import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
-import { auth, storage } from "../firebase";
+import { auth, db, storage } from "../firebase";
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
+import { doc, setDoc } from "firebase/firestore";
 
 const CFaUserAlt = chakra(FaUserAlt);
 const CFaLock = chakra(FaLock);
@@ -30,6 +31,7 @@ const CFaMask = chakra(FaMask);
 const Register = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState(false);
+  const navigate = useNavigate();
 
   const handleShowClick = () => setShowPassword(!showPassword);
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -75,6 +77,14 @@ const Register = () => {
               displayName,
               photoURL: downloadURL,
             });
+            await setDoc(doc(db, "users", res.user.uid), {
+              uid: res.user.uid,
+              displayName,
+              email,
+              photoURL: downloadURL,
+            });
+            await setDoc(doc(db, "userChats", res.user.uid), {});
+            navigate("/");
           });
         }
       );
