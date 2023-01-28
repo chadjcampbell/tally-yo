@@ -13,12 +13,15 @@ import {
   Avatar,
   FormControl,
   InputRightElement,
+  Alert,
+  AlertIcon,
 } from "@chakra-ui/react";
 import { FaUserAlt, FaLock, FaMask } from "react-icons/fa";
 import { FileInput } from "../components/FileInput";
 import { Link as ReactRouterLink } from "react-router-dom";
-import { createUserWithEmailAndPassword } from "firebase/auth";
-import { auth } from "../firebase";
+import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
+import { auth, storage } from "../firebase";
+import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 
 const CFaUserAlt = chakra(FaUserAlt);
 const CFaLock = chakra(FaLock);
@@ -26,26 +29,58 @@ const CFaMask = chakra(FaMask);
 
 const Register = () => {
   const [showPassword, setShowPassword] = useState(false);
+  const [error, setError] = useState(false);
 
   const handleShowClick = () => setShowPassword(!showPassword);
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const displayName = e.currentTarget.displayName.value;
     const email = e.currentTarget.email.value;
     const password = e.currentTarget.password.value;
     const confirmPassword = e.currentTarget.confirmPassword.value;
     const file = e.currentTarget.file.value;
-    createUserWithEmailAndPassword(auth, email, password)
-      .then((userCredential) => {
-        // Signed in
-        const user = userCredential.user;
-        // ...
-      })
-      .catch((error) => {
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        // ..
-      });
+    //TODO - validation
+    try {
+      const res = await createUserWithEmailAndPassword(auth, email, password);
+
+      const storageRef = ref(storage, email);
+
+      const uploadTask = uploadBytesResumable(storageRef, file);
+
+      // Register three observers:
+      uploadTask.on(
+        "state_changed",
+        (snapshot) => {
+          // Observe state change events such as progress, pause, and resume
+          // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
+          const progress =
+            (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+          console.log("Upload is " + progress + "% done");
+          switch (snapshot.state) {
+            case "paused":
+              console.log("Upload is paused");
+              break;
+            case "running":
+              console.log("Upload is running");
+              break;
+          }
+        },
+        (error) => {
+          setError(true);
+          console.log(error);
+        },
+        () => {
+          getDownloadURL(uploadTask.snapshot.ref).then(async (downloadURL) => {
+            await updateProfile(res.user, {
+              displayName,
+              photoURL: downloadURL,
+            });
+          });
+        }
+      );
+    } catch (error) {
+      setError(true);
+    }
   };
 
   return (
@@ -147,6 +182,12 @@ const Register = () => {
           </form>
         </Box>
       </Stack>
+      {error && (
+        <Alert status="error">
+          <AlertIcon />
+          There was an error processing your request
+        </Alert>
+      )}
       <Box>
         Already have an account?{" "}
         <Link as={ReactRouterLink} to="/login" color="teal.500">
