@@ -1,7 +1,9 @@
 import { ChakraProvider } from "@chakra-ui/react";
-import React from "react";
+import React, { useContext } from "react";
 import ReactDOM from "react-dom/client";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { AuthContext } from "./context/AuthContext";
+import { AuthProvider } from "./provider/AuthProvider";
 import Collection from "./routes/Collection";
 import Login from "./routes/Login";
 import MainChat from "./routes/MainChat";
@@ -32,7 +34,9 @@ const router = createBrowserRouter([
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
     <ChakraProvider>
-      <RouterProvider router={router} />
+      <AuthProvider>
+        <RouterProvider router={router} />
+      </AuthProvider>
     </ChakraProvider>
   </React.StrictMode>
 );
