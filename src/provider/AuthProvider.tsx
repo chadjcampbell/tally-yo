@@ -14,8 +14,9 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     const unsubscribe = onAuthStateChanged(auth, (firebaseUser) => {
       setUser(firebaseUser);
     });
-
-    return unsubscribe;
+    return () => {
+      unsubscribe();
+    };
   }, []);
 
   return <AuthContext.Provider value={user}>{children}</AuthContext.Provider>;

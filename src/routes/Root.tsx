@@ -55,7 +55,7 @@ export default function Root() {
   useEffect(() => {
     if (user === null) navigate("login");
     console.log(user);
-  }, [user]);
+  }, []);
 
   return (
     <Box minH="100vh" bg={useColorModeValue("gray.100", "gray.900")}>
@@ -167,6 +167,12 @@ interface MobileProps extends FlexProps {
   onOpen: () => void;
 }
 const MobileNav = ({ onOpen, ...rest }: MobileProps) => {
+  const navigate = useNavigate();
+
+  function handleSignOut() {
+    signOut(auth).then(() => navigate("login"));
+  }
+
   return (
     <Flex
       ml={{ base: 0, md: 60 }}
@@ -235,7 +241,7 @@ const MobileNav = ({ onOpen, ...rest }: MobileProps) => {
               bg={useColorModeValue("white", "gray.900")}
               borderColor={useColorModeValue("gray.200", "gray.700")}
             >
-              <MenuItem onClick={() => signOut(auth)}>Sign out</MenuItem>
+              <MenuItem onClick={handleSignOut}>Sign out</MenuItem>
             </MenuList>
           </Menu>
         </Flex>

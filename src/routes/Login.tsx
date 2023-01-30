@@ -14,17 +14,34 @@ import {
   FormControl,
   FormHelperText,
   InputRightElement,
+  Alert,
+  AlertIcon,
 } from "@chakra-ui/react";
 import { FaUserAlt, FaLock } from "react-icons/fa";
-import { Link as ReactRouterLink } from "react-router-dom";
+import { Link as ReactRouterLink, useNavigate } from "react-router-dom";
+import { signInWithEmailAndPassword } from "firebase/auth";
+import { auth } from "../firebase";
 
 const CFaUserAlt = chakra(FaUserAlt);
 const CFaLock = chakra(FaLock);
 
 const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
+  const [error, setError] = useState("");
+  const navigate = useNavigate();
 
   const handleShowClick = () => setShowPassword(!showPassword);
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const email = e.currentTarget.email.value;
+    const password = e.currentTarget.password.value;
+    try {
+      await signInWithEmailAndPassword(auth, email, password);
+      navigate("/");
+    } catch (err) {
+      setError(`err`);
+    }
+  };
 
   return (
     <Flex
@@ -44,7 +61,7 @@ const Login = () => {
         <Avatar bg="teal.500" />
         <Heading color="teal.400">Welcome</Heading>
         <Box minW={{ base: "90%", md: "468px" }}>
-          <form>
+          <form onSubmit={handleSubmit}>
             <Stack
               spacing={4}
               p="1rem"
@@ -95,6 +112,18 @@ const Login = () => {
           </form>
         </Box>
       </Stack>
+      {error && (
+        <Alert
+          flexDirection="column"
+          alignItems="center"
+          justifyContent="center"
+          textAlign="center"
+          status="error"
+        >
+          <AlertIcon />
+          {error}
+        </Alert>
+      )}
       <Box>
         New to us?{" "}
         <Link as={ReactRouterLink} to="/register" color="teal.500">
