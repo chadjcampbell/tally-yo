@@ -1,9 +1,10 @@
 import { ChakraProvider } from "@chakra-ui/react";
-import React, { ReactNode, useContext } from "react";
+import React, { useContext } from "react";
 import ReactDOM from "react-dom/client";
 import {
   createBrowserRouter,
   Navigate,
+  Outlet,
   RouterProvider,
 } from "react-router-dom";
 import { AuthContext } from "./context/AuthContext";
@@ -15,50 +16,47 @@ import Register from "./routes/Register";
 import Root from "./routes/Root";
 import Settings from "./routes/Settings";
 
-interface ProtectedRouteProps {
-  children: ReactNode;
-}
-
-export const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
-  const user = useContext(AuthContext);
-
-  if (!user) {
-    return <Navigate to="/login" replace={true} />;
+const AuthenticatedRoute = () => {
+  const { user, loading } = useContext(AuthContext);
+  console.log(user);
+  if (user === undefined || loading) {
+    return <div>Loading...</div>; // or loading spinner, etc...
   }
 
-  return <>{children}</>;
+  return user ? <Outlet /> : <Navigate to="/login" />;
 };
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: (
-      <ProtectedRoute>
-        <Root />
-      </ProtectedRoute>
-    ),
+    element: <AuthenticatedRoute />,
     children: [
-      { element: <MainChat />, index: true },
-      { path: "collection", element: <Collection /> },
-      { path: "settings", element: <Settings /> },
+      {
+        element: <Root />,
+        children: [
+          { element: <MainChat />, index: true },
+          { path: "/collection", element: <Collection /> },
+          { path: "/settings", element: <Settings /> },
+        ],
+      },
     ],
   },
   {
-    path: "login",
+    path: "/login",
     element: <Login />,
   },
   {
-    path: "register",
+    path: "/register",
     element: <Register />,
   },
 ]);
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
-    <ChakraProvider>
-      <AuthProvider>
+    <AuthProvider>
+      <ChakraProvider>
         <RouterProvider router={router} />
-      </AuthProvider>
-    </ChakraProvider>
+      </ChakraProvider>
+    </AuthProvider>
   </React.StrictMode>
 );

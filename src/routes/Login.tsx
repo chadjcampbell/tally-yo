@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import {
   Flex,
   Heading,
@@ -18,9 +18,14 @@ import {
   AlertIcon,
 } from "@chakra-ui/react";
 import { FaUserAlt, FaLock } from "react-icons/fa";
-import { Link as ReactRouterLink, useNavigate } from "react-router-dom";
+import {
+  Link as ReactRouterLink,
+  redirect,
+  useNavigate,
+} from "react-router-dom";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../firebase";
+import { AuthContext } from "../context/AuthContext";
 
 const CFaUserAlt = chakra(FaUserAlt);
 const CFaLock = chakra(FaLock);
@@ -28,6 +33,7 @@ const CFaLock = chakra(FaLock);
 const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState("");
+  const { setLoading } = useContext(AuthContext);
   const navigate = useNavigate();
 
   const handleShowClick = () => setShowPassword(!showPassword);
@@ -36,7 +42,9 @@ const Login = () => {
     const email = e.currentTarget.email.value;
     const password = e.currentTarget.password.value;
     try {
+      setLoading(true);
       await signInWithEmailAndPassword(auth, email, password);
+      setLoading(false);
       navigate("/");
     } catch (err) {
       setError(`Invalid email or password`);

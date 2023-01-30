@@ -8,16 +8,22 @@ interface AuthProviderProps {
 }
 
 export const AuthProvider = ({ children }: AuthProviderProps) => {
-  const [user, setUser] = useState<User | null>(null);
+  const [user, setUser] = useState<User | null>();
+  const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (firebaseUser) => {
       setUser(firebaseUser);
+      setLoading(false);
     });
     return () => {
       unsubscribe();
     };
   }, []);
 
-  return <AuthContext.Provider value={user}>{children}</AuthContext.Provider>;
+  return (
+    <AuthContext.Provider value={{ user, loading, setLoading }}>
+      {children}
+    </AuthContext.Provider>
+  );
 };
