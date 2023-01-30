@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import {
   Flex,
   Heading,
@@ -23,6 +23,7 @@ import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { auth, db, storage } from "../firebase";
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import { doc, setDoc } from "firebase/firestore";
+import { AuthContext } from "../context/AuthContext";
 
 const CFaUserAlt = chakra(FaUserAlt);
 const CFaLock = chakra(FaLock);
@@ -31,6 +32,7 @@ const CFaMask = chakra(FaMask);
 const Register = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState(false);
+  const { setLoading } = useContext(AuthContext);
   const navigate = useNavigate();
 
   const handleShowClick = () => setShowPassword(!showPassword);
@@ -72,6 +74,7 @@ const Register = () => {
           console.log(error);
         },
         () => {
+          setLoading(true);
           getDownloadURL(uploadTask.snapshot.ref).then(async (downloadURL) => {
             await updateProfile(res.user, {
               displayName,
@@ -84,6 +87,7 @@ const Register = () => {
               photoURL: downloadURL,
             });
             await setDoc(doc(db, "userChats", res.user.uid), {});
+            setLoading(false);
             navigate("/");
           });
         }
