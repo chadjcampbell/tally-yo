@@ -7,6 +7,7 @@ import {
   Outlet,
   RouterProvider,
 } from "react-router-dom";
+import Loading from "./components/Loading";
 import { AuthContext } from "./context/AuthContext";
 import { AuthProvider } from "./provider/AuthProvider";
 import Collection from "./routes/Collection";
@@ -20,7 +21,7 @@ const AuthenticatedRoute = () => {
   const { user, loading } = useContext(AuthContext);
   console.log(user);
   if (user === undefined || loading) {
-    return <div>Loading...</div>; // or loading spinner, etc...
+    return <Loading />; // or loading spinner, etc...
   }
 
   return user ? <Outlet /> : <Navigate to="/login" />;
