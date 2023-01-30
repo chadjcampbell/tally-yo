@@ -19,10 +19,24 @@ interface ProtectedRouteProps {
   children: ReactNode;
 }
 
+export const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
+  const user = useContext(AuthContext);
+
+  if (!user) {
+    return <Navigate to="/login" replace={true} />;
+  }
+
+  return <>{children}</>;
+};
+
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <Root />,
+    element: (
+      <ProtectedRoute>
+        <Root />
+      </ProtectedRoute>
+    ),
     children: [
       { element: <MainChat />, index: true },
       { path: "collection", element: <Collection /> },

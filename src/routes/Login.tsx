@@ -18,11 +18,7 @@ import {
   AlertIcon,
 } from "@chakra-ui/react";
 import { FaUserAlt, FaLock } from "react-icons/fa";
-import {
-  Link as ReactRouterLink,
-  redirect,
-  useNavigate,
-} from "react-router-dom";
+import { Link as ReactRouterLink, useNavigate } from "react-router-dom";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../firebase";
 
