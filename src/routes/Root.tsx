@@ -31,8 +31,6 @@ import {
 import { IconType } from "react-icons";
 import { Outlet, useNavigate } from "react-router-dom";
 import { Link as ReactRouterLink } from "react-router-dom";
-import { useContext, useEffect } from "react";
-import { AuthContext } from "../context/AuthContext";
 import { signOut } from "firebase/auth";
 import { auth } from "../firebase";
 
@@ -49,13 +47,6 @@ const LinkItems: Array<LinkItemProps> = [
 
 export default function Root() {
   const { isOpen, onOpen, onClose } = useDisclosure();
-
-  const navigate = useNavigate();
-  const user = useContext(AuthContext);
-  useEffect(() => {
-    if (user === null) navigate("login");
-    console.log(user);
-  }, []);
 
   return (
     <Box minH="100vh" bg={useColorModeValue("gray.100", "gray.900")}>
