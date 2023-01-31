@@ -33,6 +33,8 @@ import { Outlet, useNavigate } from "react-router-dom";
 import { Link as ReactRouterLink } from "react-router-dom";
 import { signOut } from "firebase/auth";
 import { auth } from "../firebase";
+import { useContext } from "react";
+import { AuthContext } from "../context/AuthContext";
 
 interface LinkItemProps {
   name: string;
@@ -159,6 +161,7 @@ interface MobileProps extends FlexProps {
 }
 const MobileNav = ({ onOpen, ...rest }: MobileProps) => {
   const navigate = useNavigate();
+  const { user } = useContext(AuthContext);
 
   function handleSignOut() {
     signOut(auth).then(() => navigate("login"));
@@ -209,19 +212,14 @@ const MobileNav = ({ onOpen, ...rest }: MobileProps) => {
               _focus={{ boxShadow: "none" }}
             >
               <HStack>
-                <Avatar
-                  size={"sm"}
-                  src={
-                    "https://media.licdn.com/dms/image/C4E03AQGRaNunSFq5mw/profile-displayphoto-shrink_100_100/0/1648668478446?e=1680134400&v=beta&t=Fa-nemeA3Z3s13dKeoVBJrn-JImdjYf84tE4Z1KUM2E"
-                  }
-                />
+                <Avatar size={"sm"} src={user?.photoURL || undefined} />
                 <VStack
                   display={{ base: "none", md: "flex" }}
                   alignItems="flex-start"
                   spacing="1px"
                   ml="2"
                 >
-                  <Text fontSize="sm">Chad Campbell</Text>
+                  <Text fontSize="sm">{user?.displayName}</Text>
                 </VStack>
                 <Box display={{ base: "none", md: "flex" }}>
                   <FiChevronDown />
