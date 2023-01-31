@@ -24,6 +24,7 @@ import { auth, db, storage } from "../firebase";
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import { doc, setDoc } from "firebase/firestore";
 import { AuthContext } from "../context/AuthContext";
+import Loading from "../components/Loading";
 
 const CFaUserAlt = chakra(FaUserAlt);
 const CFaLock = chakra(FaLock);
@@ -32,7 +33,7 @@ const CFaMask = chakra(FaMask);
 const Register = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState(false);
-  const { setLoading } = useContext(AuthContext);
+  const { loading, setLoading } = useContext(AuthContext);
   const navigate = useNavigate();
 
   const handleShowClick = () => setShowPassword(!showPassword);
@@ -42,12 +43,14 @@ const Register = () => {
     const email = e.currentTarget.email.value;
     const password = e.currentTarget.password.value;
     const confirmPassword = e.currentTarget.confirmPassword.value;
-    const file = e.currentTarget.file.value;
+    const file = e.currentTarget.file.files[0];
+    setLoading(true);
+
     //TODO - validation
     try {
       const res = await createUserWithEmailAndPassword(auth, email, password);
 
-      const storageRef = ref(storage, email);
+      const storageRef = ref(storage, res.user.uid);
 
       const uploadTask = uploadBytesResumable(storageRef, file);
 
@@ -72,9 +75,9 @@ const Register = () => {
         (error) => {
           setError(true);
           console.log(error);
+          setLoading(false);
         },
         () => {
-          setLoading(true);
           getDownloadURL(uploadTask.snapshot.ref).then(async (downloadURL) => {
             await updateProfile(res.user, {
               displayName,
@@ -87,7 +90,7 @@ const Register = () => {
               photoURL: downloadURL,
             });
             await setDoc(doc(db, "userChats", res.user.uid), {});
-            setLoading(false);
+
             navigate("/");
           });
         }
@@ -97,7 +100,9 @@ const Register = () => {
     }
   };
 
-  return (
+  return loading ? (
+    <Loading />
+  ) : (
     <Flex
       flexDirection="column"
       width="100wh"
