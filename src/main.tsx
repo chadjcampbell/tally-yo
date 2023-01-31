@@ -8,6 +8,7 @@ import {
   RouterProvider,
 } from "react-router-dom";
 import Loading from "./components/Loading";
+import Error from "./components/Error";
 import { AuthContext } from "./context/AuthContext";
 import { AuthProvider } from "./provider/AuthProvider";
 import Collection from "./routes/Collection";
@@ -31,6 +32,7 @@ const router = createBrowserRouter([
   {
     path: "/",
     element: <AuthenticatedRoute />,
+    errorElement: <Error />,
     children: [
       {
         element: <Root />,
