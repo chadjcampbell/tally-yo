@@ -28,38 +28,47 @@ const AuthenticatedRoute = () => {
   return user ? <Outlet /> : <Navigate to="/login" />;
 };
 
+const AuthProviderLayout = () => (
+  <AuthProvider>
+    <Outlet />
+  </AuthProvider>
+);
+
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <AuthenticatedRoute />,
+    element: <AuthProviderLayout />,
     errorElement: <Error />,
     children: [
       {
-        element: <Root />,
+        element: <AuthenticatedRoute />,
         children: [
-          { element: <MainChat />, index: true },
-          { path: "/collection", element: <Collection /> },
-          { path: "/settings", element: <Settings /> },
+          {
+            element: <Root />,
+            children: [
+              { element: <MainChat />, index: true },
+              { path: "/collection", element: <Collection /> },
+              { path: "/settings", element: <Settings /> },
+            ],
+          },
         ],
       },
+      {
+        path: "/login",
+        element: <Login />,
+      },
+      {
+        path: "/register",
+        element: <Register />,
+      },
     ],
-  },
-  {
-    path: "/login",
-    element: <Login />,
-  },
-  {
-    path: "/register",
-    element: <Register />,
   },
 ]);
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
-    <AuthProvider>
-      <ChakraProvider>
-        <RouterProvider router={router} />
-      </ChakraProvider>
-    </AuthProvider>
+    <ChakraProvider>
+      <RouterProvider router={router} />
+    </ChakraProvider>
   </React.StrictMode>
 );
