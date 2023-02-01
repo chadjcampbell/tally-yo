@@ -8,8 +8,13 @@ import {
   InputRightElement,
   VStack,
   FormControl,
+  Box,
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+  Portal,
 } from "@chakra-ui/react";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import {
   collection,
   DocumentData,
@@ -23,23 +28,28 @@ const Search = () => {
   const [username, setUsername] = useState("");
   const [searchUser, setSearchUser] = useState<DocumentData | null>(null);
   const [error, setError] = useState(false);
+  //look into useRef typing
+  const initRef = useRef<any>(null);
 
   const handleSearch = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setUsername("");
+
     const q = query(
       collection(db, "users"),
       where("displayName", "==", username)
     );
+    setUsername("");
     try {
       const querySnapshot = await getDocs(q);
       querySnapshot.forEach((doc) => {
-        return setSearchUser(doc.data());
+        return setSearchUser(doc.data() || null);
       });
     } catch {
       setError(true);
     }
   };
+
+  const addFriend = () => {};
 
   return (
     <>
@@ -60,16 +70,61 @@ const Search = () => {
           </InputGroup>
         </FormControl>
       </form>
-      <VStack
-        display={{ md: "flex" }}
-        alignItems="flex-start"
-        spacing="1px"
-        mt="2"
-        border="1px solid teal"
-        borderRadius="md"
-      >
-        {searchUser && <SearchResult searchUser={searchUser} />}
-      </VStack>
+      {searchUser && (
+        <>
+          <Popover
+            closeOnBlur={false}
+            placement="bottom"
+            initialFocusRef={initRef}
+            styleConfig={{ width: "80%" }}
+          >
+            {({ isOpen, onClose }) => (
+              <>
+                <PopoverTrigger>
+                  <VStack
+                    display={{ md: "flex" }}
+                    alignItems="flex-start"
+                    spacing="1px"
+                    mt="2"
+                    border="1px solid teal"
+                    borderRadius="md"
+                    _hover={{
+                      bg: "blue.500",
+                      color: " white",
+                      cursor: "pointer",
+                    }}
+                  >
+                    && <SearchResult searchUser={searchUser} />
+                  </VStack>
+                </PopoverTrigger>
+                <Portal>
+                  <Box zIndex="popover" position={"relative"}>
+                    <PopoverContent>
+                      <HStack>
+                        <Button
+                          colorScheme="blue"
+                          onClick={addFriend}
+                          ref={initRef}
+                        >
+                          Add Friend?
+                        </Button>
+                        <Button
+                          colorScheme="red"
+                          onClick={onClose}
+                          ref={initRef}
+                        >
+                          Cancel
+                        </Button>
+                      </HStack>
+                    </PopoverContent>
+                  </Box>
+                </Portal>
+              </>
+            )}
+          </Popover>
+        </>
+      )}
+      {error && <Text>Error</Text>}
     </>
   );
 };
@@ -80,17 +135,19 @@ type SearchResultProps = {
 
 const SearchResult = ({ searchUser }: SearchResultProps) => {
   return (
-    <HStack m="1">
-      <Avatar size={"md"} src={searchUser?.photoURL || undefined} />
-      <VStack
-        display={{ md: "flex" }}
-        alignItems="flex-start"
-        spacing="1"
-        ml="2"
-      >
-        <Text fontSize="md">{searchUser?.displayName}</Text>
-      </VStack>
-    </HStack>
+    <>
+      <HStack m="1">
+        <Avatar size={"md"} src={searchUser?.photoURL || undefined} />
+        <VStack
+          display={{ md: "flex" }}
+          alignItems="flex-start"
+          spacing="1"
+          ml="2"
+        >
+          <Text fontSize="md">{searchUser?.displayName}</Text>
+        </VStack>
+      </HStack>
+    </>
   );
 };
 
