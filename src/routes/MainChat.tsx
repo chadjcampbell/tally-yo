@@ -32,6 +32,8 @@ const MainChat = () => {
         <DrawerOverlay />
         <DrawerContent>
           <DrawerCloseButton />
+          <DrawerHeader> </DrawerHeader>
+
           <DrawerBody>
             <Search />
             <Chats />

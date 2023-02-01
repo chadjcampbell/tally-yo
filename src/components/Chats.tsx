@@ -6,7 +6,7 @@ const Chats = () => {
 
   return (
     <>
-      <Heading color="teal.800" as="h1" size="lg" noOfLines={1}>
+      <Heading color="teal.800" as="h2" size="lg" mt="12">
         Tally Friends
       </Heading>
       <VStack
