@@ -11,6 +11,7 @@ import {
 } from "@chakra-ui/react";
 import { useRef } from "react";
 import Chat from "../components/Chat";
+import Chats from "../components/Chats";
 import Search from "../components/Search";
 
 const MainChat = () => {
@@ -35,6 +36,7 @@ const MainChat = () => {
 
           <DrawerBody>
             <Search />
+            <Chats />
           </DrawerBody>
 
           <DrawerFooter>

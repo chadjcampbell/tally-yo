@@ -65,17 +65,17 @@ const Search = () => {
       user &&
         (await updateDoc(doc(db, "userChats", user?.uid), {
           [chatID + ".userInfo"]: {
-            uid: user?.uid,
-            displayName: user?.displayName,
-            photoURL: user?.photoURL,
+            uid: searchUser?.uid,
+            displayName: searchUser?.displayName,
+            photoURL: searchUser?.photoURL,
           },
           [chatID + ".date"]: serverTimestamp(),
         }));
       await updateDoc(doc(db, "userChats", searchUser?.uid), {
         [chatID + ".userInfo"]: {
-          uid: searchUser?.uid,
-          displayName: searchUser?.displayName,
-          photoURL: searchUser?.photoURL,
+          uid: user?.uid,
+          displayName: user?.displayName,
+          photoURL: user?.photoURL,
         },
         [chatID + ".date"]: serverTimestamp(),
       });
