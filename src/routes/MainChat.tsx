@@ -32,8 +32,6 @@ const MainChat = () => {
         <DrawerOverlay />
         <DrawerContent>
           <DrawerCloseButton />
-          <DrawerHeader color="teal.800">Tally Friends</DrawerHeader>
-
           <DrawerBody>
             <Search />
             <Chats />
