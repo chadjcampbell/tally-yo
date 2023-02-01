@@ -14,20 +14,26 @@ import {
   PopoverTrigger,
   Portal,
 } from "@chakra-ui/react";
-import { useRef, useState } from "react";
+import { useContext, useRef, useState } from "react";
 import {
   collection,
+  doc,
   DocumentData,
   getDocs,
   query,
+  serverTimestamp,
+  setDoc,
+  updateDoc,
   where,
 } from "firebase/firestore";
 import { db } from "../firebase";
+import { AuthContext } from "../context/AuthContext";
 
 const Search = () => {
   const [username, setUsername] = useState("");
   const [searchUser, setSearchUser] = useState<DocumentData | null>(null);
   const [error, setError] = useState(false);
+  const { user } = useContext(AuthContext);
   //look into useRef typing
   const initRef = useRef<any>(null);
 
@@ -49,7 +55,37 @@ const Search = () => {
     }
   };
 
-  const addFriend = () => {};
+  const addFriend = async (onClose: any) => {
+    const chatID =
+      user && user?.uid > searchUser?.uid
+        ? user?.uid + searchUser?.uid
+        : searchUser?.uid + user?.uid;
+    try {
+      await setDoc(doc(db, "chats", chatID), { messages: [] });
+      user &&
+        (await updateDoc(doc(db, "userChats", user?.uid), {
+          [chatID + ".userInfo"]: {
+            uid: user?.uid,
+            displayName: user?.displayName,
+            photoURL: user?.photoURL,
+          },
+          [chatID + ".date"]: serverTimestamp(),
+        }));
+      await updateDoc(doc(db, "userChats", searchUser?.uid), {
+        [chatID + ".userInfo"]: {
+          uid: searchUser?.uid,
+          displayName: searchUser?.displayName,
+          photoURL: searchUser?.photoURL,
+        },
+        [chatID + ".date"]: serverTimestamp(),
+      });
+    } catch (err) {
+      console.log(err);
+    } finally {
+      setSearchUser(null);
+      console.log(searchUser);
+    }
+  };
 
   return (
     <>
@@ -73,12 +109,11 @@ const Search = () => {
       {searchUser && (
         <>
           <Popover
-            closeOnBlur={false}
             placement="bottom"
             initialFocusRef={initRef}
             styleConfig={{ width: "80%" }}
           >
-            {({ isOpen, onClose }) => (
+            {({ onClose }) => (
               <>
                 <PopoverTrigger>
                   <VStack
@@ -100,7 +135,7 @@ const Search = () => {
                 <Portal>
                   <Box zIndex="popover" position={"relative"}>
                     <PopoverContent>
-                      <HStack>
+                      <HStack onClick={onClose}>
                         <Button
                           colorScheme="blue"
                           onClick={addFriend}
@@ -110,7 +145,9 @@ const Search = () => {
                         </Button>
                         <Button
                           colorScheme="red"
-                          onClick={onClose}
+                          onClick={() => {
+                            setSearchUser(null);
+                          }}
                           ref={initRef}
                         >
                           Cancel
@@ -124,7 +161,7 @@ const Search = () => {
           </Popover>
         </>
       )}
-      {error && <Text>Error</Text>}
+      {error && <Text>Error has occurred, try again</Text>}
     </>
   );
 };
