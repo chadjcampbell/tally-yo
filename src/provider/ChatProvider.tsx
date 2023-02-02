@@ -1,28 +1,37 @@
-import { onAuthStateChanged, User } from "firebase/auth";
-import { ReactNode, useEffect, useState } from "react";
+import { ReactNode, useContext, useReducer } from "react";
+import { AuthContext } from "../context/AuthContext";
 import { ChatContext } from "../context/ChatContext";
-import { auth } from "../firebase";
 
 interface ChatProviderProps {
   children: ReactNode;
 }
 
 export const ChatProvider = ({ children }: ChatProviderProps) => {
-  const [user, setUser] = useState<User | null>();
-  const [loading, setLoading] = useState<boolean>(true);
+  const { user } = useContext(AuthContext);
+  const INITIAL_STATE = {
+    chatID: null,
+    user: {},
+  };
 
-  useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (firebaseUser) => {
-      setUser(firebaseUser);
-      setLoading(false);
-    });
-    return () => {
-      unsubscribe();
-    };
-  }, []);
+  const chatReducer = (state, action) => {
+    switch (action.type) {
+      case "CHANGE_USER":
+        return {
+          chatID:
+            user && user?.uid > action.payload.uid
+              ? user?.uid + action.payload.uid
+              : action.payload.uid + user?.uid,
+          user: action.payload,
+        };
+      default:
+        return state;
+    }
+  };
+
+  const [state, dispatch] = useReducer(chatReducer, INITIAL_STATE);
 
   return (
-    <ChatContext.Provider value={{ user, loading, setLoading }}>
+    <ChatContext.Provider value={{ data: state, dispatch }}>
       {children}
     </ChatContext.Provider>
   );
