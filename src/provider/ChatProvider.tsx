@@ -9,7 +9,7 @@ interface ChatProviderProps {
 
 export interface ChatState {
   chatID: null | string;
-  user: {} | null;
+  user: User | null;
 }
 
 export enum ActionType {
@@ -26,7 +26,7 @@ export const ChatProvider = ({ children }: ChatProviderProps) => {
 
   const INITIAL_STATE: ChatState = {
     chatID: null,
-    user: {},
+    user: null,
   };
 
   const chatReducer = (state: ChatState, action: ChatAction) => {

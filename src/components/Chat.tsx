@@ -10,9 +10,13 @@ import {
   InputGroup,
   InputRightElement,
 } from "@chakra-ui/react";
+import { useContext } from "react";
+import { ChatContext } from "../context/ChatContext";
 import ChatArea from "./ChatArea";
 
 const Chat = () => {
+  const { data } = useContext(ChatContext);
+
   return (
     <Card mt="3" borderRadius="1em" align="center" width="full" height="full">
       <CardHeader
@@ -20,7 +24,10 @@ const Chat = () => {
         backgroundColor="teal.200"
         width="full"
       >
-        <Heading size="md"> Chat with ...</Heading>
+        <Heading size="md">
+          {" "}
+          Chat with {data.user?.displayName || "..."}
+        </Heading>
       </CardHeader>
       <CardBody width="full">
         <ChatArea />
