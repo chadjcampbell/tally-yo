@@ -1,3 +1,4 @@
+import { User } from "firebase/auth";
 import { ReactNode, useContext, useReducer } from "react";
 import { AuthContext } from "../context/AuthContext";
 import { ChatContext } from "../context/ChatContext";
@@ -6,14 +7,29 @@ interface ChatProviderProps {
   children: ReactNode;
 }
 
+export interface ChatState {
+  chatID: null | string;
+  user: {} | null;
+}
+
+export enum ActionType {
+  CHANGE_USER = "CHANGE_USER",
+}
+
+export type ChatAction = {
+  type: ActionType;
+  payload: User;
+};
+
 export const ChatProvider = ({ children }: ChatProviderProps) => {
   const { user } = useContext(AuthContext);
-  const INITIAL_STATE = {
+
+  const INITIAL_STATE: ChatState = {
     chatID: null,
     user: {},
   };
 
-  const chatReducer = (state, action) => {
+  const chatReducer = (state: ChatState, action: ChatAction) => {
     switch (action.type) {
       case "CHANGE_USER":
         return {

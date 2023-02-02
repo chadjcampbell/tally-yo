@@ -17,6 +17,7 @@ import MainChat from "./routes/MainChat";
 import Register from "./routes/Register";
 import Root from "./routes/Root";
 import Settings from "./routes/Settings";
+import { ChatProvider } from "./provider/ChatProvider";
 
 const AuthenticatedRoute = () => {
   const { user, loading } = useContext(AuthContext);
@@ -28,16 +29,18 @@ const AuthenticatedRoute = () => {
   return user ? <Outlet /> : <Navigate to="/login" />;
 };
 
-const AuthProviderLayout = () => (
+const ContextProviderLayout = () => (
   <AuthProvider>
-    <Outlet />
+    <ChatProvider>
+      <Outlet />
+    </ChatProvider>
   </AuthProvider>
 );
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <AuthProviderLayout />,
+    element: <ContextProviderLayout />,
     errorElement: <Error />,
     children: [
       {
