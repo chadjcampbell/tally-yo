@@ -36,7 +36,7 @@ const MainChat = () => {
 
           <DrawerBody>
             <Search />
-            <Chats />
+            <Chats onClose={onClose} />
           </DrawerBody>
 
           <DrawerFooter>

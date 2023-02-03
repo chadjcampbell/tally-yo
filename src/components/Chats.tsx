@@ -1,4 +1,11 @@
-import { VStack, HStack, Avatar, Text, Heading } from "@chakra-ui/react";
+import {
+  VStack,
+  HStack,
+  Avatar,
+  Text,
+  Heading,
+  useDisclosure,
+} from "@chakra-ui/react";
 import { User } from "firebase/auth";
 import { onSnapshot, doc, DocumentData } from "firebase/firestore";
 import { useContext, useEffect, useState } from "react";
@@ -8,12 +15,15 @@ import { db } from "../firebase";
 import { ActionType } from "../provider/ChatProvider";
 import Loading from "./Loading";
 
-const Chats = () => {
+interface ChatsProps {
+  onClose: () => void;
+}
+
+const Chats = ({ onClose }: ChatsProps) => {
   const [chats, setChats] = useState<DocumentData | undefined>([]);
   const [chatsLoading, setChatsLoading] = useState(true);
   const { user } = useContext(AuthContext);
   const { dispatch } = useContext(ChatContext);
-
   user &&
     useEffect(() => {
       const unsub = onSnapshot(doc(db, "userChats", user.uid), (doc) => {
@@ -28,6 +38,7 @@ const Chats = () => {
 
   const handleSelect = (user: User) => {
     dispatch({ type: ActionType.CHANGE_USER, payload: user });
+    onClose();
   };
 
   return (
