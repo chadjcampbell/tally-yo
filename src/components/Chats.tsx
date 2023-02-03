@@ -1,11 +1,4 @@
-import {
-  VStack,
-  HStack,
-  Avatar,
-  Text,
-  Heading,
-  useDisclosure,
-} from "@chakra-ui/react";
+import { VStack, HStack, Avatar, Text, Heading } from "@chakra-ui/react";
 import { User } from "firebase/auth";
 import { onSnapshot, doc, DocumentData } from "firebase/firestore";
 import { useContext, useEffect, useState } from "react";

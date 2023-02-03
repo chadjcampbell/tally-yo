@@ -8,7 +8,7 @@ interface ChatProviderProps {
 }
 
 export interface ChatState {
-  chatID: null | string;
+  chatID: string;
   user: User | null;
 }
 
@@ -25,7 +25,7 @@ export const ChatProvider = ({ children }: ChatProviderProps) => {
   const { user } = useContext(AuthContext);
 
   const INITIAL_STATE: ChatState = {
-    chatID: null,
+    chatID: "null",
     user: null,
   };
 
