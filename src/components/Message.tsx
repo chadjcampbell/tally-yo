@@ -1,10 +1,23 @@
 import { Avatar, Box, Flex } from "@chakra-ui/react";
+import { Timestamp } from "firebase/firestore";
+import { useContext } from "react";
+import { AuthContext } from "../context/AuthContext";
+import { ChatContext } from "../context/ChatContext";
 
+export interface MessageType {
+  id: string;
+  text: string;
+  senderId: string;
+  date: Timestamp;
+}
 interface MessageProps {
-  justify: string;
+  message: MessageType;
 }
 
-const Message = ({ justify }: MessageProps) => {
+const Message = ({ message }: MessageProps) => {
+  const { user } = useContext(AuthContext);
+  const { data } = useContext(ChatContext);
+
   return (
     <Flex direction="row" align="center" justify={justify}>
       {justify == "left" ? (

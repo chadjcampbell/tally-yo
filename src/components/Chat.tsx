@@ -13,6 +13,7 @@ import {
 import { useContext } from "react";
 import { ChatContext } from "../context/ChatContext";
 import ChatArea from "./ChatArea";
+import ChatInput from "./ChatInput";
 
 const Chat = () => {
   const { data } = useContext(ChatContext);
@@ -32,23 +33,7 @@ const Chat = () => {
       <CardBody width="full">
         <ChatArea />
       </CardBody>
-      <CardFooter width="full" borderRadius="0 0 1em 1em">
-        <FormControl>
-          <InputGroup>
-            <Input
-              id="userMessage"
-              type="textarea"
-              placeholder="Send message..."
-              width="full"
-            />
-            <InputRightElement width="4.5rem">
-              <Button h="1.75rem" size="sm">
-                Send
-              </Button>
-            </InputRightElement>
-          </InputGroup>
-        </FormControl>
-      </CardFooter>
+      <ChatInput />
     </Card>
   );
 };

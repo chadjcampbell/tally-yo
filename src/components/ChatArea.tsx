@@ -3,7 +3,7 @@ import { onSnapshot, doc, DocumentData } from "firebase/firestore";
 import { useContext, useEffect, useState } from "react";
 import { ChatContext } from "../context/ChatContext";
 import { db } from "../firebase";
-import Message from "./Message";
+import Message, { MessageType } from "./Message";
 
 const ChatArea = () => {
   const [messages, setMessages] = useState<DocumentData>([]);
@@ -20,10 +20,9 @@ const ChatArea = () => {
 
   return (
     <Flex height="50vh" direction="column" width="full">
-      <Message justify={"left"} />
-      <Message justify={"right"} />
-      <Message justify={"left"} />
-      <Message justify={"right"} />
+      {messages.map((message: MessageType) => {
+        <Message message={message} key={message.id} />;
+      })}
     </Flex>
   );
 };
