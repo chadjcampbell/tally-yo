@@ -17,8 +17,6 @@ interface MessageProps {
 const Message = ({ message }: MessageProps) => {
   const { user } = useContext(AuthContext);
   const { data } = useContext(ChatContext);
-  console.log("message:", message);
-  console.log("user:", user);
 
   if (message.senderId == user?.uid) {
     return (
@@ -38,16 +36,16 @@ const Message = ({ message }: MessageProps) => {
   } else {
     return (
       <Flex direction="row" align="center" justify="left">
+        <Avatar size={"md"} src={data.user?.photoURL || undefined} />
         <Box
           m="2"
-          p="2"
+          p="3"
           shadow="md"
           backgroundColor="gray.100"
           borderRadius=" 0 1em  1em 1em"
         >
           {message.text}
         </Box>
-        <Avatar size={"md"} src={data.user?.photoURL || undefined} />
       </Flex>
     );
   }

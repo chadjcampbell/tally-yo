@@ -22,7 +22,6 @@ const Chats = ({ onClose }: ChatsProps) => {
       const unsub = onSnapshot(doc(db, "userChats", user.uid), (doc) => {
         setChats(doc.data());
         setChatsLoading(false);
-        console.log("Current data: ", doc.data());
       });
       return () => {
         unsub();
