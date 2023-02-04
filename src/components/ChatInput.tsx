@@ -43,27 +43,31 @@ const ChatInput = () => {
         [data.chatID + ".date"]: serverTimestamp(),
       }));
     setText("");
+    console.log("text sent");
   };
 
   return (
     <CardFooter width="full" borderRadius="0 0 1em 1em">
-      <FormControl onSubmit={handleSubmit}>
-        <InputGroup>
-          <Input
-            id="userMessage"
-            type="textarea"
-            placeholder="Send message..."
-            width="full"
-            onChange={(e) => setText(e.target.value)}
-            value={text}
-          />
-          <InputRightElement width="4.5rem">
-            <Button h="1.75rem" size="sm">
-              Send
-            </Button>
-          </InputRightElement>
-        </InputGroup>
-      </FormControl>
+      <form onSubmit={handleSubmit} style={{ width: "100%" }}>
+        <FormControl>
+          <InputGroup>
+            <Input
+              autoComplete="off"
+              id="userMessage"
+              type="textarea"
+              placeholder="Send message..."
+              width="full"
+              onChange={(e) => setText(e.target.value)}
+              value={text}
+            />
+            <InputRightElement width="4.5rem">
+              <Button h="1.75rem" size="sm">
+                Send
+              </Button>
+            </InputRightElement>
+          </InputGroup>
+        </FormControl>
+      </form>
     </CardFooter>
   );
 };

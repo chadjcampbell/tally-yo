@@ -18,37 +18,37 @@ const Message = ({ message }: MessageProps) => {
   const { user } = useContext(AuthContext);
   const { data } = useContext(ChatContext);
 
-  return (
-    <Flex direction="row" align="center" justify={justify}>
-      {justify == "left" ? (
-        <>
-          <Avatar />
-          <Box
-            m="2"
-            p="2"
-            shadow="md"
-            backgroundColor="gray.100"
-            borderRadius="0 1em 1em 1em"
-          >
-            This is a message
-          </Box>
-        </>
-      ) : (
-        <>
-          <Box
-            m="2"
-            p="2"
-            shadow="md"
-            backgroundColor="teal.100"
-            borderRadius=" 1em 0 1em 1em"
-          >
-            This is a message
-          </Box>
-          <Avatar />
-        </>
-      )}
-    </Flex>
-  );
+  if (message.id == user?.uid) {
+    return (
+      <Flex direction="row" align="center" justify="right">
+        <Box
+          m="2"
+          p="2"
+          shadow="md"
+          backgroundColor="gray.100"
+          borderRadius="0 1em 1em 1em"
+        >
+          {message.text}
+        </Box>
+        <Avatar size={"md"} src={user.photoURL || undefined} />
+      </Flex>
+    );
+  } else {
+    return (
+      <Flex direction="row" align="center" justify="left">
+        <Box
+          m="2"
+          p="2"
+          shadow="md"
+          backgroundColor="teal.100"
+          borderRadius=" 1em 0 1em 1em"
+        >
+          {message.text}
+        </Box>
+        <Avatar size={"md"} src={data.user?.photoURL || undefined} />
+      </Flex>
+    );
+  }
 };
 
 export default Message;
