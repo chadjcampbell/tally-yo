@@ -55,7 +55,7 @@ const Search = () => {
     }
   };
 
-  const addFriend = async (onClose: any) => {
+  const addFriend = async () => {
     const chatID =
       user && user?.uid > searchUser?.uid
         ? user?.uid + searchUser?.uid
