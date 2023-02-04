@@ -17,16 +17,18 @@ interface MessageProps {
 const Message = ({ message }: MessageProps) => {
   const { user } = useContext(AuthContext);
   const { data } = useContext(ChatContext);
+  console.log("message:", message);
+  console.log("user:", user);
 
-  if (message.id == user?.uid) {
+  if (message.senderId == user?.uid) {
     return (
       <Flex direction="row" align="center" justify="right">
         <Box
           m="2"
-          p="2"
+          p="3"
           shadow="md"
-          backgroundColor="gray.100"
-          borderRadius="0 1em 1em 1em"
+          backgroundColor="teal.100"
+          borderRadius=" 1em 0 1em 1em"
         >
           {message.text}
         </Box>
@@ -40,8 +42,8 @@ const Message = ({ message }: MessageProps) => {
           m="2"
           p="2"
           shadow="md"
-          backgroundColor="teal.100"
-          borderRadius=" 1em 0 1em 1em"
+          backgroundColor="gray.100"
+          borderRadius=" 0 1em  1em 1em"
         >
           {message.text}
         </Box>

@@ -1,15 +1,4 @@
-import {
-  Card,
-  CardHeader,
-  Heading,
-  CardBody,
-  CardFooter,
-  Button,
-  FormControl,
-  Input,
-  InputGroup,
-  InputRightElement,
-} from "@chakra-ui/react";
+import { Card, CardHeader, Heading, CardBody } from "@chakra-ui/react";
 import { useContext } from "react";
 import { ChatContext } from "../context/ChatContext";
 import ChatArea from "./ChatArea";

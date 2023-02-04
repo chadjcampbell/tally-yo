@@ -17,12 +17,13 @@ const ChatArea = () => {
       unsub();
     };
   }, [data.chatID]);
+  console.log(messages);
 
   return (
     <Flex height="50vh" direction="column" width="full">
-      {messages.map((message: MessageType) => {
-        <Message message={message} key={message.id} />;
-      })}
+      {messages.map((message: MessageType) => (
+        <Message message={message} key={message.id} />
+      ))}
     </Flex>
   );
 };

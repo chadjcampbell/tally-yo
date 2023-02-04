@@ -25,7 +25,9 @@ const ChatInput = () => {
   const { user } = useContext(AuthContext);
   const { data } = useContext(ChatContext);
 
-  const handleSubmit = async () => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    console.log(data.chatID);
     await updateDoc(doc(db, "chats", data.chatID), {
       messages: arrayUnion({
         id: uuid(),
@@ -48,7 +50,7 @@ const ChatInput = () => {
 
   return (
     <CardFooter width="full" borderRadius="0 0 1em 1em">
-      <form onSubmit={handleSubmit} style={{ width: "100%" }}>
+      <form onSubmit={(e) => handleSubmit(e)} style={{ width: "100%" }}>
         <FormControl>
           <InputGroup>
             <Input
@@ -61,7 +63,7 @@ const ChatInput = () => {
               value={text}
             />
             <InputRightElement width="4.5rem">
-              <Button h="1.75rem" size="sm">
+              <Button h="1.75rem" size="sm" type="submit">
                 Send
               </Button>
             </InputRightElement>
