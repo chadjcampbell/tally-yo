@@ -11,7 +11,6 @@ import {
   arrayUnion,
   doc,
   serverTimestamp,
-  setDoc,
   Timestamp,
   updateDoc,
 } from "firebase/firestore";
@@ -21,7 +20,6 @@ import { ChatContext } from "../context/ChatContext";
 import { v4 as uuid } from "uuid";
 import { db, storage } from "../firebase";
 import { ChatImgUpload } from "./ChatImgUpload";
-import { updateProfile } from "firebase/auth";
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 
 const ChatInput = () => {

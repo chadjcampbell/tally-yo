@@ -1,5 +1,5 @@
 import { Button, chakra } from "@chakra-ui/react";
-import { Dispatch, SetStateAction, useRef, useState } from "react";
+import { Dispatch, SetStateAction, useRef } from "react";
 import { FaImage } from "react-icons/fa";
 
 const CFaImage = chakra(FaImage);
