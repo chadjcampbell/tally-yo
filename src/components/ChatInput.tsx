@@ -86,10 +86,12 @@ const ChatInput = () => {
       data.user &&
         (await updateDoc(doc(db, "userChats", data.user.uid), {
           [data.chatID + ".date"]: serverTimestamp(),
+          [data.chatID + ".mostRecentMessage"]: text,
         }));
       user &&
         (await updateDoc(doc(db, "userChats", user.uid), {
           [data.chatID + ".date"]: serverTimestamp(),
+          [data.chatID + ".mostRecentMessage"]: text,
         }));
       setText("");
       setImg(null);

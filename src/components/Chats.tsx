@@ -64,6 +64,7 @@ const Chats = ({ onClose }: ChatsProps) => {
                 ml="2"
               >
                 <Text fontSize="md">{chat[1].userInfo.displayName}</Text>
+                <Text fontSize="md">{chat[1].mostRecentMessage}</Text>
               </VStack>
             </HStack>
           </VStack>
