@@ -21,7 +21,6 @@ import { ChatProvider } from "./provider/ChatProvider";
 
 const AuthenticatedRoute = () => {
   const { user, loading } = useContext(AuthContext);
-  console.log(user);
   if (user === undefined || loading) {
     return <Loading />; // or loading spinner, etc...
   }

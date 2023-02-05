@@ -27,7 +27,6 @@ const ChatInput = () => {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log(data.chatID);
     await updateDoc(doc(db, "chats", data.chatID), {
       messages: arrayUnion({
         id: uuid(),
@@ -45,7 +44,6 @@ const ChatInput = () => {
         [data.chatID + ".date"]: serverTimestamp(),
       }));
     setText("");
-    console.log("text sent");
   };
 
   return (

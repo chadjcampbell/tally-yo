@@ -83,7 +83,6 @@ const Search = () => {
       console.log(err);
     } finally {
       setSearchUser(null);
-      console.log(searchUser);
     }
   };
 
