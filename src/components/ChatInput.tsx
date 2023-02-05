@@ -19,7 +19,6 @@ import { AuthContext } from "../context/AuthContext";
 import { ChatContext } from "../context/ChatContext";
 import { v4 as uuid } from "uuid";
 import { db } from "../firebase";
-import { FileInput } from "./FileInput";
 import { ChatImgUpload } from "./ChatImgUpload";
 
 const ChatInput = () => {
