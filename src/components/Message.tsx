@@ -1,4 +1,4 @@
-import { Avatar, Box, Flex } from "@chakra-ui/react";
+import { Avatar, Box, Flex, Image } from "@chakra-ui/react";
 import { Timestamp } from "firebase/firestore";
 import { useContext } from "react";
 import { AuthContext } from "../context/AuthContext";
@@ -9,6 +9,7 @@ export interface MessageType {
   text: string;
   senderId: string;
   date: Timestamp;
+  img?: string;
 }
 interface MessageProps {
   message: MessageType;
@@ -28,6 +29,7 @@ const Message = ({ message }: MessageProps) => {
           backgroundColor="teal.100"
           borderRadius=" 1em 0 1em 1em"
         >
+          {message.img && <Image src={message.img} alt="Image Message" />}
           {message.text}
         </Box>
         <Avatar size={"md"} src={user.photoURL || undefined} />
