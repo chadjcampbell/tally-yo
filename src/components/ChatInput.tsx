@@ -5,6 +5,7 @@ import {
   Input,
   InputRightElement,
   Button,
+  HStack,
 } from "@chakra-ui/react";
 import {
   arrayUnion,
@@ -18,6 +19,8 @@ import { AuthContext } from "../context/AuthContext";
 import { ChatContext } from "../context/ChatContext";
 import { v4 as uuid } from "uuid";
 import { db } from "../firebase";
+import { FileInput } from "./FileInput";
+import { ChatImgUpload } from "./ChatImgUpload";
 
 const ChatInput = () => {
   const [text, setText] = useState("");
@@ -47,7 +50,7 @@ const ChatInput = () => {
   };
 
   return (
-    <CardFooter width="full" borderRadius="0 0 1em 1em">
+    <CardFooter width="100%" borderRadius="0 0 1em 1em">
       <form onSubmit={(e) => handleSubmit(e)} style={{ width: "100%" }}>
         <FormControl>
           <InputGroup>
@@ -60,10 +63,13 @@ const ChatInput = () => {
               onChange={(e) => setText(e.target.value)}
               value={text}
             />
-            <InputRightElement width="4.5rem">
-              <Button h="1.75rem" size="sm" type="submit">
-                Send
-              </Button>
+            <InputRightElement right="25px" width="4.5rem">
+              <HStack align="center" justify="center" m="2" p="2">
+                <ChatImgUpload />
+                <Button h="1.75rem" size="sm" type="submit">
+                  Send
+                </Button>
+              </HStack>
             </InputRightElement>
           </InputGroup>
         </FormControl>

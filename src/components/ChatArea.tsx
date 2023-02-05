@@ -23,7 +23,7 @@ const ChatArea = () => {
   }, [data.chatID]);
 
   return (
-    <Flex height="50vh" direction="column" width="full">
+    <Flex p="3" overflowY="auto" height="50vh" direction="column" width="full">
       {loading && <Loading />}
       {messages.map((message: MessageType) => (
         <Message message={message} key={message.id} />
