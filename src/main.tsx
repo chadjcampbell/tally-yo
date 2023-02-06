@@ -36,36 +36,39 @@ const ContextProviderLayout = () => (
   </AuthProvider>
 );
 
-const router = createBrowserRouter([
-  {
-    path: "/",
-    element: <ContextProviderLayout />,
-    errorElement: <Error />,
-    children: [
-      {
-        element: <AuthenticatedRoute />,
-        children: [
-          {
-            element: <Root />,
-            children: [
-              { element: <MainChat />, index: true },
-              { path: "/collection", element: <Collection /> },
-              { path: "/settings", element: <Settings /> },
-            ],
-          },
-        ],
-      },
-      {
-        path: "/login",
-        element: <Login />,
-      },
-      {
-        path: "/register",
-        element: <Register />,
-      },
-    ],
-  },
-]);
+const router = createBrowserRouter(
+  [
+    {
+      path: "/",
+      element: <ContextProviderLayout />,
+      errorElement: <Error />,
+      children: [
+        {
+          element: <AuthenticatedRoute />,
+          children: [
+            {
+              element: <Root />,
+              children: [
+                { element: <MainChat />, index: true },
+                { path: "/collection", element: <Collection /> },
+                { path: "/settings", element: <Settings /> },
+              ],
+            },
+          ],
+        },
+        {
+          path: "/login",
+          element: <Login />,
+        },
+        {
+          path: "/register",
+          element: <Register />,
+        },
+      ],
+    },
+  ],
+  { basename: "/tally-yo" }
+);
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
