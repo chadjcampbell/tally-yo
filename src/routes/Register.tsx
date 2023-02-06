@@ -44,59 +44,66 @@ const Register = () => {
     const password = e.currentTarget.password.value;
     const confirmPassword = e.currentTarget.confirmPassword.value;
     const file = e.currentTarget.file.files[0];
-    setLoading(true);
 
-    //TODO - validation
-    try {
-      const res = await createUserWithEmailAndPassword(auth, email, password);
+    if (password === confirmPassword) {
+      setLoading(true);
 
-      const storageRef = ref(storage, res.user.uid);
+      try {
+        const res = await createUserWithEmailAndPassword(auth, email, password);
 
-      const uploadTask = uploadBytesResumable(storageRef, file);
+        const storageRef = ref(storage, res.user.uid);
 
-      // Register three observers:
-      uploadTask.on(
-        "state_changed",
-        (snapshot) => {
-          // Observe state change events such as progress, pause, and resume
-          // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
-          const progress =
-            (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-          console.log("Upload is " + progress + "% done");
-          switch (snapshot.state) {
-            case "paused":
-              console.log("Upload is paused");
-              break;
-            case "running":
-              console.log("Upload is running");
-              break;
+        const uploadTask = uploadBytesResumable(storageRef, file);
+
+        // Register three observers:
+        uploadTask.on(
+          "state_changed",
+          (snapshot) => {
+            // Observe state change events such as progress, pause, and resume
+            // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
+            const progress =
+              (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+            console.log("Upload is " + progress + "% done");
+            switch (snapshot.state) {
+              case "paused":
+                console.log("Upload is paused");
+                break;
+              case "running":
+                console.log("Upload is running");
+                break;
+            }
+          },
+          (error) => {
+            setError(true);
+            console.log(error);
+            setLoading(false);
+            navigate("/register");
+          },
+          () => {
+            getDownloadURL(uploadTask.snapshot.ref).then(
+              async (downloadURL) => {
+                await updateProfile(res.user, {
+                  displayName,
+                  photoURL: downloadURL,
+                });
+                await setDoc(doc(db, "users", res.user.uid), {
+                  uid: res.user.uid,
+                  displayName,
+                  email,
+                  photoURL: downloadURL,
+                });
+                await setDoc(doc(db, "userChats", res.user.uid), {});
+              }
+            );
           }
-        },
-        (error) => {
-          setError(true);
-          console.log(error);
-          setLoading(false);
-        },
-        () => {
-          getDownloadURL(uploadTask.snapshot.ref).then(async (downloadURL) => {
-            await updateProfile(res.user, {
-              displayName,
-              photoURL: downloadURL,
-            });
-            await setDoc(doc(db, "users", res.user.uid), {
-              uid: res.user.uid,
-              displayName,
-              email,
-              photoURL: downloadURL,
-            });
-            await setDoc(doc(db, "userChats", res.user.uid), {});
-          });
-        }
-      );
-    } catch (error) {
+        );
+      } catch (error) {
+        setError(true);
+      }
+      navigate("/");
+    } else {
       setError(true);
     }
-    navigate("/");
   };
 
   return loading ? (
@@ -136,6 +143,7 @@ const Register = () => {
                     id="displayName"
                     type="text"
                     placeholder="display name"
+                    required
                   />
                 </InputGroup>
               </FormControl>
@@ -145,7 +153,12 @@ const Register = () => {
                     pointerEvents="none"
                     children={<CFaUserAlt color="gray.300" />}
                   />
-                  <Input id="email" type="email" placeholder="email address" />
+                  <Input
+                    required
+                    id="email"
+                    type="email"
+                    placeholder="email address"
+                  />
                 </InputGroup>
               </FormControl>
               <FormControl>
@@ -159,6 +172,7 @@ const Register = () => {
                     id="password"
                     type={showPassword ? "text" : "password"}
                     placeholder="password"
+                    required
                   />
                   <InputRightElement width="4.5rem">
                     <Button h="1.75rem" size="sm" onClick={handleShowClick}>
@@ -178,6 +192,7 @@ const Register = () => {
                     id="confirmPassword"
                     type={showPassword ? "text" : "password"}
                     placeholder="confirm password"
+                    required
                   />
                   <InputRightElement width="4.5rem">
                     <Button h="1.75rem" size="sm" onClick={handleShowClick}>
@@ -201,7 +216,13 @@ const Register = () => {
         </Box>
       </Stack>
       {error && (
-        <Alert status="error">
+        <Alert
+          flexDirection="column"
+          alignItems="center"
+          justifyContent="center"
+          textAlign="center"
+          status="error"
+        >
           <AlertIcon />
           There was an error processing your request
         </Alert>
