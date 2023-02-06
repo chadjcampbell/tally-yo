@@ -14,7 +14,7 @@ import {
   Timestamp,
   updateDoc,
 } from "firebase/firestore";
-import { useContext, useState } from "react";
+import { FormEvent, KeyboardEvent, useContext, useState } from "react";
 import { AuthContext } from "../context/AuthContext";
 import { ChatContext } from "../context/ChatContext";
 import { v4 as uuid } from "uuid";
@@ -30,7 +30,7 @@ const ChatInput = () => {
   const { user } = useContext(AuthContext);
   const { data } = useContext(ChatContext);
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     if (text !== "" || img !== null) {
       if (img) {
@@ -99,6 +99,13 @@ const ChatInput = () => {
     }
   };
 
+  const enterPress = (e: FormEvent & KeyboardEvent) => {
+    if (e.key == "Enter" && e.shiftKey == false) {
+      e.preventDefault();
+      handleSubmit(e);
+    }
+  };
+
   return (
     <CardFooter width="100%" borderRadius="0 0 1em 1em">
       <form onSubmit={(e) => handleSubmit(e)} style={{ width: "100%" }}>
@@ -110,6 +117,7 @@ const ChatInput = () => {
               id="userMessage"
               placeholder="Send message..."
               onChange={(e) => setText(e.target.value)}
+              onKeyDown={(e) => enterPress(e)}
               value={text}
               pr="8rem"
             />
