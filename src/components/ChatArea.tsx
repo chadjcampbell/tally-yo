@@ -1,4 +1,4 @@
-import { Flex } from "@chakra-ui/react";
+import { Flex, Text } from "@chakra-ui/react";
 import { onSnapshot, doc, DocumentData } from "firebase/firestore";
 import { useContext, useEffect, useRef, useState } from "react";
 import { ChatContext } from "../context/ChatContext";
@@ -27,7 +27,7 @@ const ChatArea = () => {
     ref.current?.scrollIntoView({ behavior: "smooth" });
   }, [loading, messages]);
 
-  return (
+  return data.chatID !== "null" ? (
     <Flex
       p="3"
       overflow="hidden"
@@ -41,6 +41,21 @@ const ChatArea = () => {
         <Message message={message} key={message.id} />
       ))}
       {!loading && <div ref={ref} style={{ clear: "both" }}></div>}
+    </Flex>
+  ) : (
+    <Flex
+      p="3"
+      overflow="hidden"
+      overflowY="auto"
+      height="50vh"
+      direction="column"
+      width="full"
+      align="center"
+      justify="center"
+    >
+      <Text as="em" fontSize="2xl" color="gray.300">
+        Select a friend to Chat with!
+      </Text>
     </Flex>
   );
 };
