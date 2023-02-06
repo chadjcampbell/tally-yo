@@ -39,36 +39,50 @@ const Chats = ({ onClose }: ChatsProps) => {
         Tally Friends
       </Heading>
       {!chatsLoading ? (
-        Object.entries(chats!).map((chat) => (
-          <VStack
-            onClick={() => handleSelect(chat[1].userInfo)}
-            key={chat[1].userInfo.uid}
-            display={{ md: "flex" }}
-            alignItems="flex-start"
-            spacing="1px"
-            mt="2"
-            bgColor="teal.200"
-            borderRadius="md"
-            _hover={{
-              bg: "teal.500",
-              color: " white",
-              cursor: "pointer",
-            }}
-          >
-            <HStack m="1">
-              <Avatar size={"md"} src={chat[1].userInfo.photoURL} />
-              <VStack
-                display={{ md: "flex" }}
-                alignItems="flex-start"
-                spacing="1"
-                ml="2"
-              >
-                <Text fontSize="md">{chat[1].userInfo.displayName}</Text>
-                <Text fontSize="md">{chat[1].mostRecentMessage}</Text>
-              </VStack>
-            </HStack>
-          </VStack>
-        ))
+        Object.entries(chats!)
+          .sort((p1, p2) => p2[1].date - p1[1].date)
+          .map((chat) => (
+            <VStack
+              onClick={() => handleSelect(chat[1].userInfo)}
+              key={chat[1].userInfo.uid}
+              display={{ md: "flex" }}
+              alignItems="flex-start"
+              spacing="1px"
+              mt="2"
+              bgColor="teal.200"
+              borderRadius="md"
+              _hover={{
+                bg: "teal.500",
+                color: " white",
+                cursor: "pointer",
+              }}
+            >
+              <HStack m="1">
+                <Avatar size={"md"} src={chat[1].userInfo.photoURL} />
+                <VStack
+                  display={{ md: "flex" }}
+                  alignItems="flex-start"
+                  spacing="1"
+                  ml="2"
+                >
+                  <Text fontSize="md">{chat[1].userInfo.displayName}</Text>
+                  {chat[1].mostRecentMessage && (
+                    <Text
+                      borderRadius="md"
+                      p="1"
+                      color="gray.600"
+                      background="teal.100"
+                      maxHeight="1.75rem"
+                      overflow="clip"
+                      fontSize="md"
+                    >
+                      {chat[1].mostRecentMessage}
+                    </Text>
+                  )}
+                </VStack>
+              </HStack>
+            </VStack>
+          ))
       ) : (
         <Loading />
       )}
