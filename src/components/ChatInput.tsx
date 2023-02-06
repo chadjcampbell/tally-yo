@@ -2,10 +2,10 @@ import {
   CardFooter,
   FormControl,
   InputGroup,
-  Input,
   InputRightElement,
   Button,
   HStack,
+  Textarea,
 } from "@chakra-ui/react";
 import {
   arrayUnion,
@@ -104,16 +104,16 @@ const ChatInput = () => {
       <form onSubmit={(e) => handleSubmit(e)} style={{ width: "100%" }}>
         <FormControl>
           <InputGroup>
-            <Input
+            <Textarea
+              resize="none"
               autoComplete="off"
               id="userMessage"
-              type="textarea"
               placeholder="Send message..."
-              width="full"
               onChange={(e) => setText(e.target.value)}
               value={text}
+              pr="8rem"
             />
-            <InputRightElement right="25px" width="4.5rem">
+            <InputRightElement width="auto">
               <HStack align="center" justify="center" m="2" p="2">
                 <ChatImgUpload
                   setImg={setImg}
