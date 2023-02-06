@@ -1,4 +1,5 @@
 {
+  "homepage": "https://chadjcampbell.github.io/tally-yo/",
   "name": "tally-yo",
   "private": true,
   "version": "0.0.0",
@@ -6,6 +7,8 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d dist",
     "preview": "vite preview"
   },
   "dependencies": {
