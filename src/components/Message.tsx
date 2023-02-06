@@ -46,6 +46,7 @@ const Message = ({ message }: MessageProps) => {
           backgroundColor="gray.100"
           borderRadius=" 0 1em  1em 1em"
         >
+          {message.img && <Image src={message.img} alt="Image Message" />}
           {message.text}
         </Box>
       </Flex>
