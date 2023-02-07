@@ -1,10 +1,4 @@
-import {
-  Card,
-  CardHeader,
-  Heading,
-  CardBody,
-  CardFooter,
-} from "@chakra-ui/react";
+import { Card, CardHeader, Heading, CardBody } from "@chakra-ui/react";
 
 const Collection = () => {
   return (
