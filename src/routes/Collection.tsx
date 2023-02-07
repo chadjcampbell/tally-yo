@@ -13,7 +13,7 @@ export type CollectionItem = {
   "file-name": string;
   image_uri: string;
   "museum-phrase": string;
-  name: {};
+  name: any;
   "part-of": string;
   price: number;
 };
@@ -49,7 +49,7 @@ const Collection = () => {
         {loading ? (
           <Loading />
         ) : (
-          <SimpleGrid minChildWidth="120px" spacing="40px">
+          <SimpleGrid minChildWidth="150px" spacing="40px">
             {myCollection?.map((item: CollectionItem) => (
               <CollectionCard key={item.image_uri} item={item} />
             ))}

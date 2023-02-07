@@ -20,16 +20,11 @@ export const CollectionCard = ({ item }: CollectionCardProps) => {
   return (
     <Card>
       <CardBody>
-        <Image src="" alt="" borderRadius="lg" />
+        <Image src={item.image_uri} alt={item["file-name"]} borderRadius="lg" />
         <Stack mt="6" spacing="3">
-          <Heading size="md">Living room Sofa</Heading>
-          <Text>
-            This sofa is perfect for modern tropical spaces, baroque inspired
-            spaces, earthy toned spaces and for people who love a chic design
-            with a sprinkle of vintage design.
-          </Text>
+          <Heading size="md">{item.name["name-USen"]}</Heading>
           <Text color="blue.600" fontSize="2xl">
-            $450
+            ${item.price}
           </Text>
         </Stack>
       </CardBody>
@@ -37,10 +32,10 @@ export const CollectionCard = ({ item }: CollectionCardProps) => {
       <CardFooter>
         <ButtonGroup spacing="2">
           <Button variant="solid" colorScheme="teal">
-            Buy now
+            Buy
           </Button>
           <Button variant="ghost" colorScheme="teal">
-            Add to cart
+            Sell
           </Button>
         </ButtonGroup>
       </CardFooter>
