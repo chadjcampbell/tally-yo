@@ -11,6 +11,7 @@ import {
   Image,
 } from "@chakra-ui/react";
 import { CollectionItem } from "../routes/Collection";
+import { titleCase } from "../utils/titlecase";
 
 type CollectionCardProps = {
   item: CollectionItem;
@@ -18,11 +19,11 @@ type CollectionCardProps = {
 
 export const CollectionCard = ({ item }: CollectionCardProps) => {
   return (
-    <Card>
+    <Card shadow="lg">
       <CardBody>
         <Image src={item.image_uri} alt={item["file-name"]} borderRadius="lg" />
         <Stack mt="6" spacing="3">
-          <Heading size="md">{item.name["name-USen"]}</Heading>
+          <Heading size="md">{titleCase(item.name["name-USen"])}</Heading>
           <Text color="blue.600" fontSize="2xl">
             ${item.price}
           </Text>
