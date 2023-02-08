@@ -9,6 +9,8 @@ import {
   Button,
   Text,
   Image,
+  HStack,
+  Box,
 } from "@chakra-ui/react";
 import { CollectionItem } from "../routes/Collection";
 import { titleCase } from "../utils/titlecase";
@@ -24,9 +26,11 @@ export const CollectionCard = ({ item }: CollectionCardProps) => {
         <Image src={item.image_uri} alt={item["file-name"]} borderRadius="lg" />
         <Stack mt="6" spacing="3">
           <Heading size="md">{titleCase(item.name["name-USen"])}</Heading>
-          <Text color="blue.600" fontSize="2xl">
-            ${item.price}
-          </Text>
+          <Box color="blue.600" fontSize="2xl">
+            <HStack>
+              <Image src="/coin.png" /> <Text>{item.price}</Text>
+            </HStack>
+          </Box>
         </Stack>
       </CardBody>
       <Divider />
