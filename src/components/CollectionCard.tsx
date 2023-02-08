@@ -5,24 +5,27 @@ import {
   Heading,
   Divider,
   CardFooter,
-  ButtonGroup,
   Button,
   Text,
   Image,
   HStack,
   Box,
 } from "@chakra-ui/react";
+import { DocumentData } from "firebase/firestore";
 import { CollectionItem } from "../routes/Collection";
 import { titleCase } from "../utils/titlecase";
+import { CollectionModal } from "./CollectionModal";
 
-type CollectionCardProps = {
+export type CollectionCardProps = {
   item: CollectionItem;
+  userStore: DocumentData | undefined;
 };
 
-export const CollectionCard = ({ item }: CollectionCardProps) => {
+export const CollectionCard = ({ item, userStore }: CollectionCardProps) => {
   return (
     <Card shadow="lg">
       <CardBody>
+        <CollectionModal item={item} userStore={userStore} />
         <Image src={item.image_uri} alt={item["file-name"]} borderRadius="lg" />
         <Stack mt="6" spacing="3">
           <Heading size="md">{titleCase(item.name["name-USen"])}</Heading>
@@ -35,14 +38,9 @@ export const CollectionCard = ({ item }: CollectionCardProps) => {
       </CardBody>
       <Divider />
       <CardFooter>
-        <ButtonGroup spacing="2">
-          <Button variant="solid" colorScheme="teal">
-            Buy
-          </Button>
-          <Button variant="ghost" colorScheme="teal">
-            Sell
-          </Button>
-        </ButtonGroup>
+        <Button variant="solid" colorScheme="teal">
+          More Info
+        </Button>
       </CardFooter>
     </Card>
   );

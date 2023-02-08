@@ -19,6 +19,7 @@ import {
   MenuButton,
   MenuItem,
   MenuList,
+  Image,
 } from "@chakra-ui/react";
 import {
   FiHome,
