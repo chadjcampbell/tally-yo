@@ -23,7 +23,7 @@ export type CollectionCardProps = {
 
 export const CollectionCard = ({ item, userStore }: CollectionCardProps) => {
   return (
-    <Card shadow="lg">
+    <Card align="center" justify="center" shadow="lg">
       <CardBody>
         <CollectionModal item={item} userStore={userStore} />
         <Image src={item.image_uri} alt={item["file-name"]} borderRadius="lg" />
