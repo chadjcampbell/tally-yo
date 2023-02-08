@@ -34,8 +34,44 @@ export const CollectionCard = ({ item, userStore }: CollectionCardProps) => {
   const { onOpen, isOpen, onClose } = useDisclosure();
   const toast = useToast();
 
-  const handleBuy = () => {};
-  const handleSell = () => {};
+  const handleBuy = () => {
+    if (userStore?.tally < item.price) {
+      toast({
+        title: "Purchase failed.",
+        description: "Not enough tally coins.",
+        status: "error",
+        duration: 9000,
+        isClosable: true,
+      });
+    } else {
+      toast({
+        title: "Congrats!",
+        description: "Purchase completed.",
+        status: "success",
+        duration: 9000,
+        isClosable: true,
+      });
+    }
+  };
+  const handleSell = () => {
+    if (userStore?.items.includes(item["file-name"])) {
+      toast({
+        title: "Congrats!",
+        description: "Item sold.",
+        status: "success",
+        duration: 9000,
+        isClosable: true,
+      });
+    } else {
+      toast({
+        title: "Failed to sell.",
+        description: "You don't have one of these.",
+        status: "error",
+        duration: 9000,
+        isClosable: true,
+      });
+    }
+  };
 
   return (
     <Card align="center" justify="center" shadow="lg">
