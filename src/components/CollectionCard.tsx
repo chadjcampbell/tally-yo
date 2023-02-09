@@ -22,7 +22,13 @@ import {
   useToast,
   CardHeader,
 } from "@chakra-ui/react";
-import { arrayUnion, doc, DocumentData, updateDoc } from "firebase/firestore";
+import {
+  arrayRemove,
+  arrayUnion,
+  doc,
+  DocumentData,
+  updateDoc,
+} from "firebase/firestore";
 import { db } from "../firebase";
 import { CollectionItem } from "../routes/Collection";
 import { titleCase } from "../utils/titlecase";
@@ -43,7 +49,7 @@ export const CollectionCard = ({ item, userStore }: CollectionCardProps) => {
       const newTotal = userStore?.tally - item.price;
       (async () => {
         await updateDoc(doc(db, "users", userStore?.uid), {
-          items: arrayUnion(item["file-name"]),
+          items: [...userStore?.items, item["file-name"]],
           tally: newTotal,
         });
       })();
@@ -68,6 +74,14 @@ export const CollectionCard = ({ item, userStore }: CollectionCardProps) => {
   };
   const handleSell = () => {
     if (userStore?.items.includes(item["file-name"])) {
+      const newTotal = userStore?.tally + item.price;
+      (async () => {
+        await updateDoc(doc(db, "users", userStore?.uid), {
+          //TODO update array so it doesnt remove all occurences
+          items: arrayRemove(item["file-name"]),
+          tally: newTotal,
+        });
+      })();
       toast({
         title: "Congrats!",
         description: "Item sold.",
@@ -92,7 +106,7 @@ export const CollectionCard = ({ item, userStore }: CollectionCardProps) => {
         <CardHeader
           color="blue.600"
           fontSize="2xl"
-          borderRadius="inherit"
+          borderRadius="0.5rem 0.5rem 0 0"
           width="full"
           bgColor="teal.100"
         >
