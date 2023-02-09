@@ -32,7 +32,14 @@ const ChatInput = () => {
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
+    if (data.user === null) {
+      setText("");
+      setImg(null);
+      setIconColor("gray.300");
+      return;
+    }
     if (text !== "" || img !== null) {
+      console.log(data.user);
       if (img) {
         const storageRef = ref(storage, uuid());
 
