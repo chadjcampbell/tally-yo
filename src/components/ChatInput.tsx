@@ -10,6 +10,7 @@ import {
 import {
   arrayUnion,
   doc,
+  increment,
   serverTimestamp,
   Timestamp,
   updateDoc,
@@ -99,7 +100,12 @@ const ChatInput = () => {
         (await updateDoc(doc(db, "userChats", user.uid), {
           [data.chatID + ".date"]: serverTimestamp(),
           [data.chatID + ".mostRecentMessage"]: text,
-        }));
+        }),
+        (async () => {
+          await updateDoc(doc(db, "users", user.uid), {
+            tally: increment(100),
+          });
+        })());
       setText("");
       setImg(null);
       setIconColor("gray.300");
