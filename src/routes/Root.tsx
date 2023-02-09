@@ -24,7 +24,7 @@ import {
 import {
   FiHome,
   FiTrendingUp,
-  FiSettings,
+  FiMail,
   FiMenu,
   FiBell,
   FiChevronDown,
@@ -45,7 +45,7 @@ interface LinkItemProps {
 const LinkItems: Array<LinkItemProps> = [
   { name: "Chat", icon: FiHome, path: "/" },
   { name: "Collection", icon: FiTrendingUp, path: "/collection" },
-  { name: "Settings", icon: FiSettings, path: "/settings" },
+  { name: "Contact Us", icon: FiMail, path: "/settings" },
 ];
 
 export default function Root() {
