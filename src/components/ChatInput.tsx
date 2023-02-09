@@ -40,7 +40,6 @@ const ChatInput = () => {
       return;
     }
     if (text !== "" || img !== null) {
-      console.log(data.user);
       if (img) {
         const storageRef = ref(storage, uuid());
 
