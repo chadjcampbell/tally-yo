@@ -20,8 +20,10 @@ import {
   ModalOverlay,
   VStack,
   useToast,
+  CardHeader,
 } from "@chakra-ui/react";
-import { DocumentData } from "firebase/firestore";
+import { arrayUnion, doc, DocumentData, updateDoc } from "firebase/firestore";
+import { db } from "../firebase";
 import { CollectionItem } from "../routes/Collection";
 import { titleCase } from "../utils/titlecase";
 
@@ -33,21 +35,32 @@ type CollectionCardProps = {
 export const CollectionCard = ({ item, userStore }: CollectionCardProps) => {
   const { onOpen, isOpen, onClose } = useDisclosure();
   const toast = useToast();
-
+  const numberOwned = userStore?.items.filter(
+    (i: string) => i === item["file-name"]
+  ).length;
   const handleBuy = () => {
-    if (userStore?.tally < item.price) {
-      toast({
-        title: "Purchase failed.",
-        description: "Not enough tally coins.",
-        status: "error",
-        duration: 9000,
-        isClosable: true,
-      });
-    } else {
+    if (userStore?.tally >= item.price) {
+      const newTotal = userStore?.tally - item.price;
+      (async () => {
+        await updateDoc(doc(db, "users", userStore?.uid), {
+          items: arrayUnion(item["file-name"]),
+          tally: newTotal,
+        });
+      })();
+
       toast({
         title: "Congrats!",
         description: "Purchase completed.",
         status: "success",
+        duration: 9000,
+        isClosable: true,
+      });
+    } else {
+      console.log("failed update");
+      toast({
+        title: "Purchase failed.",
+        description: "Not enough tally coins.",
+        status: "error",
         duration: 9000,
         isClosable: true,
       });
@@ -75,6 +88,17 @@ export const CollectionCard = ({ item, userStore }: CollectionCardProps) => {
 
   return (
     <Card align="center" justify="center" shadow="lg">
+      {numberOwned ? (
+        <CardHeader
+          color="blue.600"
+          fontSize="2xl"
+          borderRadius="inherit"
+          width="full"
+          bgColor="teal.100"
+        >
+          Owned: {numberOwned}
+        </CardHeader>
+      ) : null}
       <CardBody>
         <Image src={item.image_uri} alt={item["file-name"]} borderRadius="lg" />
         <Stack mt="6" spacing="3">
