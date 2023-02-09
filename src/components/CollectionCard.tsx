@@ -22,15 +22,10 @@ import {
   useToast,
   CardHeader,
 } from "@chakra-ui/react";
-import {
-  arrayRemove,
-  arrayUnion,
-  doc,
-  DocumentData,
-  updateDoc,
-} from "firebase/firestore";
+import { doc, DocumentData, updateDoc } from "firebase/firestore";
 import { db } from "../firebase";
 import { CollectionItem } from "../routes/Collection";
+import { removeElement } from "../utils/removeelement";
 import { titleCase } from "../utils/titlecase";
 
 type CollectionCardProps = {
@@ -41,9 +36,11 @@ type CollectionCardProps = {
 export const CollectionCard = ({ item, userStore }: CollectionCardProps) => {
   const { onOpen, isOpen, onClose } = useDisclosure();
   const toast = useToast();
+
   const numberOwned = userStore?.items.filter(
     (i: string) => i === item["file-name"]
   ).length;
+
   const handleBuy = () => {
     if (userStore?.tally >= item.price) {
       const newTotal = userStore?.tally - item.price;
@@ -77,8 +74,7 @@ export const CollectionCard = ({ item, userStore }: CollectionCardProps) => {
       const newTotal = userStore?.tally + item.price;
       (async () => {
         await updateDoc(doc(db, "users", userStore?.uid), {
-          //TODO update array so it doesnt remove all occurences
-          items: arrayRemove(item["file-name"]),
+          items: removeElement(userStore.items, item["file-name"]),
           tally: newTotal,
         });
       })();
