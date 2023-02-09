@@ -24,8 +24,8 @@ const ChatArea = () => {
   }, [data.chatID]);
 
   useEffect(() => {
-    ref.current?.scrollIntoView({ behavior: "smooth" });
-  }, [loading, messages]);
+    setTimeout(() => ref.current?.scrollIntoView({ behavior: "smooth" }), 500);
+  });
 
   return data.chatID !== "null" ? (
     <Flex
