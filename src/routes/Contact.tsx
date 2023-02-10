@@ -21,11 +21,11 @@ import {
   useColorModeValue,
   VStack,
 } from "@chakra-ui/react";
-import { BsGithub, BsLinkedin, BsPerson, BsTwitter } from "react-icons/bs";
+import { BsGithub, BsLinkedin, BsPerson } from "react-icons/bs";
 import { MdEmail, MdOutlineEmail } from "react-icons/md";
 
-const Settings = () => {
-  const { hasCopied, onCopy } = useClipboard("example@example.com");
+const Contact = () => {
+  const { hasCopied, onCopy } = useClipboard("chadjcampbell@gmail.com");
   return (
     <Card mt="3" borderRadius="1em" align="center" width="full" height="full">
       <CardHeader
@@ -45,9 +45,12 @@ const Settings = () => {
             <Box>
               <VStack spacing={{ base: 4, md: 8, lg: 20 }}>
                 <Heading
+                  bgColor="teal.200"
+                  p="4"
+                  borderRadius="2em"
                   fontSize={{
-                    base: "4xl",
-                    md: "5xl",
+                    base: "xl",
+                    md: "2xl",
                   }}
                 >
                   Get in Touch
@@ -68,6 +71,8 @@ const Settings = () => {
                       hasArrow
                     >
                       <IconButton
+                        bg="teal.100"
+                        shadow="lg"
                         aria-label="email"
                         variant="ghost"
                         size="lg"
@@ -82,8 +87,13 @@ const Settings = () => {
                       />
                     </Tooltip>
 
-                    <Link href="#">
+                    <Link
+                      target="_blank"
+                      href="https://github.com/chadjcampbell"
+                    >
                       <IconButton
+                        bg="teal.100"
+                        shadow="lg"
                         aria-label="github"
                         variant="ghost"
                         size="lg"
@@ -97,22 +107,13 @@ const Settings = () => {
                       />
                     </Link>
 
-                    <Link href="#">
+                    <Link
+                      target="_blank"
+                      href="https://www.linkedin.com/in/chad-campbell-b6b59693/"
+                    >
                       <IconButton
-                        aria-label="twitter"
-                        variant="ghost"
-                        size="lg"
-                        icon={<BsTwitter size="28px" />}
-                        _hover={{
-                          bg: "blue.500",
-                          color: useColorModeValue("white", "gray.700"),
-                        }}
-                        isRound
-                      />
-                    </Link>
-
-                    <Link href="#">
-                      <IconButton
+                        bg="teal.100"
+                        shadow="lg"
                         aria-label="linkedin"
                         variant="ghost"
                         size="lg"
@@ -131,7 +132,7 @@ const Settings = () => {
                     borderRadius="lg"
                     p={8}
                     color={useColorModeValue("gray.700", "whiteAlpha.900")}
-                    shadow="base"
+                    shadow="lg"
                   >
                     <VStack spacing={5}>
                       <FormControl isRequired>
@@ -203,4 +204,4 @@ const Settings = () => {
   );
 };
 
-export default Settings;
+export default Contact;
