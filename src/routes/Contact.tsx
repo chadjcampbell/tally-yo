@@ -23,9 +23,33 @@ import {
 } from "@chakra-ui/react";
 import { BsGithub, BsLinkedin, BsPerson } from "react-icons/bs";
 import { MdEmail, MdOutlineEmail } from "react-icons/md";
+import emailjs from "@emailjs/browser";
+import { FormEvent, useRef } from "react";
 
 const Contact = () => {
   const { hasCopied, onCopy } = useClipboard("chadjcampbell@gmail.com");
+  const form = useRef();
+
+  const sendEmail = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    emailjs
+      .sendForm(
+        "YOUR_SERVICE_ID",
+        "YOUR_TEMPLATE_ID",
+        form.current,
+        "YOUR_PUBLIC_KEY"
+      )
+      .then(
+        (result) => {
+          console.log(result.text);
+        },
+        (error) => {
+          console.log(error.text);
+        }
+      );
+  };
+
   return (
     <Card mt="3" borderRadius="1em" align="center" width="full" height="full">
       <CardHeader
@@ -126,65 +150,66 @@ const Contact = () => {
                       />
                     </Link>
                   </Stack>
+                  <form ref={form} onSubmit={(e) => sendEmail(e)}>
+                    <Box
+                      bg={useColorModeValue("white", "gray.700")}
+                      borderRadius="lg"
+                      p={8}
+                      color={useColorModeValue("gray.700", "whiteAlpha.900")}
+                      shadow="lg"
+                    >
+                      <VStack spacing={5}>
+                        <FormControl isRequired>
+                          <FormLabel>Name</FormLabel>
 
-                  <Box
-                    bg={useColorModeValue("white", "gray.700")}
-                    borderRadius="lg"
-                    p={8}
-                    color={useColorModeValue("gray.700", "whiteAlpha.900")}
-                    shadow="lg"
-                  >
-                    <VStack spacing={5}>
-                      <FormControl isRequired>
-                        <FormLabel>Name</FormLabel>
+                          <InputGroup>
+                            <InputLeftElement children={<BsPerson />} />
+                            <Input
+                              type="text"
+                              name="from_name"
+                              placeholder="Your Name"
+                            />
+                          </InputGroup>
+                        </FormControl>
 
-                        <InputGroup>
-                          <InputLeftElement children={<BsPerson />} />
-                          <Input
-                            type="text"
-                            name="name"
-                            placeholder="Your Name"
+                        <FormControl isRequired>
+                          <FormLabel>Email</FormLabel>
+
+                          <InputGroup>
+                            <InputLeftElement children={<MdOutlineEmail />} />
+                            <Input
+                              type="email"
+                              name="from_email"
+                              placeholder="Your Email"
+                            />
+                          </InputGroup>
+                        </FormControl>
+
+                        <FormControl isRequired>
+                          <FormLabel>Message</FormLabel>
+
+                          <Textarea
+                            name="message"
+                            placeholder="Your Message"
+                            rows={6}
+                            resize="none"
                           />
-                        </InputGroup>
-                      </FormControl>
+                        </FormControl>
 
-                      <FormControl isRequired>
-                        <FormLabel>Email</FormLabel>
-
-                        <InputGroup>
-                          <InputLeftElement children={<MdOutlineEmail />} />
-                          <Input
-                            type="email"
-                            name="email"
-                            placeholder="Your Email"
-                          />
-                        </InputGroup>
-                      </FormControl>
-
-                      <FormControl isRequired>
-                        <FormLabel>Message</FormLabel>
-
-                        <Textarea
-                          name="message"
-                          placeholder="Your Message"
-                          rows={6}
-                          resize="none"
-                        />
-                      </FormControl>
-
-                      <Button
-                        colorScheme="blue"
-                        bg="blue.400"
-                        color="white"
-                        _hover={{
-                          bg: "blue.500",
-                        }}
-                        width="full"
-                      >
-                        Send Message
-                      </Button>
-                    </VStack>
-                  </Box>
+                        <Button
+                          colorScheme="blue"
+                          bg="blue.400"
+                          color="white"
+                          _hover={{
+                            bg: "blue.500",
+                          }}
+                          width="full"
+                        >
+                          Send Message
+                        </Button>
+                      </VStack>
+                    </Box>
+                  </form>
                 </Stack>
               </VStack>
             </Box>
