@@ -19,6 +19,7 @@ import {
   Tooltip,
   useClipboard,
   useColorModeValue,
+  useToast,
   VStack,
 } from "@chakra-ui/react";
 import { BsGithub, BsLinkedin, BsPerson } from "react-icons/bs";
@@ -28,26 +29,42 @@ import { FormEvent, useRef } from "react";
 
 const Contact = () => {
   const { hasCopied, onCopy } = useClipboard("chadjcampbell@gmail.com");
-  const form = useRef();
+  const form = useRef<HTMLFormElement>(null);
+  const toast = useToast();
 
   const sendEmail = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    emailjs
-      .sendForm(
-        "YOUR_SERVICE_ID",
-        "YOUR_TEMPLATE_ID",
-        form.current,
-        "YOUR_PUBLIC_KEY"
-      )
-      .then(
-        (result) => {
-          console.log(result.text);
-        },
-        (error) => {
-          console.log(error.text);
-        }
-      );
+    form.current &&
+      emailjs
+        .sendForm(
+          "service_oz0fm1z",
+          "template_s472lyb",
+          form.current,
+          "HDt9p72ndSLywkXGK"
+        )
+        .then(
+          (result) => {
+            console.log(result.text);
+            toast({
+              title: "Message Sent!",
+              description: "Thanks for reaching out.",
+              status: "success",
+              duration: 9000,
+              isClosable: true,
+            });
+          },
+          (error) => {
+            console.log(error.text);
+            toast({
+              title: "Message Failed!",
+              description: "Trolls may have locked up my mailJS account.",
+              status: "error",
+              duration: 9000,
+              isClosable: true,
+            });
+          }
+        );
   };
 
   return (
