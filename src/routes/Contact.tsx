@@ -32,7 +32,7 @@ const Contact = () => {
   const form = useRef<HTMLFormElement>(null);
   const toast = useToast();
 
-  const sendEmail = (e: FormEvent<HTMLFormElement>) => {
+  const sendEmail = (e: FormEvent) => {
     e.preventDefault();
 
     form.current &&
@@ -53,6 +53,8 @@ const Contact = () => {
               duration: 9000,
               isClosable: true,
             });
+            const formTarget = e.target as HTMLFormElement;
+            formTarget.reset();
           },
           (error) => {
             console.log(error.text);
@@ -214,6 +216,7 @@ const Contact = () => {
                         </FormControl>
 
                         <Button
+                          type="submit"
                           colorScheme="blue"
                           bg="blue.400"
                           color="white"
