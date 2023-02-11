@@ -134,39 +134,43 @@ const Contact = () => {
                       target="_blank"
                       href="https://github.com/chadjcampbell"
                     >
-                      <IconButton
-                        bg="teal.100"
-                        shadow="lg"
-                        aria-label="github"
-                        variant="ghost"
-                        size="lg"
-                        fontSize="3xl"
-                        icon={<BsGithub />}
-                        _hover={{
-                          bg: "blue.500",
-                          color: useColorModeValue("white", "gray.700"),
-                        }}
-                        isRound
-                      />
+                      <Tooltip label="Github" closeOnClick={false} hasArrow>
+                        <IconButton
+                          bg="teal.100"
+                          shadow="lg"
+                          aria-label="github"
+                          variant="ghost"
+                          size="lg"
+                          fontSize="3xl"
+                          icon={<BsGithub />}
+                          _hover={{
+                            bg: "blue.500",
+                            color: useColorModeValue("white", "gray.700"),
+                          }}
+                          isRound
+                        />
+                      </Tooltip>
                     </Link>
 
                     <Link
                       target="_blank"
                       href="https://www.linkedin.com/in/chad-campbell-b6b59693/"
                     >
-                      <IconButton
-                        bg="teal.100"
-                        shadow="lg"
-                        aria-label="linkedin"
-                        variant="ghost"
-                        size="lg"
-                        icon={<BsLinkedin size="28px" />}
-                        _hover={{
-                          bg: "blue.500",
-                          color: useColorModeValue("white", "gray.700"),
-                        }}
-                        isRound
-                      />
+                      <Tooltip label="LinkedIn" closeOnClick={false} hasArrow>
+                        <IconButton
+                          bg="teal.100"
+                          shadow="lg"
+                          aria-label="linkedin"
+                          variant="ghost"
+                          size="lg"
+                          icon={<BsLinkedin size="28px" />}
+                          _hover={{
+                            bg: "blue.500",
+                            color: useColorModeValue("white", "gray.700"),
+                          }}
+                          isRound
+                        />
+                      </Tooltip>
                     </Link>
                   </Stack>
                   <form ref={form} onSubmit={(e) => sendEmail(e)}>
