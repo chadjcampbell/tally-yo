@@ -80,11 +80,7 @@ const Contact = () => {
       </CardHeader>
       <CardBody minHeight="65vh" width="full">
         <Flex align="center" justify="center" id="contact">
-          <Box
-            borderRadius="lg"
-            m={{ base: 5, md: 16, lg: 10 }}
-            p={{ base: 5, lg: 16 }}
-          >
+          <Box>
             <Box>
               <VStack spacing={{ base: 4, md: 8, lg: 20 }}>
                 <Heading

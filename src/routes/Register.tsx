@@ -10,7 +10,8 @@ import {
   chakra,
   Box,
   Link,
-  Avatar,
+  HStack,
+  Image,
   FormControl,
   InputRightElement,
   Alert,
@@ -123,6 +124,23 @@ const Register = () => {
       justifyContent="center"
       alignItems="center"
     >
+      <Card
+        align="center"
+        justify="center"
+        m="4"
+        p="4"
+        borderRadius="lg"
+        shadow="lg"
+      >
+        <HStack align="center" justify="center">
+          <Image boxSize="50px" src="/chat.png" alt="Chat Logo" />{" "}
+          <Heading color="teal.400">Tally Yo!</Heading>
+        </HStack>{" "}
+        <Heading color="teal.400">1. Chat with friends</Heading>
+        <Heading color="teal.400">2. Collect items</Heading>
+        <Heading color="teal.400">3. ???</Heading>
+        <Heading color="teal.400">4. Profit!</Heading>
+      </Card>
       <Card m="4" p="4" borderRadius="lg" shadow="lg">
         <Stack
           flexDir="column"
@@ -130,11 +148,7 @@ const Register = () => {
           justifyContent="center"
           alignItems="center"
         >
-          <Avatar bg="teal.500" />
-          <Heading color="teal.400">1. Chat with friends</Heading>
-          <Heading color="teal.400">2. Collect all the things</Heading>
-          <Heading color="teal.400">3. ???</Heading>
-          <Heading color="teal.400">4. Profit!</Heading>
+          <Heading color="teal.400">Sign up now!</Heading>
           <Box minW={{ base: "90%", md: "468px" }}>
             <form onSubmit={(event) => handleSubmit(event)}>
               <Stack

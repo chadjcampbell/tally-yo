@@ -8,13 +8,14 @@ import {
   InputRightElement,
 } from "@chakra-ui/react";
 import { useRef, useState } from "react";
-import { FaImage } from "react-icons/fa";
+import { FaImage, FaCheck } from "react-icons/fa";
 
 const CFaImage = chakra(FaImage);
 
 export const FileInput = () => {
   const inputRef = useRef<HTMLInputElement | null>(null);
   const [iconColor, setIconColor] = useState("gray.300");
+  const CFaCheck = chakra(FaCheck);
   const fileStatus = "add an avatar";
 
   return (
@@ -25,6 +26,7 @@ export const FileInput = () => {
           color="gray.300"
           children={<CFaImage color={iconColor} />}
         />
+
         <input
           onInput={() => setIconColor("teal.400")}
           id="file"
@@ -33,7 +35,9 @@ export const FileInput = () => {
           ref={inputRef}
           style={{ display: "none" }}
         />
+        {iconColor == "teal.400" ? <CFaCheck color={iconColor} /> : null}
         <Input border="none" placeholder={fileStatus} readOnly type="text" />
+
         <InputRightElement width="8rem">
           <Button
             onClick={() => inputRef.current?.click()}
