@@ -115,7 +115,7 @@ export const CollectionCard = ({ item, userStore }: CollectionCardProps) => {
           <Heading size="md">{titleCase(item.name["name-USen"])}</Heading>
           <Box color="blue.600" fontSize="2xl">
             <HStack>
-              <Image src="/coin.png" /> <Text>{item.price}</Text>
+              <Image src="./coin.png" /> <Text>{item.price}</Text>
             </HStack>
           </Box>
         </Stack>

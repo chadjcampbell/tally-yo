@@ -30,7 +30,7 @@
 
   <p align="center">
     <br />
-    <a href="https://chadjcampbell.github.io/tally-yo/"><strong>View Demo</strong></a>
+    <a target='_blank' href="https://chadjcampbell.github.io/tally-yo/"><strong>View Demo</strong></a>
     ·
     <a href="https://github.com/chadjcampbell/tally-yo/issues">Report Bug</a>
     ·
