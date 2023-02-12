@@ -133,7 +133,7 @@ const Register = () => {
         shadow="lg"
       >
         <HStack align="center" justify="center">
-          <Image boxSize="50px" src="/chat.png" alt="Chat Logo" />{" "}
+          <Image boxSize="50px" src="./chat.png" alt="Chat Logo" />{" "}
           <Heading color="teal.400">Tally Yo!</Heading>
         </HStack>{" "}
         <Heading color="teal.400">1. Chat with friends</Heading>

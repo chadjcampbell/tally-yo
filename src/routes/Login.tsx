@@ -64,7 +64,7 @@ const Login = () => {
     >
       <Card m="4" p="4" borderRadius="lg" shadow="lg">
         <HStack>
-          <Image boxSize="50px" src="/chat.png" alt="Chat Logo" />{" "}
+          <Image boxSize="50px" src="./chat.png" alt="Chat Logo" />{" "}
           <Heading color="teal.400">Tally Yo!</Heading>
         </HStack>
       </Card>

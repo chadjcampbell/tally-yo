@@ -44,7 +44,7 @@ const Collection = () => {
 
   useEffect(() => {
     try {
-      fetch("http://acnhapi.com/v1/fossils/")
+      fetch("https://acnhapi.com/v1/fossils/")
         .then((response) => response.json())
         .then((data) => setMyCollection(Object.values(data)))
         .then(() => setLoading(false));
@@ -62,7 +62,7 @@ const Collection = () => {
       >
         <HStack spacing={{ base: "0", md: "6" }}>
           <Heading size="md">Collection</Heading>
-          <Image src="/coin.png" />{" "}
+          <Image src="./coin.png" />{" "}
           <Box bgColor="white" borderRadius="md" p="1">
             <Text color="blue.600" fontSize="2xl">
               {userStore?.tally}
