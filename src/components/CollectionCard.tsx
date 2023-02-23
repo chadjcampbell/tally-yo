@@ -140,7 +140,7 @@ export const CollectionCard = ({ item, userStore }: CollectionCardProps) => {
                 />
                 <Text>{item["museum-phrase"]}</Text>
                 <HStack>
-                  <Image src="/coin.png" />{" "}
+                  <Image src="./coin.png" />{" "}
                   <Text color="blue.600" fontSize="2xl">
                     {item.price}
                   </Text>
