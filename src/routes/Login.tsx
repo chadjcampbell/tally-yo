@@ -12,6 +12,7 @@ import {
   Box,
   Link,
   Avatar,
+  Text,
   FormControl,
   FormHelperText,
   InputRightElement,
@@ -19,6 +20,7 @@ import {
   AlertIcon,
   Card,
   HStack,
+  VStack,
 } from "@chakra-ui/react";
 import { FaUserAlt, FaLock } from "react-icons/fa";
 import { Link as ReactRouterLink, useNavigate } from "react-router-dom";
@@ -152,6 +154,24 @@ const Login = () => {
           <strong>Sign Up</strong>
         </Link>
       </Box>
+      <Card maxWidth="500px" m="4" p="4" borderRadius="lg" shadow="lg">
+        <VStack>
+          <Text>
+            If you would just like to check out the app without joining you can
+            sign into a demo account with the credentials below
+          </Text>
+          <Card m="4" p="4" borderRadius="lg" shadow="lg">
+            <VStack>
+              <Text as="b" color="teal.500">
+                Email: demoUser@gmail.com
+              </Text>
+              <Text as="b" color="teal.500">
+                Password: password
+              </Text>
+            </VStack>
+          </Card>
+        </VStack>
+      </Card>
     </Flex>
   );
 };
