@@ -98,17 +98,6 @@ export const CollectionCard = ({ item, userStore }: CollectionCardProps) => {
 
   return (
     <Card align="center" justify="center" shadow="lg">
-      {numberOwned ? (
-        <CardHeader
-          color="blue.600"
-          fontSize="2xl"
-          borderRadius="0.5rem 0.5rem 0 0"
-          width="full"
-          bgColor="teal.100"
-        >
-          Owned: {numberOwned}
-        </CardHeader>
-      ) : null}
       <CardBody>
         <Image src={item.image_uri} alt={item["file-name"]} borderRadius="lg" />
         <Stack mt="6" spacing="3">
@@ -118,6 +107,17 @@ export const CollectionCard = ({ item, userStore }: CollectionCardProps) => {
               <Image src="./coin.png" /> <Text>{item.price}</Text>
             </HStack>
           </Box>
+          {numberOwned ? (
+            <Text
+              color="blue.600"
+              fontSize="2xl"
+              borderRadius="0.5rem"
+              p="1"
+              bgColor="teal.100"
+            >
+              Owned: {numberOwned}
+            </Text>
+          ) : null}
         </Stack>
       </CardBody>
       <Divider />
@@ -145,6 +145,17 @@ export const CollectionCard = ({ item, userStore }: CollectionCardProps) => {
                     {item.price}
                   </Text>
                 </HStack>
+                {numberOwned ? (
+                  <Text
+                    color="blue.600"
+                    fontSize="2xl"
+                    borderRadius="0.5rem"
+                    p="1"
+                    bgColor="teal.100"
+                  >
+                    Owned: {numberOwned}
+                  </Text>
+                ) : null}
               </VStack>
             </ModalBody>
 
