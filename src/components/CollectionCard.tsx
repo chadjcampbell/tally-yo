@@ -37,7 +37,7 @@ import { removeElement } from "../utils/removeelement";
 import { titleCase } from "../utils/titlecase";
 import SendToFriendList from "./SendToFriendList";
 
-type CollectionCardProps = {
+export type CollectionCardProps = {
   item: CollectionItem;
   userStore: DocumentData | undefined;
 };
@@ -192,12 +192,12 @@ export const CollectionCard = ({ item, userStore }: CollectionCardProps) => {
                     Send to Friend
                   </Button>
                 </PopoverTrigger>
-                <PopoverContent>
+                <PopoverContent shadow="2xl">
                   <PopoverArrow />
                   <PopoverCloseButton />
                   <PopoverHeader>Send to...?</PopoverHeader>
                   <PopoverBody>
-                    <SendToFriendList />
+                    <SendToFriendList item={item} userStore={userStore} />
                   </PopoverBody>
                 </PopoverContent>
               </Popover>
