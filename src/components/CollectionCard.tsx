@@ -21,12 +21,21 @@ import {
   VStack,
   useToast,
   CardHeader,
+  Popover,
+  PopoverArrow,
+  PopoverBody,
+  PopoverCloseButton,
+  PopoverContent,
+  PopoverHeader,
+  PopoverTrigger,
 } from "@chakra-ui/react";
 import { doc, DocumentData, updateDoc } from "firebase/firestore";
+import { MouseEvent } from "react";
 import { db } from "../firebase";
 import { CollectionItem } from "../routes/Collection";
 import { removeElement } from "../utils/removeelement";
 import { titleCase } from "../utils/titlecase";
+import SendToFriendList from "./SendToFriendList";
 
 type CollectionCardProps = {
   item: CollectionItem;
@@ -88,6 +97,19 @@ export const CollectionCard = ({ item, userStore }: CollectionCardProps) => {
     } else {
       toast({
         title: "Failed to sell.",
+        description: "You don't have one of these.",
+        status: "error",
+        duration: 9000,
+        isClosable: true,
+      });
+    }
+  };
+
+  const checkIfOwned = (e: MouseEvent) => {
+    if (numberOwned === 0) {
+      e.preventDefault();
+      toast({
+        title: "Nothing to send.",
         description: "You don't have one of these.",
         status: "error",
         duration: 9000,
@@ -160,6 +182,26 @@ export const CollectionCard = ({ item, userStore }: CollectionCardProps) => {
             </ModalBody>
 
             <ModalFooter>
+              <Popover placement="top-start">
+                <PopoverTrigger>
+                  <Button
+                    onClick={(e) => checkIfOwned(e)}
+                    colorScheme="teal"
+                    mr="auto"
+                  >
+                    Send to Friend
+                  </Button>
+                </PopoverTrigger>
+                <PopoverContent>
+                  <PopoverArrow />
+                  <PopoverCloseButton />
+                  <PopoverHeader>Send to...?</PopoverHeader>
+                  <PopoverBody>
+                    <SendToFriendList />
+                  </PopoverBody>
+                </PopoverContent>
+              </Popover>
+
               <Button onClick={handleBuy} colorScheme="blue" mr={3}>
                 Buy Now
               </Button>
