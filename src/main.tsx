@@ -18,6 +18,7 @@ import Register from "./routes/Register";
 import Root from "./routes/Root";
 import { ChatProvider } from "./provider/ChatProvider";
 import Contact from "./routes/Contact";
+import Portfolio from "./routes/Portfolio";
 
 const AuthenticatedRoute = () => {
   const { user, loading } = useContext(AuthContext);
@@ -52,6 +53,7 @@ const router = createBrowserRouter(
                 { element: <MainChat />, index: true },
                 { path: "/collection", element: <Collection /> },
                 { path: "/settings", element: <Contact /> },
+                { path: "/portfolio", element: <Portfolio /> },
               ],
             },
           ],
