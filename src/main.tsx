@@ -19,6 +19,7 @@ import Root from "./routes/Root";
 import { ChatProvider } from "./provider/ChatProvider";
 import Contact from "./routes/Contact";
 import Portfolio from "./routes/Portfolio";
+import BuySellTrade from "./routes/BuySellTrade";
 
 const AuthenticatedRoute = () => {
   const { user, loading } = useContext(AuthContext);
@@ -52,6 +53,7 @@ const router = createBrowserRouter(
               children: [
                 { element: <MainChat />, index: true },
                 { path: "/collection", element: <Collection /> },
+                { path: "/buySellTrade", element: <BuySellTrade /> },
                 { path: "/settings", element: <Contact /> },
                 { path: "/portfolio", element: <Portfolio /> },
               ],
