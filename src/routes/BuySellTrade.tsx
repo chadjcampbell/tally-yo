@@ -7,7 +7,10 @@ import {
   Image,
   Text,
   Box,
+  Link,
+  Flex,
 } from "@chakra-ui/react";
+import { NavLink as ReactRouterLink } from "react-router-dom";
 import { onSnapshot, doc, DocumentData } from "firebase/firestore";
 import { useState, useEffect, useContext } from "react";
 import { Outlet } from "react-router-dom";
@@ -47,8 +50,70 @@ const BuySellTrade = () => {
         width="full"
       >
         <HStack spacing={{ base: "0", md: "6" }}>
-          <Heading size="md">Buy/Sell/Trade</Heading>
-          <Image src="./coin.png" />{" "}
+          <Heading size="md">
+            <nav>
+              <Flex>
+                {" "}
+                <Link
+                  p="2"
+                  mx="2"
+                  borderRadius="lg"
+                  role="group"
+                  cursor="pointer"
+                  bg="white"
+                  textColor="black"
+                  _hover={{
+                    bg: "teal.400",
+                    color: "white",
+                  }}
+                  as={ReactRouterLink}
+                  to="/buySellTrade"
+                  _focus={{ boxShadow: "none" }}
+                >
+                  Buy
+                </Link>
+                <Link
+                  p="2"
+                  mx="2"
+                  borderRadius="lg"
+                  role="group"
+                  cursor="pointer"
+                  bg="white"
+                  textColor="black"
+                  _hover={{
+                    bg: "teal.400",
+                    color: "white",
+                  }}
+                  as={ReactRouterLink}
+                  to="/buySellTrade/sell"
+                  style={{ textDecoration: "none" }}
+                  _focus={{ boxShadow: "none" }}
+                >
+                  Sell
+                </Link>
+                <Link
+                  p="2"
+                  mx="2"
+                  borderRadius="lg"
+                  role="group"
+                  cursor="pointer"
+                  bg="white"
+                  textColor="black"
+                  _hover={{
+                    bg: "teal.400",
+                    color: "white",
+                  }}
+                  as={ReactRouterLink}
+                  to="/buySellTrade/trade"
+                  style={{ textDecoration: "none" }}
+                  _focus={{ boxShadow: "none" }}
+                >
+                  Trade
+                </Link>
+              </Flex>
+            </nav>
+          </Heading>
+          <Image src="../coin.png" />{" "}
           <Box bgColor="white" borderRadius="md" p="1">
             <Text color="blue.600" fontSize="2xl">
               {userInfo?.tally}

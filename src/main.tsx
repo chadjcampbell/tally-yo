@@ -19,6 +19,9 @@ import { ChatProvider } from "./provider/ChatProvider";
 import Contact from "./routes/Contact";
 import Portfolio from "./routes/Portfolio";
 import BuySellTrade from "./routes/BuySellTrade";
+import Buy from "./components/Buy";
+import Sell from "./components/Sell";
+import Trade from "./components/Trade";
 
 const AuthenticatedRoute = () => {
   const { user, loading } = useContext(AuthContext);
@@ -51,8 +54,19 @@ const router = createBrowserRouter(
               element: <Root />,
               children: [
                 { element: <MainChat />, index: true },
-                { path: "/buySellTrade", element: <BuySellTrade /> },
-                { path: "/settings", element: <Contact /> },
+                {
+                  path: "/buySellTrade",
+                  element: <BuySellTrade />,
+                  children: [
+                    {
+                      element: <Buy />,
+                      index: true,
+                    },
+                    { path: "/buySellTrade/sell", element: <Sell /> },
+                    { path: "/buySellTrade/trade", element: <Trade /> },
+                  ],
+                },
+                { path: "/contact", element: <Contact /> },
                 { path: "/portfolio", element: <Portfolio /> },
               ],
             },
