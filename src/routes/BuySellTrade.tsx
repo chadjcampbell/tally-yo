@@ -16,8 +16,6 @@ import BuySellTradeNavbar from "../components/BuySellTradeNavbar";
 import { AuthContext } from "../context/AuthContext";
 import { db } from "../firebase";
 
-const API_KEY = import.meta.env.VITE_API_KEY;
-
 export type CollectionItem = {
   "file-name": string;
   image_uri: string;
