@@ -19,7 +19,6 @@ import {
   MenuButton,
   MenuItem,
   MenuList,
-  Image,
 } from "@chakra-ui/react";
 import {
   FiHome,
@@ -45,7 +44,6 @@ interface LinkItemProps {
 }
 const LinkItems: Array<LinkItemProps> = [
   { name: "Chat", icon: FiHome, path: "/" },
-  { name: "Old Collection", icon: FiDollarSign, path: "/collection" },
   { name: "Buy/Sell/Trade", icon: FiDollarSign, path: "/buySellTrade" },
   { name: "Portfolio", icon: FiTrendingUp, path: "/portfolio" },
   { name: "Contact Us", icon: FiMail, path: "/settings" },

@@ -11,7 +11,6 @@ import Loading from "./components/Loading";
 import Error from "./components/Error";
 import { AuthContext } from "./context/AuthContext";
 import { AuthProvider } from "./provider/AuthProvider";
-import Collection from "./routes/Collection";
 import Login from "./routes/Login";
 import MainChat from "./routes/MainChat";
 import Register from "./routes/Register";
@@ -52,7 +51,6 @@ const router = createBrowserRouter(
               element: <Root />,
               children: [
                 { element: <MainChat />, index: true },
-                { path: "/collection", element: <Collection /> },
                 { path: "/buySellTrade", element: <BuySellTrade /> },
                 { path: "/settings", element: <Contact /> },
                 { path: "/portfolio", element: <Portfolio /> },
