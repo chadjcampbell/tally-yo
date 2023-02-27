@@ -59,6 +59,7 @@ const router = createBrowserRouter(
                   element: <BuySellTrade />,
                   children: [
                     {
+                      path: "/buySellTrade/buy",
                       element: <Buy />,
                       index: true,
                     },
