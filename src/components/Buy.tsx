@@ -13,9 +13,9 @@ const Buy = () => {
     e.preventDefault();
     const searchStock = e.currentTarget.stockName.value;
     let result = await fetch(
-      `https://finnhub.io/api/v1/stock//search?q=${searchStock}&token=${API_KEY}`
+      ` https://cloud-sse.iexapis.com/stable/stocksUS\?symbols\=spy\&token\=${API_KEY}`
     );
-    console.log(result.json());
+    console.log(result);
   };
 
   return (
