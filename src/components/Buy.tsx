@@ -1,10 +1,4 @@
-import {
-  FormControl,
-  FormHelperText,
-  FormLabel,
-  Input,
-} from "@chakra-ui/react";
-import { useState } from "react";
+import { FormControl, FormLabel, Input } from "@chakra-ui/react";
 
 const Buy = () => {
   const API_KEY = import.meta.env.VITE_API_KEY;
@@ -13,7 +7,7 @@ const Buy = () => {
     e.preventDefault();
     const searchStock = e.currentTarget.stockName.value;
     let result = await fetch(
-      ` https://cloud-sse.iexapis.com/stable/stocksUS\?symbols\=spy\&token\=${API_KEY}`
+      `https://cloud.iexapis.com/stable/stock/twtr/quote/&token=${API_KEY}`
     );
     console.log(result);
   };
