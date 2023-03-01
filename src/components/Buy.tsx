@@ -16,6 +16,7 @@ import { AlpacaClient } from "@master-chief/alpaca";
 import axios from "axios";
 import { FormEvent, useEffect, useState } from "react";
 import { trendingBackup } from "../utils/backupTrending";
+import { onlyLettersAndNumbers } from "../utils/onlyLettersAndNumbers";
 import Loading from "./Loading";
 
 type TrendingStocks = {
@@ -37,7 +38,7 @@ const Buy = () => {
   const API_SECRET = import.meta.env.VITE_SECRET;
   const TRENDING_KEY = import.meta.env.VITE_TRENDING;
 
-  const [trending, setTrending] = useState<TrendingStocks | null>(null);
+  const [trending, setTrending] = useState(null);
   const [loading, setLoading] = useState(true);
 
   const client = new AlpacaClient({
@@ -49,34 +50,45 @@ const Buy = () => {
     rate_limit: true,
   });
 
+  useEffect(() => {
+    if (trending === null) {
+      const options = {
+        method: "GET",
+        url: "https://yfapi.net/v1/finance/trending/US",
+        params: { modules: "defaultKeyStatistics,assetProfile" },
+        headers: {
+          "x-api-key": TRENDING_KEY,
+        },
+      };
+      axios
+        .request(options)
+        .then((response) => {
+          const trendingData = response.data?.finance.result[0].quotes
+            .map(async (stock) => {
+              if (onlyLettersAndNumbers(stock.symbol)) {
+                let res = await client.getSnapshot({
+                  symbol: stock.symbol,
+                });
+                console.log(res);
+                return res;
+              }
+            })
+            .then(() => {
+              setTrending(trendingData);
+              setLoading(false);
+            });
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    }
+  }, []);
+
   false &&
     useEffect(() => {
-      if (trending === null) {
-        const options = {
-          method: "GET",
-          url: "https://yfapi.net/v1/finance/trending/US",
-          params: { modules: "defaultKeyStatistics,assetProfile" },
-          headers: {
-            "x-api-key": TRENDING_KEY,
-          },
-        };
-        axios
-          .request(options)
-          .then(function (response) {
-            console.log(response.data);
-            setTrending(response.data);
-            setLoading(false);
-          })
-          .catch(function (error) {
-            console.error(error);
-          });
-      }
+      setTrending(trendingBackup);
+      setLoading(false);
     }, []);
-
-  useEffect(() => {
-    setTrending(trendingBackup);
-    setLoading(false);
-  }, []);
 
   const handleSearch = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -94,12 +106,10 @@ const Buy = () => {
               <FormLabel textAlign="center">Search for a stock</FormLabel>
               <HStack>
                 <Input id="stockName" max="10" type="text" />
-
                 <Button colorScheme="teal" type="submit">
                   Search
                 </Button>
               </HStack>
-
               <FormHelperText textAlign="center">e.g. 'twtr' </FormHelperText>
             </FormControl>
           </form>
@@ -112,11 +122,11 @@ const Buy = () => {
         {loading ? (
           <Loading />
         ) : (
-          trending?.finance.result[0].quotes.map((stock) => (
+          trending?.map((stock) => (
             <Card shadow="lg" m="3" p="3" key={stock.symbol}>
-              <CardHeader>{stock.symbol}</CardHeader>
+              <CardHeader></CardHeader>
               <CardBody>
-                <Button>More Info</Button>
+                <Button colorScheme="teal">More Info</Button>
               </CardBody>
             </Card>
           ))
