@@ -251,7 +251,7 @@ const Register = () => {
             There was an error processing your request
           </Alert>
         )}
-        <Box>
+        <Box textAlign="center">
           Already have an account?{" "}
           <Link as={ReactRouterLink} to="/login" color="teal.500">
             <strong>Login</strong>
