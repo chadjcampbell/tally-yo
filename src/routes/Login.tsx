@@ -54,6 +54,17 @@ const Login = () => {
     }
   };
 
+  const guestLogin = async () => {
+    try {
+      setLoading(true);
+      await signInWithEmailAndPassword(auth, "demoUser@gmail.com", "password");
+      setLoading(false);
+      navigate("/");
+    } catch (err) {
+      setError(`Invalid email or password`);
+    }
+  };
+
   return (
     <Flex
       bgImage={CONFETTI_LIGHT}
@@ -149,28 +160,33 @@ const Login = () => {
         </Alert>
       )}
       <Box>
-        New to us?{" "}
-        <Link as={ReactRouterLink} to="/register" color="teal.500">
-          <strong>Sign Up</strong>
-        </Link>
-      </Box>
-      <Card maxWidth="500px" m="4" p="4" borderRadius="lg" shadow="lg">
         <VStack>
-          <Text>
-            If you would just like to check out the app without joining you can
-            sign into a demo account with the credentials below
-          </Text>
-          <Card m="4" p="4" borderRadius="lg" shadow="lg">
-            <VStack>
-              <Text as="b" color="teal.500">
-                Email: demoUser@gmail.com
-              </Text>
-              <Text as="b" color="teal.500">
-                Password: password
-              </Text>
-            </VStack>
-          </Card>
+          <Text>New to us?</Text>
+          <Link as={ReactRouterLink} to="/register" color="teal.500">
+            <strong>Sign Up</strong>
+          </Link>
+          <Text>or login to the demo account below</Text>
         </VStack>
+      </Box>
+      <Card
+        minWidth="200px"
+        maxWidth="500px"
+        m="4"
+        p="4"
+        borderRadius="lg"
+        shadow="lg"
+      >
+        <Button
+          shadow="lg"
+          onClick={guestLogin}
+          borderRadius="md"
+          type="submit"
+          variant="solid"
+          colorScheme="teal"
+          width="full"
+        >
+          Login to Demo Account
+        </Button>
       </Card>
     </Flex>
   );
