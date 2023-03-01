@@ -7,8 +7,6 @@ import {
   FormLabel,
   HStack,
   Input,
-  InputGroup,
-  InputRightElement,
 } from "@chakra-ui/react";
 import { AlpacaClient } from "@master-chief/alpaca";
 import { FormEvent } from "react";
