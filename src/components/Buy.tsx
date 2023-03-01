@@ -1,4 +1,11 @@
-import { FormControl, FormLabel, Input } from "@chakra-ui/react";
+import {
+  Card,
+  Flex,
+  FormControl,
+  FormHelperText,
+  FormLabel,
+  Input,
+} from "@chakra-ui/react";
 import { AlpacaClient } from "@master-chief/alpaca";
 import { FormEvent } from "react";
 
@@ -17,19 +24,22 @@ const Buy = () => {
   const handleSearch = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const searchStock = e.currentTarget.stockName.value;
-    let result = await client.getLatestTrade({ symbol: `${searchStock}` });
+    let result = await client.getSnapshot({ symbol: `${searchStock}` });
     console.log(result);
   };
 
   return (
-    <div>
-      <form onSubmit={(e) => handleSearch(e)}>
-        <FormControl>
-          <FormLabel>Search for a stock</FormLabel>
-          <Input id="stockName" max="10" type="text" />
-        </FormControl>
-      </form>
-    </div>
+    <Flex align="center" justify="center">
+      <Card p="3" shadow="xl">
+        <form onSubmit={(e) => handleSearch(e)}>
+          <FormControl>
+            <FormLabel textAlign="center">Search for a stock</FormLabel>
+            <Input id="stockName" max="10" type="text" />
+            <FormHelperText textAlign="center">e.g. 'twtr' </FormHelperText>
+          </FormControl>
+        </form>
+      </Card>
+    </Flex>
   );
 };
 
