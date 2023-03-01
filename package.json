@@ -17,6 +17,7 @@
     "@emailjs/browser": "^3.10.0",
     "@emotion/react": "^11.10.5",
     "@emotion/styled": "^11.10.5",
+    "@master-chief/alpaca": "^6.3.20",
     "firebase": "^9.16.0",
     "framer-motion": "^8.5.2",
     "react": "^18.2.0",
