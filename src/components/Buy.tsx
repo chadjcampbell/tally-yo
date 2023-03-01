@@ -88,7 +88,7 @@ const Buy = () => {
   return (
     <VStack>
       <Flex align="center" justify="center" mb="5">
-        <Card p="3" shadow="xl">
+        <Card p="3" shadow="lg">
           <form onSubmit={(e) => handleSearch(e)}>
             <FormControl>
               <FormLabel textAlign="center">Search for a stock</FormLabel>
@@ -108,12 +108,12 @@ const Buy = () => {
       <Text fontSize="2xl" as="u">
         Trending Stocks
       </Text>
-      <Flex h="auto">
+      <Flex wrap="wrap" align="center" justify="center">
         {loading ? (
           <Loading />
         ) : (
           trending?.finance.result[0].quotes.map((stock) => (
-            <Card key={stock.symbol}>
+            <Card shadow="lg" m="3" p="3" key={stock.symbol}>
               <CardHeader>{stock.symbol}</CardHeader>
               <CardBody>
                 <Button>More Info</Button>
