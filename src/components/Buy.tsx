@@ -1,10 +1,14 @@
 import {
+  Button,
   Card,
   Flex,
   FormControl,
   FormHelperText,
   FormLabel,
+  HStack,
   Input,
+  InputGroup,
+  InputRightElement,
 } from "@chakra-ui/react";
 import { AlpacaClient } from "@master-chief/alpaca";
 import { FormEvent } from "react";
@@ -34,7 +38,14 @@ const Buy = () => {
         <form onSubmit={(e) => handleSearch(e)}>
           <FormControl>
             <FormLabel textAlign="center">Search for a stock</FormLabel>
-            <Input id="stockName" max="10" type="text" />
+            <HStack>
+              <Input id="stockName" max="10" type="text" />
+
+              <Button colorScheme="teal" type="submit">
+                Search
+              </Button>
+            </HStack>
+
             <FormHelperText textAlign="center">e.g. 'twtr' </FormHelperText>
           </FormControl>
         </form>
