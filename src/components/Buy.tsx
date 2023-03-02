@@ -79,17 +79,16 @@ const Buy = () => {
     }
   }, []);
 
-  cleanSymbols &&
-    useEffect(() => {
-      console.log(cleanSymbols);
-      const getTrendingData = async () => {
-        let result = await client.getSnapshots({ symbols: cleanSymbols });
-        setTrending(result);
-        console.log(Object.entries(result));
-        setLoading(false);
-      };
-      getTrendingData();
-    }, []);
+  useEffect(() => {
+    console.log(cleanSymbols);
+    const getTrendingData = async () => {
+      let result = await client.getSnapshots({ symbols: cleanSymbols });
+      setTrending(result);
+      console.log(Object.entries(result));
+      setLoading(false);
+    };
+    cleanSymbols && getTrendingData();
+  }, [cleanSymbols]);
 
   false &&
     useEffect(() => {
