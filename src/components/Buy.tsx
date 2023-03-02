@@ -39,6 +39,7 @@ const Buy = () => {
   const TRENDING_KEY = import.meta.env.VITE_TRENDING;
 
   const [trending, setTrending] = useState(null);
+  const [cleanSymbols, setCleanSymbols] = useState(null);
   const [loading, setLoading] = useState(true);
 
   const client = new AlpacaClient({
@@ -63,26 +64,32 @@ const Buy = () => {
       axios
         .request(options)
         .then((response) => {
-          const trendingData = response.data?.finance.result[0].quotes
-            .map(async (stock) => {
+          let cleanedData = response.data?.finance.result[0].quotes.map(
+            (stock) => {
               if (onlyLettersAndNumbers(stock.symbol)) {
-                let res = await client.getSnapshot({
-                  symbol: stock.symbol,
-                });
-                console.log(res);
-                return res;
+                return stock.symbol;
               }
-            })
-            .then(() => {
-              setTrending(trendingData);
-              setLoading(false);
-            });
+            }
+          );
+          setCleanSymbols(cleanedData);
         })
         .catch((error) => {
           console.error(error);
         });
     }
   }, []);
+
+  cleanSymbols &&
+    useEffect(() => {
+      console.log(cleanSymbols);
+      const getTrendingData = async () => {
+        let result = await client.getSnapshots({ symbols: cleanSymbols });
+        setTrending(result);
+        console.log(Object.entries(result));
+        setLoading(false);
+      };
+      getTrendingData();
+    }, []);
 
   false &&
     useEffect(() => {
@@ -122,9 +129,9 @@ const Buy = () => {
         {loading ? (
           <Loading />
         ) : (
-          trending?.map((stock) => (
-            <Card shadow="lg" m="3" p="3" key={stock.symbol}>
-              <CardHeader></CardHeader>
+          Object.entries(trending).map((stock) => (
+            <Card shadow="lg" m="3" p="3" key={stock[0]}>
+              <CardHeader>{stock[0]}</CardHeader>
               <CardBody>
                 <Button colorScheme="teal">More Info</Button>
               </CardBody>
