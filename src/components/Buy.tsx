@@ -9,6 +9,7 @@ import {
   HStack,
   Input,
   VStack,
+  Image,
   CardHeader,
   CardBody,
 } from "@chakra-ui/react";
@@ -16,6 +17,7 @@ import { AlpacaClient } from "@master-chief/alpaca";
 import axios from "axios";
 import { FormEvent, useEffect, useState } from "react";
 import { trendingBackup } from "../utils/backupTrending";
+import { getStockImage } from "../utils/getStockImage";
 import { onlyLettersAndNumbers } from "../utils/onlyLettersAndNumbers";
 import Loading from "./Loading";
 
@@ -132,7 +134,16 @@ const Buy = () => {
             <Card shadow="lg" m="3" p="3" key={stock[0]}>
               <CardHeader>{stock[0]}</CardHeader>
               <CardBody>
-                <Button colorScheme="teal">More Info</Button>
+                <VStack>
+                  <Image
+                    boxSize="100px"
+                    objectFit="cover"
+                    src={getStockImage(stock[0])}
+                    fallbackSrc="../noImage.jpg"
+                    alt={stock[0]}
+                  />
+                  <Button colorScheme="teal">More Info</Button>
+                </VStack>
               </CardBody>
             </Card>
           ))
