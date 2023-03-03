@@ -6,7 +6,7 @@ import {
   VStack,
   Button,
 } from "@chakra-ui/react";
-import { checkIfImageExists, getStockImage } from "../utils/getStockImage";
+import { getStockImage } from "../utils/getStockImage";
 
 const StockCard = ({ stock }) => {
   return (
@@ -18,8 +18,8 @@ const StockCard = ({ stock }) => {
             borderRadius="lg"
             boxSize="100px"
             objectFit="cover"
-            src={getStockImage(stock[0])}
-            fallbackSrc="../noImage.jpg"
+            src={`https://eodhistoricaldata.com/img/logos/US/${stock[0].toLowerCase()}.png`}
+            fallbackSrc={`https://eodhistoricaldata.com/img/logos/US/${stock[0]}.png`}
             alt={stock[0]}
           />
           <Button colorScheme="teal">More Info</Button>
