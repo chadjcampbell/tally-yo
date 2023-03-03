@@ -6,7 +6,7 @@ import {
   VStack,
   Button,
 } from "@chakra-ui/react";
-import { getStockImage } from "../utils/getStockImage";
+import { checkIfImageExists, getStockImage } from "../utils/getStockImage";
 
 const StockCard = ({ stock }) => {
   return (
