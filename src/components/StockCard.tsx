@@ -18,8 +18,8 @@ const StockCard = ({ stock }) => {
             borderRadius="lg"
             boxSize="100px"
             objectFit="cover"
-            src={`https://eodhistoricaldata.com/img/logos/US/${stock[0].toLowerCase()}.png`}
-            fallbackSrc={`https://eodhistoricaldata.com/img/logos/US/${stock[0]}.png`}
+            src={getStockImage(stock[0])}
+            fallbackSrc="../noImage.jpg"
             alt={stock[0]}
           />
           <Button colorScheme="teal">More Info</Button>
