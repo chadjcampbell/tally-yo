@@ -20,6 +20,7 @@ import { trendingBackup } from "../utils/backupTrending";
 import { getStockImage } from "../utils/getStockImage";
 import { onlyLettersAndNumbers } from "../utils/onlyLettersAndNumbers";
 import Loading from "./Loading";
+import StockCard from "./StockCard";
 
 type TrendingStocks = {
   finance: {
@@ -66,12 +67,14 @@ const Buy = () => {
       axios
         .request(options)
         .then((response) => {
-          let cleanedData = response.data?.finance.result[0].quotes.map(
-            (stock) => {
+          let cleanedData = response.data?.finance.result[0].quotes.reduce(
+            (result, stock) => {
               if (onlyLettersAndNumbers(stock.symbol)) {
-                return stock.symbol;
+                result.push(stock.symbol);
               }
-            }
+              return result;
+            },
+            []
           );
           setCleanSymbols(cleanedData);
         })
@@ -131,21 +134,7 @@ const Buy = () => {
           <Loading />
         ) : (
           Object.entries(trending).map((stock) => (
-            <Card shadow="lg" m="3" p="3" key={stock[0]}>
-              <CardHeader>{stock[0]}</CardHeader>
-              <CardBody>
-                <VStack>
-                  <Image
-                    boxSize="100px"
-                    objectFit="cover"
-                    src={getStockImage(stock[0])}
-                    fallbackSrc="../noImage.jpg"
-                    alt={stock[0]}
-                  />
-                  <Button colorScheme="teal">More Info</Button>
-                </VStack>
-              </CardBody>
-            </Card>
+            <StockCard stock={stock} key={stock[0]} />
           ))
         )}
       </Flex>
