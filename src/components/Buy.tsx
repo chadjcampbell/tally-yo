@@ -9,76 +9,39 @@ import {
   HStack,
   Input,
   VStack,
-  Image,
-  CardHeader,
-  CardBody,
 } from "@chakra-ui/react";
-import { AlpacaClient } from "@master-chief/alpaca";
 import axios from "axios";
 import { FormEvent, useEffect, useState } from "react";
-import { trendingBackup } from "../utils/backupTrending";
-import { getStockImage } from "../utils/getStockImage";
-import { onlyLettersAndNumbers } from "../utils/onlyLettersAndNumbers";
 import Loading from "./Loading";
 import StockCard from "./StockCard";
 
-type TrendingStocks = {
-  finance: {
-    result: {
-      count: number;
-      quotes: {
-        symbol: string;
-      }[];
-      jobTimestamp: number;
-      startInterval: number;
-    }[];
-    error: null;
-  };
+const YF_KEY = import.meta.env.VITE_YF;
+
+const trendingOptions = {
+  method: "GET",
+  url: "https://yfapi.net/v1/finance/trending/US",
+  headers: {
+    accept: "application/json",
+    "x-api-key": YF_KEY,
+  },
 };
 
 const Buy = () => {
-  const API_KEY = import.meta.env.VITE_KEY;
-  const API_SECRET = import.meta.env.VITE_SECRET;
-  const TRENDING_KEY = import.meta.env.VITE_TRENDING;
-
-  const [trending, setTrending] = useState(null);
-  const [cleanSymbols, setCleanSymbols] = useState(null);
+  const [trendingSymbols, setTrendingSymbols] = useState(null);
+  const [trendingData, setTrendingData] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  const client = new AlpacaClient({
-    credentials: {
-      key: API_KEY,
-      secret: API_SECRET,
-      paper: true,
-    },
-    rate_limit: true,
-  });
-
+  //fetch trending stock symbols
   useEffect(() => {
-    if (trending === null) {
-      const options = {
-        method: "GET",
-        url: "https://yfapi.net/v1/finance/trending/US",
-        params: { modules: "defaultKeyStatistics,assetProfile" },
-        headers: {
-          "x-api-key": TRENDING_KEY,
-        },
-      };
+    if (trendingSymbols === null) {
       axios
-        .request(options)
+        .request(trendingOptions)
         .then((response) => {
-          //reduce stocks out that have special characters
-          //alpaca stock api doesn't work with special character stocks
-          const cleanedData = response.data?.finance.result[0].quotes.reduce(
-            (result, stock) => {
-              if (onlyLettersAndNumbers(stock.symbol)) {
-                result.push(stock.symbol);
-              }
-              return result;
-            },
-            []
-          );
-          setCleanSymbols(cleanedData);
+          //map through api response to get an array of stock symbols
+          const trendingSymbolsResponse =
+            response.data.finance.result[0].quotes.map((stock) => stock.symbol);
+          console.log(trendingSymbolsResponse);
+          setTrendingSymbols(trendingSymbolsResponse);
         })
         .catch((error) => {
           console.error(error);
@@ -86,29 +49,15 @@ const Buy = () => {
     }
   }, []);
 
+  //if trendingSymbols have been fetched, get data for each
   useEffect(() => {
-    const getTrendingData = async () => {
-      const result = await client.getSnapshots({ symbols: cleanSymbols });
-      //reduce the result to make sure only valid data is in state
-      //alpaca api can return 'undefined' on some stocks
-      const validSnapshot = Object.entries(result).reduce((result, stock) => {
-        if (stock[1]) {
-          result.push(stock);
-        }
-        return result;
-      }, []);
-      console.log(validSnapshot);
-      setTrending(validSnapshot);
-      setLoading(false);
-    };
-    cleanSymbols && getTrendingData();
-  }, [cleanSymbols]);
+    const getTrendingData = () => {};
+    trendingSymbols && getTrendingData();
+  }, [trendingSymbols]);
 
   const handleSearch = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const searchStock = e.currentTarget.stockName.value;
-    let result = await client.getSnapshot({ symbol: `${searchStock}` });
-    console.log(result);
   };
 
   return (
