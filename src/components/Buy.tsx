@@ -87,9 +87,14 @@ const Buy = () => {
   useEffect(() => {
     console.log(cleanSymbols);
     const getTrendingData = async () => {
-      let result = await client.getSnapshots({ symbols: cleanSymbols });
-      setTrending(result);
-      console.log(Object.entries(result));
+      const result = await client.getSnapshots({ symbols: cleanSymbols });
+      const validSnapshot = Object.entries(result).map((stock) => {
+        if (stock[1]) {
+          return stock;
+        }
+      });
+      setTrending(validSnapshot);
+      console.log(Object.entries(validSnapshot));
       setLoading(false);
     };
     cleanSymbols && getTrendingData();
@@ -133,9 +138,9 @@ const Buy = () => {
         {loading ? (
           <Loading />
         ) : (
-          Object.entries(trending).map((stock) => (
-            <StockCard stock={stock} key={stock[0]} />
-          ))
+          trending?.map((stock) =>
+            stock[1] ? <StockCard stock={stock} key={stock[0]} /> : null
+          )
         )}
       </Flex>
     </VStack>
