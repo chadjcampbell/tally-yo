@@ -14,14 +14,6 @@ const StockCard = ({ stock }) => {
       <CardHeader>{stock[0]}</CardHeader>
       <CardBody>
         <VStack>
-          <Image
-            borderRadius="lg"
-            boxSize="100px"
-            objectFit="cover"
-            src={getStockImage(stock[0])}
-            fallbackSrc="../noImage.jpg"
-            alt={stock[0]}
-          />
           <Button colorScheme="teal">More Info</Button>
         </VStack>
       </CardBody>
