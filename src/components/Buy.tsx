@@ -26,9 +26,20 @@ const trendingOptions = {
   },
 };
 
+const fullDataOptions = (symbol: string) => {
+  return {
+    method: "GET",
+    url: `https://yfapi.net/v11/finance/quoteSummary/${symbol}?lang=en&region=US&modules=summaryDetail%2CassetProfile%2Cprice`,
+    headers: {
+      accept: "application/json",
+      "x-api-key": YF_KEY,
+    },
+  };
+};
+
 const Buy = () => {
-  const [trendingSymbols, setTrendingSymbols] = useState(null);
-  const [trendingData, setTrendingData] = useState(null);
+  const [trendingSymbols, setTrendingSymbols] = useState<string[] | null>(null);
+  const [trendingData, setTrendingData] = useState([]);
   const [loading, setLoading] = useState(true);
 
   //fetch trending stock symbols
@@ -39,9 +50,11 @@ const Buy = () => {
         .then((response) => {
           //map through api response to get an array of stock symbols
           const trendingSymbolsResponse =
-            response.data.finance.result[0].quotes.map((stock) => stock.symbol);
-          console.log(trendingSymbolsResponse);
+            response.data.finance.result[0].quotes.map(
+              (stock: { symbol: string }) => stock.symbol
+            );
           setTrendingSymbols(trendingSymbolsResponse);
+          console.log(trendingSymbolsResponse);
         })
         .catch((error) => {
           console.error(error);
@@ -49,9 +62,27 @@ const Buy = () => {
     }
   }, []);
 
-  //if trendingSymbols have been fetched, get data for each
+  //if trendingSymbols have been fetched, get full data for each
   useEffect(() => {
-    const getTrendingData = () => {};
+    const getTrendingData = () => {
+      const fullDataResponse = trendingSymbols?.forEach((symbol: string) => {
+        setTimeout(() => {
+          axios
+            .request(fullDataOptions(symbol))
+            .then((response) => {
+              //map through api response to get an array of stock symbols
+              setTrendingData([
+                response.data.quoteSummary.result,
+                ...trendingData,
+              ]);
+            })
+            .catch((error) => {
+              console.error(error);
+            });
+        }, 100);
+      });
+      console.log(trendingData);
+    };
     trendingSymbols && getTrendingData();
   }, [trendingSymbols]);
 
