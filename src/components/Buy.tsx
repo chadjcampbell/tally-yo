@@ -136,9 +136,7 @@ const Buy = () => {
         {loading ? (
           <Loading />
         ) : (
-          trending?.map((stock) =>
-            stock[1] ? <StockCard stock={stock} key={stock[0]} /> : null
-          )
+          trending?.map((stock) => <StockCard stock={stock} key={stock[0]} />)
         )}
       </Flex>
     </VStack>
