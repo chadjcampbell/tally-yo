@@ -67,7 +67,9 @@ const Buy = () => {
       axios
         .request(options)
         .then((response) => {
-          let cleanedData = response.data?.finance.result[0].quotes.reduce(
+          //reduce stocks out that have special characters
+          //alpaca stock api doesn't work with special character stocks
+          const cleanedData = response.data?.finance.result[0].quotes.reduce(
             (result, stock) => {
               if (onlyLettersAndNumbers(stock.symbol)) {
                 result.push(stock.symbol);
@@ -85,26 +87,22 @@ const Buy = () => {
   }, []);
 
   useEffect(() => {
-    console.log(cleanSymbols);
     const getTrendingData = async () => {
       const result = await client.getSnapshots({ symbols: cleanSymbols });
-      const validSnapshot = Object.entries(result).map((stock) => {
+      //reduce the result to make sure only valid data is in state
+      //alpaca api can return 'undefined' on some stocks
+      const validSnapshot = Object.entries(result).reduce((result, stock) => {
         if (stock[1]) {
-          return stock;
+          result.push(stock);
         }
-      });
+        return result;
+      }, []);
+      console.log(validSnapshot);
       setTrending(validSnapshot);
-      console.log(Object.entries(validSnapshot));
       setLoading(false);
     };
     cleanSymbols && getTrendingData();
   }, [cleanSymbols]);
-
-  false &&
-    useEffect(() => {
-      setTrending(trendingBackup);
-      setLoading(false);
-    }, []);
 
   const handleSearch = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
