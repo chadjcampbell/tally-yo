@@ -27,16 +27,14 @@ const trendingOptions = {
 };
 
 const fullDataOptions = (symbol: string) => {
-  if (symbol !== ":entitySlug") {
-    return {
-      method: "GET",
-      url: `https://yfapi.net/v11/finance/quoteSummary/${symbol}?lang=en&region=US&modules=summaryDetail%2CassetProfile%2Cprice`,
-      headers: {
-        accept: "application/json",
-        "x-api-key": YF_KEY,
-      },
-    };
-  }
+  return {
+    method: "GET",
+    url: `https://yfapi.net/v11/finance/quoteSummary/${symbol}?lang=en&region=US&modules=summaryDetail%2CassetProfile%2Cprice`,
+    headers: {
+      accept: "application/json",
+      "x-api-key": YF_KEY,
+    },
+  };
 };
 
 const Buy = () => {
@@ -67,28 +65,19 @@ const Buy = () => {
   //if trendingSymbols have been fetched, get full data for each
   useEffect(() => {
     const getTrendingData = async () => {
-      let stockDataList = [];
-      const fullDataResponse = trendingSymbols?.forEach((symbol: string) => {
-        axios
-          .request(fullDataOptions(symbol))
-          .then((response) => {
-            //map through api response to get an array of stock symbols
-            if (response) {
-              stockDataList.push(response.data.quoteSummary.result);
-            }
-          })
-          .catch((error) => {
-            console.error(error);
-          });
-      });
-      Promise.all(stockDataList)
-        .then(() => {
-          setTrendingData(stockDataList);
-          console.log(stockDataList);
-          console.log("all fetched");
+      axios
+        .request(trendingOptions)
+        .then((response) => {
+          //map through api response to get an array of stock symbols
+          const trendingSymbolsResponse =
+            response.data.finance.result[0].quotes.map(
+              (stock: { symbol: string }) => stock.symbol
+            );
+          setTrendingSymbols(trendingSymbolsResponse);
+          console.log(trendingSymbolsResponse);
         })
-        .then(() => {
-          setLoading(false);
+        .catch((error) => {
+          console.error(error);
         });
     };
     trendingSymbols && getTrendingData();
@@ -124,15 +113,9 @@ const Buy = () => {
         {loading ? (
           <Loading />
         ) : (
-          trendingData?.map(
-            (stock) =>
-              stock[0] && (
-                <>
-                  <StockCard stock={stock} key={stock[0].price.shortName} />
-                  <h1>hi</h1>
-                </>
-              )
-          )
+          trendingData?.map((stock) => (
+            <StockCard stock={stock} key={stock[0].price.shortName} />
+          ))
         )}
       </Flex>
     </VStack>
