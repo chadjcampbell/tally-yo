@@ -27,14 +27,16 @@ const trendingOptions = {
 };
 
 const fullDataOptions = (symbol: string) => {
-  return {
-    method: "GET",
-    url: `https://yfapi.net/v11/finance/quoteSummary/${symbol}?lang=en&region=US&modules=summaryDetail%2CassetProfile%2Cprice`,
-    headers: {
-      accept: "application/json",
-      "x-api-key": YF_KEY,
-    },
-  };
+  if (symbol !== ":entitySlug") {
+    return {
+      method: "GET",
+      url: `https://yfapi.net/v11/finance/quoteSummary/${symbol}?lang=en&region=US&modules=summaryDetail%2CassetProfile%2Cprice`,
+      headers: {
+        accept: "application/json",
+        "x-api-key": YF_KEY,
+      },
+    };
+  }
 };
 
 const Buy = () => {
@@ -71,15 +73,23 @@ const Buy = () => {
           .request(fullDataOptions(symbol))
           .then((response) => {
             //map through api response to get an array of stock symbols
-            stockDataList.push(response.data.quoteSummary.result);
+            if (response) {
+              stockDataList.push(response.data.quoteSummary.result);
+            }
           })
           .catch((error) => {
             console.error(error);
           });
       });
-      setTrendingData(stockDataList);
-      console.log(stockDataList);
-      setLoading(false);
+      Promise.all(stockDataList)
+        .then(() => {
+          setTrendingData(stockDataList);
+          console.log(stockDataList);
+          console.log("all fetched");
+        })
+        .then(() => {
+          setLoading(false);
+        });
     };
     trendingSymbols && getTrendingData();
   }, [trendingSymbols]);
@@ -114,9 +124,15 @@ const Buy = () => {
         {loading ? (
           <Loading />
         ) : (
-          trendingData?.map((stock) => (
-            <StockCard stock={stock} key={stock[0].price.shortName} />
-          ))
+          trendingData?.map(
+            (stock) =>
+              stock[0] && (
+                <>
+                  <StockCard stock={stock} key={stock[0].price.shortName} />
+                  <h1>hi</h1>
+                </>
+              )
+          )
         )}
       </Flex>
     </VStack>
