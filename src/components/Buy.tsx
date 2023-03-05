@@ -64,24 +64,22 @@ const Buy = () => {
 
   //if trendingSymbols have been fetched, get full data for each
   useEffect(() => {
-    const getTrendingData = () => {
+    const getTrendingData = async () => {
+      let stockDataList = [];
       const fullDataResponse = trendingSymbols?.forEach((symbol: string) => {
-        setTimeout(() => {
-          axios
-            .request(fullDataOptions(symbol))
-            .then((response) => {
-              //map through api response to get an array of stock symbols
-              setTrendingData([
-                response.data.quoteSummary.result,
-                ...trendingData,
-              ]);
-            })
-            .catch((error) => {
-              console.error(error);
-            });
-        }, 100);
+        axios
+          .request(fullDataOptions(symbol))
+          .then((response) => {
+            //map through api response to get an array of stock symbols
+            stockDataList.push(response.data.quoteSummary.result);
+          })
+          .catch((error) => {
+            console.error(error);
+          });
       });
-      console.log(trendingData);
+      setTrendingData(stockDataList);
+      console.log(stockDataList);
+      setLoading(false);
     };
     trendingSymbols && getTrendingData();
   }, [trendingSymbols]);
@@ -116,7 +114,9 @@ const Buy = () => {
         {loading ? (
           <Loading />
         ) : (
-          trending?.map((stock) => <StockCard stock={stock} key={stock[0]} />)
+          trendingData?.map((stock) => (
+            <StockCard stock={stock} key={stock[0].price.shortName} />
+          ))
         )}
       </Flex>
     </VStack>
