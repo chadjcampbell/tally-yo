@@ -12,20 +12,22 @@ import PercentBox from "./PercentBox";
 
 const StockCard = ({ stock }) => {
   return (
-    <Card shadow="lg" m="3" p="3">
+    <Card w="250px" h="250px" shadow="lg" m="3" p="3">
       <CardHeader>
-        <VStack>
+        <VStack alignItems="left">
           <Text> {stock.symbol}</Text>
           <Text> {stock.shortName}</Text>
         </VStack>
       </CardHeader>
-      <CardBody>
-        <HStack>
+      <CardBody mx="auto">
+        <HStack display="flex" alignItems="space-between">
           <VStack>
             <Text>${stock.regularMarketPrice}</Text>
             <PercentBox percent={stock.regularMarketChangePercent} />
           </VStack>
-          <Button colorScheme="teal">More Info</Button>
+          <Button alignSelf="bottom" colorScheme="teal">
+            Info
+          </Button>
         </HStack>
       </CardBody>
     </Card>

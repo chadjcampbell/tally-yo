@@ -8,7 +8,7 @@ type PercentBoxProps = {
 const PercentBox = ({ percent }: PercentBoxProps) => {
   const stockUp = percent > 0 ? true : false;
   return (
-    <HStack bgColor={stockUp ? "green.300" : "red.300"}>
+    <HStack borderRadius="lg" p="2" bgColor={stockUp ? "green.300" : "red.300"}>
       <Text>
         {stockUp ? <Icon as={FaArrowUp} /> : <Icon as={FaArrowDown} />}
       </Text>
