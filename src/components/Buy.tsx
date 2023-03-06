@@ -12,6 +12,7 @@ import {
 } from "@chakra-ui/react";
 import axios from "axios";
 import { FormEvent, useEffect, useState } from "react";
+import { trendingBackup } from "../utils/backupTrending";
 import Loading from "./Loading";
 import StockCard from "./StockCard";
 
@@ -41,46 +42,51 @@ const Buy = () => {
   };
 
   //fetch trending stock symbols
-  useEffect(() => {
-    if (trendingSymbols === null) {
-      axios
-        .request(trendingOptions)
-        .then((response) => {
-          //map through api response to get an array of stock symbols
-          const trendingSymbolsResponse =
-            response.data.finance.result[0].quotes.map(
-              (stock: { symbol: string }) => stock.symbol
-            );
-          const trimmedStocks = trendingSymbolsResponse.slice(0, 10);
-          setTrendingSymbols(trimmedStocks);
-          console.log(trimmedStocks);
-        })
-        .catch((error) => {
-          console.error(error);
-        });
-    }
-  }, []);
+  false &&
+    useEffect(() => {
+      if (trendingSymbols === null) {
+        axios
+          .request(trendingOptions)
+          .then((response) => {
+            //map through api response to get an array of stock symbols
+            const trendingSymbolsResponse =
+              response.data.finance.result[0].quotes.map(
+                (stock: { symbol: string }) => stock.symbol
+              );
+            //slice top 10 since the full data quote only supports 10 stocks
+            const trimmedStocks = trendingSymbolsResponse.slice(0, 10);
+            setTrendingSymbols(trimmedStocks);
+            console.log(trimmedStocks);
+          })
+          .catch((error) => {
+            console.error(error);
+          });
+      }
+    }, []);
 
   //if trendingSymbols have been fetched, get full data for each
+  false &&
+    useEffect(() => {
+      const getTrendingData = () => {
+        axios
+          .request(fullDataOptions)
+          .then((response) => {
+            setTrendingData(response.data.quoteResponse.result);
+            setLoading(false);
+            console.log(response);
+          })
+          .catch((error) => {
+            console.error(error);
+          });
+      };
+      trendingSymbols && getTrendingData();
+    }, [trendingSymbols]);
+
+  //CURRENT REAL API FETCHES ARE FALSED TO SAVE API LIMIT, USING BACKUP
   useEffect(() => {
-    const getTrendingData = async () => {
-      axios
-        .request(fullDataOptions)
-        .then((response) => {
-          //map through api response to get an array of stock symbols
-          const fullDataResponse = response.data.quoteResponse.result.map(
-            (stockData) => stockData
-          );
-          setTrendingData(fullDataResponse);
-          setLoading(false);
-          console.log(fullDataResponse);
-        })
-        .catch((error) => {
-          console.error(error);
-        });
-    };
-    trendingSymbols && getTrendingData();
-  }, [trendingSymbols]);
+    setTrendingData(trendingBackup);
+    setLoading(false);
+  }, []);
 
   const handleSearch = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
