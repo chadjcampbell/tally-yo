@@ -47,11 +47,13 @@ const Buy = () => {
         .request(trendingOptions)
         .then((response) => {
           //map through api response to get an array of stock symbols
-          const trendingSymbolsResponse = response.data.finance.result[0].quotes
-            .slice(0, 10)
-            .map((stock: { symbol: string }) => stock.symbol);
-          setTrendingSymbols(trendingSymbolsResponse);
-          console.log(trendingSymbolsResponse);
+          const trendingSymbolsResponse =
+            response.data.finance.result[0].quotes.map(
+              (stock: { symbol: string }) => stock.symbol
+            );
+          const trimmedStocks = trendingSymbolsResponse.slice(0, 10);
+          setTrendingSymbols(trimmedStocks);
+          console.log(trimmedStocks);
         })
         .catch((error) => {
           console.error(error);
@@ -66,11 +68,11 @@ const Buy = () => {
         .request(fullDataOptions)
         .then((response) => {
           //map through api response to get an array of stock symbols
-          const fullDataResponse =
-            response.data.quoteResponse.result[0].quotes.map(
-              (stockData) => stockData
-            );
+          const fullDataResponse = response.data.quoteResponse.result.map(
+            (stockData) => stockData
+          );
           setTrendingData(fullDataResponse);
+          setLoading(false);
           console.log(fullDataResponse);
         })
         .catch((error) => {
