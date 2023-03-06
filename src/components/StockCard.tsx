@@ -2,20 +2,31 @@ import {
   Card,
   CardHeader,
   CardBody,
-  Image,
   VStack,
   Button,
+  Text,
+  HStack,
+  Box,
 } from "@chakra-ui/react";
-import { getStockImage } from "../utils/getStockImage";
+import PercentBox from "./PercentBox";
 
 const StockCard = ({ stock }) => {
   return (
     <Card shadow="lg" m="3" p="3">
-      <CardHeader>{stock.shortName}</CardHeader>
-      <CardBody>
+      <CardHeader>
         <VStack>
-          <Button colorScheme="teal">More Info</Button>
+          <Text> {stock.symbol}</Text>
+          <Text> {stock.shortName}</Text>
         </VStack>
+      </CardHeader>
+      <CardBody>
+        <HStack>
+          <VStack>
+            <Text>${stock.regularMarketPrice}</Text>
+            <PercentBox percent={stock.regularMarketChangePercent} />
+          </VStack>
+          <Button colorScheme="teal">More Info</Button>
+        </HStack>
       </CardBody>
     </Card>
   );
