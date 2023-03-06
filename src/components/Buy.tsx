@@ -17,30 +17,28 @@ import StockCard from "./StockCard";
 
 const YF_KEY = import.meta.env.VITE_YF;
 
-const trendingOptions = {
-  method: "GET",
-  url: "https://yfapi.net/v1/finance/trending/US",
-  headers: {
-    accept: "application/json",
-    "x-api-key": YF_KEY,
-  },
-};
+const Buy = () => {
+  const [trendingSymbols, setTrendingSymbols] = useState<string[] | null>(null);
+  const [trendingData, setTrendingData] = useState([]);
+  const [loading, setLoading] = useState(true);
 
-const fullDataOptions = (symbol: string) => {
-  return {
+  const trendingOptions = {
     method: "GET",
-    url: `https://yfapi.net/v11/finance/quoteSummary/${symbol}?lang=en&region=US&modules=summaryDetail%2CassetProfile%2Cprice`,
+    url: "https://yfapi.net/v1/finance/trending/US",
     headers: {
       accept: "application/json",
       "x-api-key": YF_KEY,
     },
   };
-};
 
-const Buy = () => {
-  const [trendingSymbols, setTrendingSymbols] = useState<string[] | null>(null);
-  const [trendingData, setTrendingData] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const fullDataOptions = {
+    method: "GET",
+    url: `https://yfapi.net/v6/finance/quote?region=US&lang=en&symbols=${trendingSymbols}`,
+    headers: {
+      accept: "application/json",
+      "x-api-key": YF_KEY,
+    },
+  };
 
   //fetch trending stock symbols
   useEffect(() => {
@@ -49,10 +47,9 @@ const Buy = () => {
         .request(trendingOptions)
         .then((response) => {
           //map through api response to get an array of stock symbols
-          const trendingSymbolsResponse =
-            response.data.finance.result[0].quotes.map(
-              (stock: { symbol: string }) => stock.symbol
-            );
+          const trendingSymbolsResponse = response.data.finance.result[0].quotes
+            .slice(0, 10)
+            .map((stock: { symbol: string }) => stock.symbol);
           setTrendingSymbols(trendingSymbolsResponse);
           console.log(trendingSymbolsResponse);
         })
@@ -66,15 +63,15 @@ const Buy = () => {
   useEffect(() => {
     const getTrendingData = async () => {
       axios
-        .request(trendingOptions)
+        .request(fullDataOptions)
         .then((response) => {
           //map through api response to get an array of stock symbols
-          const trendingSymbolsResponse =
-            response.data.finance.result[0].quotes.map(
-              (stock: { symbol: string }) => stock.symbol
+          const fullDataResponse =
+            response.data.quoteResponse.result[0].quotes.map(
+              (stockData) => stockData
             );
-          setTrendingSymbols(trendingSymbolsResponse);
-          console.log(trendingSymbolsResponse);
+          setTrendingData(fullDataResponse);
+          console.log(fullDataResponse);
         })
         .catch((error) => {
           console.error(error);
@@ -114,7 +111,7 @@ const Buy = () => {
           <Loading />
         ) : (
           trendingData?.map((stock) => (
-            <StockCard stock={stock} key={stock[0].price.shortName} />
+            <StockCard stock={stock} key={stock.shortName} />
           ))
         )}
       </Flex>

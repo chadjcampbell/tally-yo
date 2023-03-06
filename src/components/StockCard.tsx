@@ -11,7 +11,7 @@ import { getStockImage } from "../utils/getStockImage";
 const StockCard = ({ stock }) => {
   return (
     <Card shadow="lg" m="3" p="3">
-      <CardHeader>{stock[0].price.shortName}</CardHeader>
+      <CardHeader>{stock.shortName}</CardHeader>
       <CardBody>
         <VStack>
           <Button colorScheme="teal">More Info</Button>
