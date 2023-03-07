@@ -22,6 +22,7 @@ const YF_KEY = import.meta.env.VITE_YF;
 const Buy = () => {
   const [trendingSymbols, setTrendingSymbols] = useState<string[] | null>(null);
   const [trendingData, setTrendingData] = useState<YFStockData[] | null>(null);
+  const [searchResult, setSearchResult] = useState(null);
   const [loading, setLoading] = useState(true);
 
   const trendingOptions = {
@@ -33,13 +34,15 @@ const Buy = () => {
     },
   };
 
-  const fullDataOptions = {
-    method: "GET",
-    url: `https://yfapi.net/v6/finance/quote?region=US&lang=en&symbols=${trendingSymbols}`,
-    headers: {
-      accept: "application/json",
-      "x-api-key": YF_KEY,
-    },
+  const fullDataOptions = (symbols: string[] | null) => {
+    return {
+      method: "GET",
+      url: `https://yfapi.net/v6/finance/quote?region=US&lang=en&symbols=${symbols}`,
+      headers: {
+        accept: "application/json",
+        "x-api-key": YF_KEY,
+      },
+    };
   };
 
   //fetch trending stock symbols
@@ -70,7 +73,7 @@ const Buy = () => {
     useEffect(() => {
       const getTrendingData = () => {
         axios
-          .request(fullDataOptions)
+          .request(fullDataOptions(trendingSymbols))
           .then((response) => {
             setTrendingData(response.data.quoteResponse.result);
             setLoading(false);
@@ -92,6 +95,14 @@ const Buy = () => {
   const handleSearch = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const searchStock = e.currentTarget.stockName.value;
+    axios
+      .request(fullDataOptions(searchStock))
+      .then((response) => {
+        setSearchResult(response.data.quoteResponse.result[0]);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
   };
 
   return (
