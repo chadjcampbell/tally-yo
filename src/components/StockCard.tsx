@@ -9,11 +9,16 @@ import {
   Box,
   Flex,
 } from "@chakra-ui/react";
+import { YFStockData } from "../types/YFStockData";
 import { round } from "../utils/round";
 import { stringToColor } from "../utils/stringToColor";
 import PercentBox from "./PercentBox";
 
-const StockCard = ({ stock }) => {
+type StockCardProps = {
+  stock: YFStockData;
+};
+
+const StockCard = ({ stock }: StockCardProps) => {
   return (
     <Card w="250px" h="250px" shadow="lg" m="3" p="3">
       <CardHeader>

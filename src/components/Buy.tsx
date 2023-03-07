@@ -12,6 +12,7 @@ import {
 } from "@chakra-ui/react";
 import axios from "axios";
 import { FormEvent, useEffect, useState } from "react";
+import { YFStockData } from "../types/YFStockData";
 import { trendingBackup } from "../utils/backupTrending";
 import Loading from "./Loading";
 import StockCard from "./StockCard";
@@ -20,7 +21,7 @@ const YF_KEY = import.meta.env.VITE_YF;
 
 const Buy = () => {
   const [trendingSymbols, setTrendingSymbols] = useState<string[] | null>(null);
-  const [trendingData, setTrendingData] = useState([]);
+  const [trendingData, setTrendingData] = useState<YFStockData[] | null>(null);
   const [loading, setLoading] = useState(true);
 
   const trendingOptions = {
@@ -84,7 +85,7 @@ const Buy = () => {
 
   //CURRENT REAL API FETCHES ARE FALSED TO SAVE API LIMIT, USING BACKUP
   useEffect(() => {
-    setTrendingData(trendingBackup);
+    setTrendingData(trendingBackup as YFStockData[]);
     setLoading(false);
   }, []);
 
