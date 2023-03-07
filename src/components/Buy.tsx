@@ -22,7 +22,7 @@ const YF_KEY = import.meta.env.VITE_YF;
 const Buy = () => {
   const [trendingSymbols, setTrendingSymbols] = useState<string[] | null>(null);
   const [trendingData, setTrendingData] = useState<YFStockData[] | null>(null);
-  const [searchResult, setSearchResult] = useState(null);
+  const [searchResult, setSearchResult] = useState<YFStockData | null>(null);
   const [loading, setLoading] = useState(true);
 
   const trendingOptions = {
@@ -99,6 +99,8 @@ const Buy = () => {
       .request(fullDataOptions(searchStock))
       .then((response) => {
         setSearchResult(response.data.quoteResponse.result[0]);
+        const formTarget = e.target as HTMLFormElement;
+        formTarget.reset();
       })
       .catch((error) => {
         console.error(error);
@@ -123,6 +125,11 @@ const Buy = () => {
           </form>
         </Card>
       </Flex>
+      {searchResult && (
+        <Flex align="center" justify="center" mb="5">
+          <StockCard stock={searchResult} key={searchResult.shortName} />
+        </Flex>
+      )}
       <Text fontSize="2xl" as="u">
         Trending Stocks
       </Text>
