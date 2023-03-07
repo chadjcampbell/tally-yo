@@ -10,6 +10,7 @@ import {
   Flex,
 } from "@chakra-ui/react";
 import { round } from "../utils/round";
+import { stringToColor } from "../utils/stringToColor";
 import PercentBox from "./PercentBox";
 
 const StockCard = ({ stock }) => {
@@ -17,7 +18,16 @@ const StockCard = ({ stock }) => {
     <Card w="250px" h="250px" shadow="lg" m="3" p="3">
       <CardHeader>
         <VStack align="left">
-          <Text> {stock.symbol}</Text>
+          <Text
+            borderRadius="lg"
+            pl="1"
+            pr="1"
+            w="fit-content"
+            bgColor={stringToColor(stock.symbol)}
+          >
+            {" "}
+            {stock.symbol}
+          </Text>
           <Text> {stock.shortName}</Text>
         </VStack>
       </CardHeader>
