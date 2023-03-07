@@ -137,9 +137,9 @@ const Register = () => {
           <Heading color="teal.400">Tally Yo!</Heading>
         </HStack>{" "}
         <Heading color="teal.400">1. Chat with friends</Heading>
-        <Heading color="teal.400">2. Collect items</Heading>
+        <Heading color="teal.400">2. Trade stocks</Heading>
         <Heading color="teal.400">3. ???</Heading>
-        <Heading color="teal.400">4. Profit!</Heading>
+        <Heading color="teal.400">4. Fake profit!</Heading>
       </Card>
       <Card m="4" p="4" borderRadius="lg" shadow="lg">
         <Stack
