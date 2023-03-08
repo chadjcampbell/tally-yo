@@ -6,11 +6,9 @@ import {
   Button,
   Text,
   HStack,
-  Box,
   Flex,
 } from "@chakra-ui/react";
 import { YFStockData } from "../types/YFStockData";
-import { round } from "../utils/round";
 import { stringToColor } from "../utils/stringToColor";
 import PercentBox from "./PercentBox";
 
@@ -39,7 +37,7 @@ const StockCard = ({ stock }: StockCardProps) => {
       <CardBody mx="auto">
         <HStack display="flex" alignItems="space-between">
           <VStack align="left">
-            <Text pl="1">${round(stock.regularMarketPrice)}</Text>
+            <Text pl="1">${stock.regularMarketPrice.toFixed(2)}</Text>
             <PercentBox percent={stock.regularMarketChangePercent} />
           </VStack>
           <Flex alignItems="end">

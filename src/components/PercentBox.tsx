@@ -1,6 +1,5 @@
 import { HStack, Icon, Text } from "@chakra-ui/react";
 import { FaArrowUp, FaArrowDown } from "react-icons/fa";
-import { round } from "../utils/round";
 
 type PercentBoxProps = {
   percent: number;
@@ -18,7 +17,9 @@ const PercentBox = ({ percent }: PercentBoxProps) => {
           <Icon color="#a50e0e" as={FaArrowDown} />
         )}
       </Text>
-      <Text color={stockUp ? "#137333" : "#a50e0e"}>{round(percent)}%</Text>
+      <Text color={stockUp ? "#137333" : "#a50e0e"}>
+        {Number(percent.toFixed(2))}%
+      </Text>
     </HStack>
   );
 };

@@ -95,16 +95,19 @@ const Buy = () => {
   const handleSearch = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const searchStock = e.currentTarget.stockName.value;
-    axios
-      .request(fullDataOptions(searchStock))
-      .then((response) => {
-        setSearchResult(response.data.quoteResponse.result[0]);
-        const formTarget = e.target as HTMLFormElement;
-        formTarget.reset();
-      })
-      .catch((error) => {
-        console.error(error);
-      });
+    if (searchStock !== "") {
+      axios
+        .request(fullDataOptions(searchStock))
+        .then((response) => {
+          setSearchResult(response.data.quoteResponse.result[0]);
+          console.log(response);
+          const formTarget = e.target as HTMLFormElement;
+          formTarget.reset();
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    }
   };
 
   return (
