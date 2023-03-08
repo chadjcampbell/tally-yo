@@ -59,7 +59,7 @@ const StockCard = ({ stock }: StockCardProps) => {
           </HStack>
         </CardBody>
       </Card>
-      <Modal isOpen={isOpen} onClose={onClose}>
+      <Modal isOpen={isOpen} onClose={onClose} isCentered>
         <ModalOverlay />
         <ModalContent>
           <ModalHeader>{stock.longName}</ModalHeader>
@@ -67,10 +67,7 @@ const StockCard = ({ stock }: StockCardProps) => {
           <ModalBody>This is a test</ModalBody>
 
           <ModalFooter>
-            <Button colorScheme="blue" mr={3} onClick={onClose}>
-              Close
-            </Button>
-            <Button variant="ghost">Secondary Action</Button>
+            <Button colorScheme="whatsapp">Buy</Button>
           </ModalFooter>
         </ModalContent>
       </Modal>
