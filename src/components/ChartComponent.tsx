@@ -12,6 +12,7 @@ import {
 import { Chart } from "react-chartjs-2";
 import { faker } from "@faker-js/faker";
 import { YFStockData } from "../types/YFStockData";
+import { YFChartData } from "../types/YFChartData";
 
 ChartJS.register(
   CategoryScale,
@@ -68,7 +69,7 @@ function createGradient(ctx: CanvasRenderingContext2D, area: ChartArea) {
 
 type ChartComponentProps = {
   stock: YFStockData;
-  chartDatafromAPI: any;
+  chartDatafromAPI: YFChartData;
 };
 
 export const ChartComponent = ({

@@ -18,9 +18,11 @@ import {
 } from "@chakra-ui/react";
 import axios from "axios";
 import { useEffect, useState } from "react";
+import { YFChartData } from "../types/YFChartData";
 import { YFStockData } from "../types/YFStockData";
 import { stringToColor } from "../utils/stringToColor";
 import { ChartComponent } from "./ChartComponent";
+import Loading from "./Loading";
 import PercentBox from "./PercentBox";
 
 const YF_KEY = import.meta.env.VITE_YF;
@@ -31,7 +33,7 @@ type StockCardProps = {
 
 const StockCard = ({ stock }: StockCardProps) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const [chartData, setChartData] = useState(null);
+  const [chartData, setChartData] = useState<YFChartData | null>(null);
 
   const chartDataOptions = (symbol: string | null) => {
     return {
@@ -97,7 +99,11 @@ const StockCard = ({ stock }: StockCardProps) => {
           <ModalHeader>{stock.longName}</ModalHeader>
           <ModalCloseButton />
           <ModalBody>
-            <ChartComponent stock={stock} chartDatafromAPI={chartData} />
+            {chartData ? (
+              <ChartComponent stock={stock} chartDatafromAPI={chartData} />
+            ) : (
+              <Loading />
+            )}
           </ModalBody>
           <ModalFooter>
             <Button colorScheme="whatsapp">Buy</Button>
