@@ -11,6 +11,7 @@ import {
 } from "chart.js";
 import { Chart } from "react-chartjs-2";
 import { faker } from "@faker-js/faker";
+import { YFStockData } from "../types/YFStockData";
 
 ChartJS.register(
   CategoryScale,
@@ -65,7 +66,15 @@ function createGradient(ctx: CanvasRenderingContext2D, area: ChartArea) {
   return gradient;
 }
 
-export function ChartComponent() {
+type ChartComponentProps = {
+  stock: YFStockData;
+  chartDatafromAPI: any;
+};
+
+export const ChartComponent = ({
+  stock,
+  chartDatafromAPI,
+}: ChartComponentProps) => {
   const chartRef = useRef<ChartJS>(null);
   const [chartData, setChartData] = useState<ChartData<"bar">>({
     datasets: [],
@@ -90,4 +99,4 @@ export function ChartComponent() {
   }, []);
 
   return <Chart ref={chartRef} type="line" data={chartData} />;
-}
+};
