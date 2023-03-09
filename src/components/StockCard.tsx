@@ -18,6 +18,7 @@ import {
 } from "@chakra-ui/react";
 import { YFStockData } from "../types/YFStockData";
 import { stringToColor } from "../utils/stringToColor";
+import { ChartComponent } from "./ChartComponent";
 import PercentBox from "./PercentBox";
 
 type StockCardProps = {
@@ -64,8 +65,9 @@ const StockCard = ({ stock }: StockCardProps) => {
         <ModalContent>
           <ModalHeader>{stock.longName}</ModalHeader>
           <ModalCloseButton />
-          <ModalBody>This is a test</ModalBody>
-
+          <ModalBody>
+            <ChartComponent />
+          </ModalBody>
           <ModalFooter>
             <Button colorScheme="whatsapp">Buy</Button>
           </ModalFooter>

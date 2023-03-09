@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useState } from "react";
+import { useRef, useEffect, useState } from "react";
 import type { ChartData, ChartArea } from "chart.js";
 import {
   Chart as ChartJS,
@@ -48,11 +48,11 @@ export const data = {
 };
 
 function createGradient(ctx: CanvasRenderingContext2D, area: ChartArea) {
-  const colorStart = faker.random.arrayElement(colors);
-  const colorMid = faker.random.arrayElement(
+  const colorStart = faker.helpers.arrayElement(colors);
+  const colorMid = faker.helpers.arrayElement(
     colors.filter((color) => color !== colorStart)
   );
-  const colorEnd = faker.random.arrayElement(
+  const colorEnd = faker.helpers.arrayElement(
     colors.filter((color) => color !== colorStart && color !== colorMid)
   );
 
