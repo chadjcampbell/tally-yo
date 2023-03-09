@@ -23,7 +23,6 @@ ChartJS.register(
   Legend
 );
 
-const labels = ["January", "February", "March", "April", "May", "June", "July"];
 const colors = [
   "red",
   "orange",
@@ -67,11 +66,21 @@ export const ChartComponent = ({
     datasets: [],
   });
 
+  const labels = [
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+  ];
+
   const data = {
     labels,
     datasets: [
       {
-        label: "Dataset 1",
+        label: stock.symbol,
         data: labels.map(() =>
           faker.datatype.number({ min: -1000, max: 1000 })
         ),
@@ -80,6 +89,7 @@ export const ChartComponent = ({
   };
 
   useEffect(() => {
+    console.log(chartDatafromAPI);
     const chart = chartRef.current;
 
     if (!chart) {

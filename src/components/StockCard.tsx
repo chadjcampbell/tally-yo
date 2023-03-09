@@ -20,6 +20,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { YFChartData } from "../types/YFChartData";
 import { YFStockData } from "../types/YFStockData";
+import { backupChart } from "../utils/backupChart";
 import { stringToColor } from "../utils/stringToColor";
 import { ChartComponent } from "./ChartComponent";
 import Loading from "./Loading";
@@ -46,18 +47,25 @@ const StockCard = ({ stock }: StockCardProps) => {
     };
   };
 
+  false &&
+    useEffect(() => {
+      if (isOpen) {
+        axios
+          .request(chartDataOptions(stock.symbol))
+          .then((response) => {
+            setChartData(response.data.chart.result[0]);
+            console.log(response.data.chart.result[0]);
+          })
+          .catch((error) => {
+            console.error(error);
+          });
+      }
+    }, [isOpen]);
+
+  //FAKE API CALL TO SAVE CALL LIMIT
   useEffect(() => {
     if (isOpen) {
-      axios
-        .request(chartDataOptions(stock.symbol))
-        .then((response) => {
-          //map through api response to get an array of stock symbols
-          setChartData(response.data.chart.result[0]);
-          console.log(response.data.chart.result[0]);
-        })
-        .catch((error) => {
-          console.error(error);
-        });
+      setChartData(backupChart);
     }
   }, [isOpen]);
 
