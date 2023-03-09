@@ -35,20 +35,6 @@ const colors = [
   "purple",
 ];
 
-export const data = {
-  labels,
-  datasets: [
-    {
-      label: "Dataset 1",
-      data: labels.map(() => faker.datatype.number({ min: -1000, max: 1000 })),
-    },
-    {
-      label: "Dataset 2",
-      data: labels.map(() => faker.datatype.number({ min: -1000, max: 1000 })),
-    },
-  ],
-};
-
 function createGradient(ctx: CanvasRenderingContext2D, area: ChartArea) {
   const colorStart = faker.helpers.arrayElement(colors);
   const colorMid = faker.helpers.arrayElement(
@@ -80,6 +66,18 @@ export const ChartComponent = ({
   const [chartData, setChartData] = useState<ChartData<"bar">>({
     datasets: [],
   });
+
+  const data = {
+    labels,
+    datasets: [
+      {
+        label: "Dataset 1",
+        data: labels.map(() =>
+          faker.datatype.number({ min: -1000, max: 1000 })
+        ),
+      },
+    ],
+  };
 
   useEffect(() => {
     const chart = chartRef.current;
