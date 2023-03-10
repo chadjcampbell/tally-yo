@@ -25,6 +25,7 @@ import { stringToColor } from "../utils/stringToColor";
 import { ChartComponent } from "./ChartComponent";
 import Loading from "./Loading";
 import PercentBox from "./PercentBox";
+import StockBuyerBtns from "./StockBuyerBtns";
 
 const YF_KEY = import.meta.env.VITE_YF;
 
@@ -114,7 +115,7 @@ const StockCard = ({ stock }: StockCardProps) => {
             )}
           </ModalBody>
           <ModalFooter>
-            <Button colorScheme="whatsapp">Buy</Button>
+            <StockBuyerBtns stock={stock} />
           </ModalFooter>
         </ModalContent>
       </Modal>
