@@ -118,7 +118,7 @@ const Buy = () => {
             <FormControl>
               <FormLabel textAlign="center">Search for a stock</FormLabel>
               <HStack>
-                <Input id="stockName" max="10" type="text" />
+                <Input autoFocus id="stockName" max="10" type="text" />
                 <Button colorScheme="teal" type="submit">
                   Search
                 </Button>
