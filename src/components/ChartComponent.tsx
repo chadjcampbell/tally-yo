@@ -66,24 +66,16 @@ export const ChartComponent = ({
     datasets: [],
   });
 
-  const labels = [
-    "January",
-    "February",
-    "March",
-    "April",
-    "May",
-    "June",
-    "July",
-  ];
+  const labels = chartDatafromAPI.timestamp.map((ts) =>
+    new Date(ts * 1000).toLocaleDateString().slice(0, -5)
+  );
 
   const data = {
     labels,
     datasets: [
       {
         label: stock.symbol,
-        data: labels.map(() =>
-          faker.datatype.number({ min: -1000, max: 1000 })
-        ),
+        data: chartDatafromAPI.indicators.quote[0].high.map((high) => high),
       },
     ],
   };

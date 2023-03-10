@@ -101,7 +101,7 @@ const StockCard = ({ stock }: StockCardProps) => {
           </HStack>
         </CardBody>
       </Card>
-      <Modal isOpen={isOpen} onClose={onClose} isCentered>
+      <Modal size="xl" isOpen={isOpen} onClose={onClose} isCentered>
         <ModalOverlay />
         <ModalContent>
           <ModalHeader>{stock.longName}</ModalHeader>
