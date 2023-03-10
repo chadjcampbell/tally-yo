@@ -13,6 +13,8 @@ import { Chart } from "react-chartjs-2";
 import { faker } from "@faker-js/faker";
 import { YFStockData } from "../types/YFStockData";
 import { YFChartData } from "../types/YFChartData";
+import { HStack, VStack, Text } from "@chakra-ui/react";
+import PercentBox from "./PercentBox";
 
 ChartJS.register(
   CategoryScale,
@@ -66,6 +68,13 @@ export const ChartComponent = ({
     datasets: [],
   });
 
+  const v1 = chartDatafromAPI.indicators.adjclose[0].adjclose[0];
+  const v2 =
+    chartDatafromAPI.indicators.adjclose[0].adjclose[
+      chartDatafromAPI.indicators.adjclose[0].adjclose.length - 1
+    ];
+  const thirtyDayPercent = ((v2 - v1) / Math.abs(v1)) * 100;
+
   const labels = chartDatafromAPI.timestamp.map((ts) =>
     new Date(ts * 1000).toLocaleDateString().slice(0, -5)
   );
@@ -74,8 +83,10 @@ export const ChartComponent = ({
     labels,
     datasets: [
       {
-        label: stock.symbol,
-        data: chartDatafromAPI.indicators.quote[0].high.map((high) => high),
+        label: `${stock.symbol} 30 day`,
+        data: chartDatafromAPI.indicators.adjclose[0].adjclose.map(
+          (high) => high
+        ),
       },
     ],
   };
@@ -99,5 +110,16 @@ export const ChartComponent = ({
     setChartData(chartData);
   }, []);
 
-  return <Chart ref={chartRef} type="line" data={chartData} />;
+  return (
+    <VStack>
+      <VStack>
+        <Text>Current: ${stock.regularMarketPrice.toFixed(2)}</Text>
+        <HStack>
+          <Text>30 day % change</Text>
+          <PercentBox percent={thirtyDayPercent} />
+        </HStack>
+      </VStack>
+      <Chart ref={chartRef} type="line" data={chartData} />
+    </VStack>
+  );
 };
