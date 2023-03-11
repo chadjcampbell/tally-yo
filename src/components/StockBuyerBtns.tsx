@@ -20,6 +20,7 @@ type StockBuyerBtnsProps = {
 };
 
 const StockBuyerBtns = ({ stock }: StockBuyerBtnsProps) => {
+  const [count, setCount] = useState(1);
   const [buying, setBuying] = useState(false);
 
   return buying ? (
@@ -31,7 +32,7 @@ const StockBuyerBtns = ({ stock }: StockBuyerBtnsProps) => {
       </Box>
       <Spacer />
       <ButtonGroup gap="2">
-        <BuyCounter stock={stock} />
+        <BuyCounter stock={stock} count={count} setCount={setCount} />
         <Button colorScheme="whatsapp">Confirm</Button>
       </ButtonGroup>
     </Flex>
@@ -46,8 +47,13 @@ const StockBuyerBtns = ({ stock }: StockBuyerBtnsProps) => {
 
 export default StockBuyerBtns;
 
-const BuyCounter = ({ stock }: StockBuyerBtnsProps) => {
-  const [count, setCount] = useState(1);
+type BuyCounterProps = {
+  stock: YFStockData;
+  count: number;
+  setCount: (arg0: number) => void;
+};
+
+const BuyCounter = ({ stock, count, setCount }: BuyCounterProps) => {
   return (
     <HStack>
       <Text ml="1">${(stock.regularMarketPrice * count).toFixed(2)}</Text>{" "}
