@@ -1,13 +1,4 @@
-import {
-  Card,
-  CardHeader,
-  HStack,
-  Heading,
-  CardBody,
-  Image,
-  Text,
-  Box,
-} from "@chakra-ui/react";
+import { Card, CardHeader, HStack, Heading, CardBody } from "@chakra-ui/react";
 import { doc, DocumentData, onSnapshot } from "firebase/firestore";
 import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../context/AuthContext";
@@ -36,12 +27,6 @@ const Portfolio = () => {
       >
         <HStack spacing={{ base: "0", md: "6" }}>
           <Heading size="md">Portfolio</Heading>
-          <Image src="./coin.png" />{" "}
-          <Box bgColor="white" borderRadius="md" p="1">
-            <Text color="blue.600" fontSize="2xl">
-              {userStore?.tally}
-            </Text>
-          </Box>
         </HStack>
       </CardHeader>
       <CardBody minHeight="75vh" width="full">

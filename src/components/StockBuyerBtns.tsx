@@ -11,8 +11,12 @@ import {
   Spacer,
   ButtonGroup,
   Box,
+  useToast,
 } from "@chakra-ui/react";
-import { useState } from "react";
+import { DocumentData, onSnapshot, doc, updateDoc } from "firebase/firestore";
+import { useContext, useEffect, useState } from "react";
+import { AuthContext } from "../context/AuthContext";
+import { db } from "../firebase";
 import { YFStockData } from "../types/YFStockData";
 
 type StockBuyerBtnsProps = {
@@ -22,6 +26,55 @@ type StockBuyerBtnsProps = {
 const StockBuyerBtns = ({ stock }: StockBuyerBtnsProps) => {
   const [count, setCount] = useState(1);
   const [buying, setBuying] = useState(false);
+  const [userInfo, setUserInfo] = useState<DocumentData | null>(null);
+  const { user } = useContext(AuthContext);
+  const toast = useToast();
+  let totalCost = Number((stock.regularMarketPrice * count).toFixed(2));
+
+  user &&
+    useEffect(() => {
+      const unsub = onSnapshot(doc(db, "users", user.uid), (doc) => {
+        setUserInfo(doc.data()!);
+      });
+      return () => {
+        unsub();
+      };
+    }, []);
+
+  const handleBuy = () => {
+    if (userInfo?.tally >= totalCost) {
+      const newTotal = userInfo?.tally - totalCost;
+      (async () => {
+        await updateDoc(doc(db, "users", userInfo?.uid), {
+          stocks: [
+            ...userInfo?.stocks,
+            {
+              stock: stock.symbol,
+              quantity: count,
+              cost: stock.regularMarketPrice,
+            },
+          ],
+          tally: newTotal,
+        });
+      })();
+
+      toast({
+        title: "Congrats!",
+        description: "Purchase completed.",
+        status: "success",
+        duration: 9000,
+        isClosable: true,
+      });
+    } else {
+      toast({
+        title: "Purchase failed.",
+        description: "Insufficient funds.",
+        status: "error",
+        duration: 9000,
+        isClosable: true,
+      });
+    }
+  };
 
   return buying ? (
     <Flex minWidth="max-content" alignItems="center" gap="2">
@@ -33,7 +86,9 @@ const StockBuyerBtns = ({ stock }: StockBuyerBtnsProps) => {
       <Spacer />
       <ButtonGroup gap="2">
         <BuyCounter stock={stock} count={count} setCount={setCount} />
-        <Button colorScheme="whatsapp">Confirm</Button>
+        <Button onClick={handleBuy} colorScheme="whatsapp">
+          Confirm
+        </Button>
       </ButtonGroup>
     </Flex>
   ) : (

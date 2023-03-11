@@ -52,11 +52,17 @@ const BuySellTrade = () => {
               <BuySellTradeNavbar />
             </nav>
           </Heading>
-          <Image src="../coin.png" />{" "}
           <Box bgColor="white" borderRadius="md" p="1">
-            <Text color="blue.600" fontSize="2xl">
-              {userInfo?.tally}
-            </Text>
+            <Text>Cash available:</Text>
+            {userInfo ? (
+              <Text color="blue.600" fontSize="2xl">
+                ${userInfo?.tally.toLocaleString("us-EN")}
+              </Text>
+            ) : (
+              <Text color="blue.600" fontSize="2xl">
+                Loading...
+              </Text>
+            )}
           </Box>
         </HStack>
       </CardHeader>

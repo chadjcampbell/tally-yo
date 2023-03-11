@@ -96,7 +96,7 @@ const Register = () => {
                   email,
                   photoURL: downloadURL,
                   tally: 5000,
-                  items: [],
+                  stocks: [],
                 });
                 await setDoc(doc(db, "userChats", res.user.uid), {});
               }
