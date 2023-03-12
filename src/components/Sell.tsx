@@ -1,3 +1,14 @@
+import {
+  TableContainer,
+  Table,
+  TableCaption,
+  Thead,
+  Tr,
+  Th,
+  Tbody,
+  Td,
+  Tfoot,
+} from "@chakra-ui/react";
 import { DocumentData, onSnapshot, doc } from "firebase/firestore";
 import { useState, useContext, useEffect } from "react";
 import { AuthContext } from "../context/AuthContext";
@@ -17,7 +28,35 @@ const Sell = () => {
       };
     }, []);
 
-  return <div>Sell: Nothing here yet...</div>;
+  return (
+    <TableContainer>
+      <Table variant="striped" colorScheme="teal">
+        <TableCaption>Your stock holdings</TableCaption>
+        <Thead>
+          <Tr>
+            <Th>Stock</Th>
+            <Th isNumeric>Quantity</Th>
+            <Th isNumeric>Cost</Th>
+          </Tr>
+        </Thead>
+        <Tbody>
+          {userInfo?.stocks.map((stock) => (
+            <Tr>
+              <Td>{stock.stock}</Td>
+              <Td isNumeric>{stock.quantity}</Td>
+              <Td isNumeric>{stock.cost}</Td>
+            </Tr>
+          ))}
+        </Tbody>
+        <Tfoot>
+          <Tr>
+            <Th>Previous</Th>
+            <Th>Next</Th>
+          </Tr>
+        </Tfoot>
+      </Table>
+    </TableContainer>
+  );
 };
 
 export default Sell;
