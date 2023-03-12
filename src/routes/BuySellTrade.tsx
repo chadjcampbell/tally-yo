@@ -56,7 +56,10 @@ const BuySellTrade = () => {
             <Text>Cash available:</Text>
             {userInfo ? (
               <Text color="blue.600" fontSize="2xl">
-                ${userInfo?.tally.toLocaleString("us-EN")}
+                $
+                {userInfo?.tally.toLocaleString("en-US", {
+                  minimumFractionDigits: 2,
+                })}
               </Text>
             ) : (
               <Text color="blue.600" fontSize="2xl">
