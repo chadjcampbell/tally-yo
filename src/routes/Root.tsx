@@ -44,7 +44,7 @@ interface LinkItemProps {
 }
 const LinkItems: Array<LinkItemProps> = [
   { name: "Chat", icon: FiHome, path: "/" },
-  { name: "Buy/Sell/Trade", icon: FiDollarSign, path: "/buySellTrade/buy" },
+  { name: "Buy/Sell", icon: FiDollarSign, path: "/buySellTrade/buy" },
   { name: "Portfolio", icon: FiTrendingUp, path: "/portfolio" },
   { name: "Contact Us", icon: FiMail, path: "/contact" },
 ];

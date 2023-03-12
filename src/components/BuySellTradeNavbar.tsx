@@ -44,26 +44,6 @@ const BuySellTradeNavbar = () => {
       >
         Sell
       </Link>
-      <Link
-        p="2"
-        mx="2"
-        borderRadius="lg"
-        role="group"
-        cursor="pointer"
-        bg="white"
-        textColor="black"
-        as={ReactRouterLink}
-        to="/buySellTrade/trade"
-        style={{ textDecoration: "none" }}
-        _focus={{ boxShadow: "none" }}
-        _activeLink={{ bg: "teal.400", color: "white" }}
-        _hover={{
-          bg: "teal.400",
-          color: "white",
-        }}
-      >
-        Trade
-      </Link>
     </Flex>
   );
 };
