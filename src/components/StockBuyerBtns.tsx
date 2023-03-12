@@ -65,6 +65,7 @@ const StockBuyerBtns = ({ stock }: StockBuyerBtnsProps) => {
         duration: 9000,
         isClosable: true,
       });
+      setBuying(false);
     } else {
       toast({
         title: "Purchase failed.",
