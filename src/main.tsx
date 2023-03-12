@@ -21,7 +21,6 @@ import Portfolio from "./routes/Portfolio";
 import BuySellTrade from "./routes/BuySellTrade";
 import Buy from "./components/Buy";
 import Sell from "./components/Sell";
-import Trade from "./components/Trade";
 
 const AuthenticatedRoute = () => {
   const { user, loading } = useContext(AuthContext);
@@ -64,7 +63,6 @@ const router = createBrowserRouter(
                       index: true,
                     },
                     { path: "/buySellTrade/sell", element: <Sell /> },
-                    { path: "/buySellTrade/trade", element: <Trade /> },
                   ],
                 },
                 { path: "/contact", element: <Contact /> },
