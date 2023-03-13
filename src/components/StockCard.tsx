@@ -22,7 +22,7 @@ import { YFChartData } from "../types/YFChartData";
 import { YFStockData } from "../types/YFStockData";
 import { backupChart } from "../utils/backupChart";
 import { stringToColor } from "../utils/stringToColor";
-import { ChartComponent } from "./ChartComponent";
+import { LineChart } from "./LineChart";
 import Loading from "./Loading";
 import PercentBox from "./PercentBox";
 import StockBuyerBtns from "./StockBuyerBtns";
@@ -109,7 +109,7 @@ const StockCard = ({ stock }: StockCardProps) => {
           <ModalCloseButton />
           <ModalBody>
             {chartData ? (
-              <ChartComponent stock={stock} chartDatafromAPI={chartData} />
+              <LineChart stock={stock} chartDatafromAPI={chartData} />
             ) : (
               <Loading />
             )}

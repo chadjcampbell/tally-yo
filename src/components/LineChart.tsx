@@ -24,15 +24,12 @@ ChartJS.register(
   Legend
 );
 
-type ChartComponentProps = {
+type LineChartProps = {
   stock: YFStockData;
   chartDatafromAPI: YFChartData;
 };
 
-export const ChartComponent = ({
-  stock,
-  chartDatafromAPI,
-}: ChartComponentProps) => {
+export const LineChart = ({ stock, chartDatafromAPI }: LineChartProps) => {
   const chartRef = useRef<ChartJS>(null);
   const [chartData, setChartData] = useState<ChartData<"bar">>({
     datasets: [],

@@ -1,17 +1,19 @@
 import { Card, CardHeader, HStack, Heading, CardBody } from "@chakra-ui/react";
 import { doc, DocumentData, onSnapshot } from "firebase/firestore";
 import { useContext, useEffect, useState } from "react";
+import { PieChart } from "../components/PieChart";
 import { AuthContext } from "../context/AuthContext";
 import { db } from "../firebase";
 
 const Portfolio = () => {
-  const [userStore, setUserStore] = useState<DocumentData | undefined>();
+  const [userInfo, setUserInfo] = useState<DocumentData | null>(null);
+
   const { user } = useContext(AuthContext);
 
   user &&
     useEffect(() => {
       const unsub = onSnapshot(doc(db, "users", user.uid), (doc) => {
-        setUserStore(doc.data());
+        setUserInfo(doc.data()!);
       });
       return () => {
         unsub();
@@ -30,7 +32,7 @@ const Portfolio = () => {
         </HStack>
       </CardHeader>
       <CardBody minHeight="75vh" width="full">
-        Nothing here yet...
+        {userInfo && <PieChart userInfo={userInfo} />}
       </CardBody>
     </Card>
   );
