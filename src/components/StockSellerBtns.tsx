@@ -34,7 +34,7 @@ export const StockSellerBtns = ({
   const [userInfo, setUserInfo] = useState<DocumentData | null>(null);
   const { user } = useContext(AuthContext);
   const toast = useToast();
-  let totalCost = Number((APIstockInfo.regularMarketPrice * count).toFixed(2));
+  let totalSale = Number((APIstockInfo.regularMarketPrice * count).toFixed(2));
 
   user &&
     useEffect(() => {
@@ -46,35 +46,49 @@ export const StockSellerBtns = ({
       };
     }, []);
 
-  const handleBuy = () => {
-    if (userInfo?.tally >= totalCost) {
-      const newTotal = userInfo?.tally - totalCost;
+  const handleSell = () => {
+    const newTotal = userInfo?.tally + totalSale;
+    if (userStock.quantity > count) {
+      const newStockArray = userInfo?.stocks.map((stock: firebaseStockInfo) =>
+        stock.stock === userStock.stock
+          ? { ...stock, quantity: userStock.quantity - count }
+          : stock
+      );
       (async () => {
         await updateDoc(doc(db, "users", userInfo?.uid), {
-          stocks: [
-            ...userInfo?.stocks,
-            {
-              stock: APIstockInfo.symbol,
-              quantity: count,
-              cost: APIstockInfo.regularMarketPrice,
-            },
-          ],
+          stocks: newStockArray,
           tally: newTotal,
         });
       })();
-
       toast({
         title: "Congrats!",
-        description: "Purchase completed.",
+        description: "Sale completed.",
         status: "success",
         duration: 9000,
         isClosable: true,
       });
       setSelling(false);
+    } else if (userStock.quantity == count) {
+      const newStockArray = userInfo?.stocks.filter(
+        (stock: firebaseStockInfo) => stock.stock !== userStock.stock
+      );
+      (async () => {
+        await updateDoc(doc(db, "users", userInfo?.uid), {
+          stocks: newStockArray,
+          tally: newTotal,
+        });
+      })();
+      toast({
+        title: "Congrats!",
+        description: "Sale completed.",
+        status: "success",
+        duration: 9000,
+        isClosable: true,
+      });
     } else {
       toast({
-        title: "Purchase failed.",
-        description: "Insufficient funds.",
+        title: "Sale failed.",
+        description: "Something went wrong.",
         status: "error",
         duration: 9000,
         isClosable: true,
@@ -97,7 +111,7 @@ export const StockSellerBtns = ({
           count={count}
           setCount={setCount}
         />
-        <Button onClick={handleBuy} colorScheme="whatsapp">
+        <Button onClick={handleSell} colorScheme="whatsapp">
           Confirm
         </Button>
       </ButtonGroup>
@@ -105,7 +119,7 @@ export const StockSellerBtns = ({
   ) : (
     <>
       <Button onClick={() => setSelling(true)} colorScheme="whatsapp">
-        Buy
+        Sell
       </Button>
     </>
   );
@@ -136,6 +150,7 @@ const SellCounter = ({
         maxW={24}
         defaultValue={1}
         min={1}
+        max={userStock.quantity}
       >
         <NumberInputField />
         <NumberInputStepper>

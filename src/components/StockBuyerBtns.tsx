@@ -18,6 +18,7 @@ import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../context/AuthContext";
 import { db } from "../firebase";
 import { YFStockData } from "../types/YFStockData";
+import { firebaseStockInfo } from "./Sell";
 
 type StockBuyerBtnsProps = {
   stock: YFStockData;
@@ -44,20 +45,42 @@ const StockBuyerBtns = ({ stock }: StockBuyerBtnsProps) => {
   const handleBuy = () => {
     if (userInfo?.tally >= totalCost) {
       const newTotal = userInfo?.tally - totalCost;
-      (async () => {
-        await updateDoc(doc(db, "users", userInfo?.uid), {
-          stocks: [
-            ...userInfo?.stocks,
-            {
-              stock: stock.symbol,
-              quantity: count,
-              cost: stock.regularMarketPrice,
-            },
-          ],
-          tally: newTotal,
-        });
-      })();
-
+      if (
+        userInfo?.stocks.some(
+          (userStock: firebaseStockInfo) => userStock.stock === stock.symbol
+        )
+      ) {
+        const newStockArray = userInfo?.stocks.map(
+          (userStock: firebaseStockInfo) =>
+            stock.symbol === userStock.stock
+              ? {
+                  ...userStock,
+                  quantity: userStock.quantity + count,
+                  cost: (userStock.cost + stock.regularMarketPrice) / 2,
+                }
+              : userStock
+        );
+        (async () => {
+          await updateDoc(doc(db, "users", userInfo?.uid), {
+            stocks: newStockArray,
+            tally: newTotal,
+          });
+        })();
+      } else {
+        (async () => {
+          await updateDoc(doc(db, "users", userInfo?.uid), {
+            stocks: [
+              ...userInfo?.stocks,
+              {
+                stock: stock.symbol,
+                quantity: count,
+                cost: stock.regularMarketPrice,
+              },
+            ],
+            tally: newTotal,
+          });
+        })();
+      }
       toast({
         title: "Congrats!",
         description: "Purchase completed.",

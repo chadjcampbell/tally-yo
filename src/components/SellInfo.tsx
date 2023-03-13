@@ -8,11 +8,18 @@ import {
   ModalCloseButton,
   ModalBody,
   ModalFooter,
+  Card,
+  CardHeader,
+  CardBody,
+  SimpleGrid,
+  Heading,
 } from "@chakra-ui/react";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { YFStockData } from "../types/YFStockData";
 import { backupQuote } from "../utils/backupQuote";
+import Loading from "./Loading";
+import ProfitBox from "./ProfitBox";
 import { firebaseStockInfo } from "./Sell";
 import { StockSellerBtns } from "./StockSellerBtns";
 
@@ -41,6 +48,7 @@ export function SellInfo({ stock }: SellInfoProps) {
   false &&
     useEffect(() => {
       const getStockData = () => {
+        setLoading(true);
         axios
           .request(fullDataOptions(stock.stock))
           .then((response) => {
@@ -48,6 +56,7 @@ export function SellInfo({ stock }: SellInfoProps) {
             setLoading(false);
             console.log(response.data.quoteResponse.result[0]);
           })
+          .then(() => setLoading(false))
           .catch((error) => {
             console.error(error);
           });
@@ -60,9 +69,14 @@ export function SellInfo({ stock }: SellInfoProps) {
     const getStockData = () => {
       setAPIstockInfo(backupQuote);
       console.log(backupQuote);
+      setTimeout(() => {
+        setLoading(false);
+      }, 500);
     };
     isOpen && getStockData();
   }, [isOpen]);
+
+  const priceChange = APIstockInfo?.regularMarketPrice! - stock.cost;
 
   return (
     <>
@@ -72,9 +86,48 @@ export function SellInfo({ stock }: SellInfoProps) {
       <Modal size="xl" isOpen={isOpen} onClose={onClose} isCentered>
         <ModalOverlay />
         <ModalContent>
-          <ModalHeader>{stock.stock}</ModalHeader>
+          <ModalHeader>
+            {stock.stock} - {APIstockInfo?.shortName}
+          </ModalHeader>
           <ModalCloseButton />
-          <ModalBody>{stock.stock}</ModalBody>
+          {loading ? (
+            <Loading />
+          ) : (
+            <ModalBody>
+              <SimpleGrid
+                spacing={4}
+                templateColumns="repeat(auto-fill, minmax(200px, 1fr))"
+              >
+                <Card align="center">
+                  <CardHeader>
+                    <Heading size="md">Your Cost</Heading>
+                  </CardHeader>
+                  <CardBody>${stock.cost}</CardBody>
+                </Card>
+                <Card align="center">
+                  <CardHeader>
+                    <Heading size="md">Current Price</Heading>
+                  </CardHeader>
+                  <CardBody>${APIstockInfo?.regularMarketPrice}</CardBody>
+                </Card>
+                <Card align="center">
+                  <CardHeader>
+                    <Heading size="md">Shares owned</Heading>
+                  </CardHeader>
+                  <CardBody>{stock.quantity}</CardBody>
+                </Card>
+                <Card align="center">
+                  <CardHeader>
+                    <Heading size="md">Profit/Share</Heading>
+                  </CardHeader>
+                  <CardBody>
+                    <ProfitBox priceChange={priceChange} />{" "}
+                  </CardBody>
+                </Card>
+              </SimpleGrid>
+            </ModalBody>
+          )}
+
           <ModalFooter>
             {APIstockInfo && (
               <StockSellerBtns userStock={stock} APIstockInfo={APIstockInfo} />
