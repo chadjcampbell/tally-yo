@@ -41,10 +41,10 @@ export type YFStockData = {
   marketCap: number;
   marketState: string;
   messageBoardId: string;
-  postMarketChange: number;
-  postMarketChangePercent: number;
-  postMarketPrice: number;
-  postMarketTime: number;
+  postMarketChange?: number;
+  postMarketChangePercent?: number;
+  postMarketPrice?: number;
+  postMarketTime?: number;
   priceEpsCurrentYear: number;
   priceHint: number;
   priceToBook: number;

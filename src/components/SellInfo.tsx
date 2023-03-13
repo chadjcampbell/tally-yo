@@ -11,7 +11,10 @@ import {
 } from "@chakra-ui/react";
 import axios from "axios";
 import { useEffect, useState } from "react";
+import { YFStockData } from "../types/YFStockData";
+import { backupQuote } from "../utils/backupQuote";
 import { firebaseStockInfo } from "./Sell";
+import { StockSellerBtns } from "./StockSellerBtns";
 
 type SellInfoProps = {
   stock: firebaseStockInfo;
@@ -22,7 +25,7 @@ const YF_KEY = import.meta.env.VITE_YF;
 export function SellInfo({ stock }: SellInfoProps) {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [loading, setLoading] = useState(true);
-  const [APIstockInfo, setAPIstockInfo] = useState(null);
+  const [APIstockInfo, setAPIstockInfo] = useState<YFStockData | null>(null);
 
   const fullDataOptions = (symbols: string | null) => {
     return {
@@ -35,20 +38,30 @@ export function SellInfo({ stock }: SellInfoProps) {
     };
   };
 
+  false &&
+    useEffect(() => {
+      const getStockData = () => {
+        axios
+          .request(fullDataOptions(stock.stock))
+          .then((response) => {
+            setAPIstockInfo(response.data.quoteResponse.result[0]);
+            setLoading(false);
+            console.log(response.data.quoteResponse.result[0]);
+          })
+          .catch((error) => {
+            console.error(error);
+          });
+      };
+      isOpen && getStockData();
+    }, [isOpen]);
+
+  //FAKE API CALL DATA TO SAVE LIMIT
   useEffect(() => {
-    const getTrendingData = () => {
-      axios
-        .request(fullDataOptions(stock.stock))
-        .then((response) => {
-          setAPIstockInfo(response.data.quoteResponse.result);
-          setLoading(false);
-          console.log(response);
-        })
-        .catch((error) => {
-          console.error(error);
-        });
+    const getStockData = () => {
+      setAPIstockInfo(backupQuote);
+      console.log(backupQuote);
     };
-    isOpen && getTrendingData();
+    isOpen && getStockData();
   }, [isOpen]);
 
   return (
@@ -62,7 +75,11 @@ export function SellInfo({ stock }: SellInfoProps) {
           <ModalHeader>{stock.stock}</ModalHeader>
           <ModalCloseButton />
           <ModalBody>{stock.stock}</ModalBody>
-          <ModalFooter></ModalFooter>
+          <ModalFooter>
+            {APIstockInfo && (
+              <StockSellerBtns userStock={stock} APIstockInfo={APIstockInfo} />
+            )}
+          </ModalFooter>
         </ModalContent>
       </Modal>
     </>
