@@ -9,24 +9,14 @@ import {
   Td,
   Tfoot,
   Button,
-  Modal,
-  ModalBody,
-  ModalCloseButton,
-  ModalContent,
-  ModalFooter,
-  ModalHeader,
-  ModalOverlay,
-  useDisclosure,
 } from "@chakra-ui/react";
 import { DocumentData, onSnapshot, doc } from "firebase/firestore";
 import { useState, useContext, useEffect } from "react";
 import { AuthContext } from "../context/AuthContext";
 import { db } from "../firebase";
-import { ChartComponent } from "./ChartComponent";
-import Loading from "./Loading";
-import StockBuyerBtns from "./StockBuyerBtns";
+import { SellInfo } from "./SellInfo";
 
-type firebaseStockInfo = {
+export type firebaseStockInfo = {
   stock: string;
   quantity: number;
   cost: number;
@@ -34,7 +24,7 @@ type firebaseStockInfo = {
 
 const Sell = () => {
   const [userInfo, setUserInfo] = useState<DocumentData | null>(null);
-  const { isOpen, onOpen, onClose } = useDisclosure();
+
   const { user } = useContext(AuthContext);
 
   user &&
@@ -57,7 +47,7 @@ const Sell = () => {
               <Th>Stock</Th>
               <Th isNumeric>Quantity</Th>
               <Th isNumeric>Cost</Th>
-              <Th> </Th>
+              <Th textAlign="right">Info/Sell</Th>
             </Tr>
           </Thead>
           <Tbody>
@@ -67,23 +57,7 @@ const Sell = () => {
                 <Td isNumeric>{stock.quantity}</Td>
                 <Td isNumeric>{stock.cost}</Td>
                 <Td textAlign="right">
-                  {" "}
-                  <Button
-                    onClick={onOpen}
-                    alignSelf="bottom"
-                    colorScheme="teal"
-                  >
-                    Info
-                  </Button>{" "}
-                  <Modal size="xl" isOpen={isOpen} onClose={onClose} isCentered>
-                    <ModalOverlay />
-                    <ModalContent>
-                      <ModalHeader>{stock.stock}</ModalHeader>
-                      <ModalCloseButton />
-                      <ModalBody></ModalBody>
-                      <ModalFooter></ModalFooter>
-                    </ModalContent>
-                  </Modal>
+                  <SellInfo stock={stock} />
                 </Td>
               </Tr>
             ))}
