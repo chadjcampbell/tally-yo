@@ -1,8 +1,9 @@
 import { Card, CardHeader, HStack, Heading, CardBody } from "@chakra-ui/react";
 import axios from "axios";
 import { doc, DocumentData, onSnapshot } from "firebase/firestore";
-import { useContext, useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { PieChart } from "../components/PieChart";
+import PortfolioSummary from "../components/PortfolioSummary";
 import { firebaseStockInfo } from "../components/Sell";
 import { AuthContext } from "../context/AuthContext";
 import { db } from "../firebase";
@@ -78,6 +79,7 @@ const Portfolio = () => {
         </HStack>
       </CardHeader>
       <CardBody minHeight="75vh" width="full">
+        <PortfolioSummary stockData={stockData} userInfo={userInfo} />
         {userInfo && stockData && (
           <PieChart
             userInfo={userInfo}
