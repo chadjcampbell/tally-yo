@@ -1,30 +1,25 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
 import { Chart } from "react-chartjs-2";
 import { VStack } from "@chakra-ui/react";
 import { DocumentData } from "firebase/firestore";
 import { firebaseStockInfo } from "./Sell";
-import axios from "axios";
 import { stringToColor } from "../utils/stringToColor";
 import Loading from "./Loading";
-import { backupArrayQuote } from "../utils/backupArrayQuote";
 import { YFStockData } from "../types/YFStockData";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
 type LineChartProps = {
   userInfo: DocumentData;
+  stockData: YFStockData[];
+  loading: boolean;
 };
 const YF_KEY = import.meta.env.VITE_YF;
 
-export const PieChart = ({ userInfo }: LineChartProps) => {
-  const [stockData, setStockData] = useState<YFStockData[] | null>(null);
+export const PieChart = ({ userInfo, stockData, loading }: LineChartProps) => {
   const chartRef = useRef<ChartJS>(null);
-  const [loading, setLoading] = useState(true);
 
-  const userStocksSymbols = userInfo.stocks.map(
-    (stock: firebaseStockInfo) => stock.stock
-  );
   const currentPrice = (symbol: string) => {
     const findStock = stockData?.filter((stock) => stock.symbol == symbol);
     if (findStock) {
@@ -33,40 +28,9 @@ export const PieChart = ({ userInfo }: LineChartProps) => {
       return 0;
     }
   };
-
-  const fullDataOptions = (symbols: string[] | null) => {
-    return {
-      method: "GET",
-      url: `https://yfapi.net/v6/finance/quote?region=US&lang=en&symbols=${symbols}`,
-      headers: {
-        accept: "application/json",
-        "x-api-key": YF_KEY,
-      },
-    };
-  };
-
-  false &&
-    useEffect(() => {
-      const getStockData = () => {
-        axios
-          .request(fullDataOptions(userStocksSymbols))
-          .then((response) => {
-            setStockData(response.data.quoteResponse.result);
-            setLoading(false);
-            console.log(response.data.quoteResponse.result);
-          })
-          .catch((error) => {
-            console.error(error);
-          });
-      };
-      getStockData();
-    }, []);
-
-  useEffect(() => {
-    setStockData(backupArrayQuote as YFStockData[]);
-    console.log(backupArrayQuote);
-    setLoading(false);
-  });
+  const userStocksSymbols = userInfo?.stocks.map(
+    (stock: firebaseStockInfo) => stock.stock
+  );
 
   const options = {
     type: "pie",
