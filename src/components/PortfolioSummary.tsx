@@ -1,7 +1,9 @@
-import { Box, Flex, Text } from "@chakra-ui/react";
+import { Box, Flex, Text, VStack } from "@chakra-ui/react";
 import { DocumentData } from "firebase/firestore";
 import { YFStockData } from "../types/YFStockData";
 import { currentPrice } from "../utils/currentPrice";
+import PercentBox from "./PercentBox";
+import ProfitBox from "./ProfitBox";
 import { firebaseStockInfo } from "./Sell";
 
 type PortfolioSummaryProps = {
@@ -22,75 +24,104 @@ const PortfolioSummary = ({ userInfo, stockData }: PortfolioSummaryProps) => {
       0
     );
   };
+  const totalStockCost = () => {
+    if (userInfo && stockData) {
+      var stockTotalsArray = userInfo.stocks.map(
+        (stock: firebaseStockInfo) => stock.quantity * stock.cost
+      );
+    }
+    return stockTotalsArray.reduce(
+      (partialSum: number, a: number) => partialSum + a,
+      0
+    );
+  };
+  const percentChange =
+    ((Number(totalStockValue) - Number(totalStockCost)) /
+      Math.abs(Number(totalStockCost))) *
+    100;
 
   return (
-    <Flex wrap="wrap" mb="2" justify="center">
-      <Box m="2" shadow="lg" bgColor="white" borderRadius="md" p="1">
-        <Text>Cash:</Text>
-        {userInfo ? (
-          <Text color="blue.600" fontSize="2xl">
-            $
-            {userInfo?.tally.toLocaleString("en-US", {
-              minimumFractionDigits: 2,
-            })}
-          </Text>
-        ) : (
-          <Text color="blue.600" fontSize="2xl">
-            Loading...
-          </Text>
-        )}
-      </Box>{" "}
-      <Box
-        display="flex"
-        alignItems="center"
-        bgColor="white"
-        borderRadius="md"
-        p="1"
-        fontSize="3xl"
-      >
-        +
-      </Box>
-      <Box m="2" shadow="lg" bgColor="white" borderRadius="md" p="1">
-        <Text>Stocks:</Text>
-        {userInfo ? (
-          <Text color="blue.600" fontSize="2xl">
-            $
-            {totalStockValue().toLocaleString("en-US", {
-              minimumFractionDigits: 2,
-            })}
-          </Text>
-        ) : (
-          <Text color="blue.600" fontSize="2xl">
-            Loading...
-          </Text>
-        )}
-      </Box>
-      <Box
-        display="flex"
-        alignItems="center"
-        bgColor="white"
-        borderRadius="md"
-        p="1"
-        fontSize="3xl"
-      >
-        =
-      </Box>
-      <Box m="2" shadow="lg" bgColor="white" borderRadius="md" p="1">
-        <Text>Net Worth:</Text>
-        {userInfo ? (
-          <Text color="blue.600" fontSize="2xl">
-            $
-            {(totalStockValue() + userInfo.tally).toLocaleString("en-US", {
-              minimumFractionDigits: 2,
-            })}
-          </Text>
-        ) : (
-          <Text color="blue.600" fontSize="2xl">
-            Loading...
-          </Text>
-        )}
-      </Box>
-    </Flex>
+    <VStack>
+      <Flex wrap="wrap" mb="2" justify="center">
+        <Box m="2" shadow="lg" bgColor="white" borderRadius="md" p="1">
+          <Text>Cash:</Text>
+          {userInfo ? (
+            <Text color="blue.600" fontSize="2xl">
+              $
+              {userInfo?.tally.toLocaleString("en-US", {
+                minimumFractionDigits: 2,
+              })}
+            </Text>
+          ) : (
+            <Text color="blue.600" fontSize="2xl">
+              Loading...
+            </Text>
+          )}
+        </Box>{" "}
+        <Box
+          display="flex"
+          alignItems="center"
+          bgColor="white"
+          borderRadius="md"
+          p="1"
+          fontSize="3xl"
+        >
+          +
+        </Box>
+        <Box m="2" shadow="lg" bgColor="white" borderRadius="md" p="1">
+          <Text>Stocks:</Text>
+          {userInfo ? (
+            <Text color="blue.600" fontSize="2xl">
+              $
+              {totalStockValue().toLocaleString("en-US", {
+                minimumFractionDigits: 2,
+              })}
+            </Text>
+          ) : (
+            <Text color="blue.600" fontSize="2xl">
+              Loading...
+            </Text>
+          )}
+        </Box>
+        <Box
+          display="flex"
+          alignItems="center"
+          bgColor="white"
+          borderRadius="md"
+          p="1"
+          fontSize="3xl"
+        >
+          =
+        </Box>
+        <Box m="2" shadow="lg" bgColor="white" borderRadius="md" p="1">
+          <Text>Net Worth:</Text>
+          {userInfo ? (
+            <Text color="blue.600" fontSize="2xl">
+              $
+              {(totalStockValue() + userInfo.tally).toLocaleString("en-US", {
+                minimumFractionDigits: 2,
+              })}
+            </Text>
+          ) : (
+            <Text color="blue.600" fontSize="2xl">
+              Loading...
+            </Text>
+          )}
+        </Box>
+      </Flex>
+      <Flex wrap="wrap" mb="2" justify="center">
+        <Box m="2" shadow="lg" bgColor="white" borderRadius="md" p="1">
+          <Text>Total % Change:</Text>
+          <PercentBox percent={percentChange} />
+        </Box>
+        <Box m="2" shadow="lg" bgColor="white" borderRadius="md" p="1">
+          <Text>Total $ Change:</Text>
+          <ProfitBox
+            priceChange={Number(totalStockValue) - Number(totalStockCost)}
+          />
+        </Box>
+      </Flex>
+    </VStack>
   );
 };
 
