@@ -2,6 +2,7 @@ import { Card, CardHeader, HStack, Heading, CardBody } from "@chakra-ui/react";
 import axios from "axios";
 import { doc, DocumentData, onSnapshot } from "firebase/firestore";
 import { useContext, useEffect, useState } from "react";
+import Loading from "../components/Loading";
 import { PieChart } from "../components/PieChart";
 import PortfolioSummary from "../components/PortfolioSummary";
 import { firebaseStockInfo } from "../components/Sell";
@@ -68,27 +69,39 @@ const Portfolio = () => {
     }, []);
 
   return (
-    <Card mt="3" borderRadius="1em" align="center" width="full" height="full">
-      <CardHeader
-        borderRadius="1em 1em 0 0"
-        backgroundColor="teal.200"
-        width="full"
-      >
-        <HStack spacing={{ base: "0", md: "6" }}>
-          <Heading size="md">Portfolio</Heading>
-        </HStack>
-      </CardHeader>
-      <CardBody minHeight="75vh" width="full">
-        <PortfolioSummary stockData={stockData} userInfo={userInfo} />
-        {userInfo && stockData && (
-          <PieChart
-            userInfo={userInfo}
-            stockData={stockData}
-            loading={loading}
-          />
-        )}
-      </CardBody>
-    </Card>
+    <>
+      {loading ? (
+        <Loading />
+      ) : (
+        <Card
+          mt="3"
+          borderRadius="1em"
+          align="center"
+          width="full"
+          height="full"
+        >
+          <CardHeader
+            borderRadius="1em 1em 0 0"
+            backgroundColor="teal.200"
+            width="full"
+          >
+            <HStack spacing={{ base: "0", md: "6" }}>
+              <Heading size="md">Portfolio</Heading>
+            </HStack>
+          </CardHeader>
+          <CardBody minHeight="75vh" width="full">
+            <PortfolioSummary stockData={stockData} userInfo={userInfo} />
+            {userInfo && stockData && (
+              <PieChart
+                userInfo={userInfo}
+                stockData={stockData}
+                loading={loading}
+              />
+            )}
+          </CardBody>
+        </Card>
+      )}
+    </>
   );
 };
 

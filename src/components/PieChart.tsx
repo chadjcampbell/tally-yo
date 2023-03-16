@@ -1,7 +1,7 @@
-import { useEffect, useRef } from "react";
+import { useEffect } from "react";
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
-import { Chart } from "react-chartjs-2";
-import { VStack, Text, Flex } from "@chakra-ui/react";
+import { Pie } from "react-chartjs-2";
+import { VStack, Text, Box } from "@chakra-ui/react";
 import { DocumentData } from "firebase/firestore";
 import { firebaseStockInfo } from "./Sell";
 import { stringToColor } from "../utils/stringToColor";
@@ -19,25 +19,10 @@ type LineChartProps = {
 const YF_KEY = import.meta.env.VITE_YF;
 
 export const PieChart = ({ userInfo, stockData, loading }: LineChartProps) => {
-  const chartRef = useRef<ChartJS>(null);
-
   const userStocksSymbols = userInfo?.stocks.map(
     (stock: firebaseStockInfo) => stock.stock
   );
 
-  const options = {
-    type: "pie",
-    responsive: true,
-    plugins: {
-      legend: {
-        position: "top" as const,
-      },
-      title: {
-        display: true,
-        text: "Current Holdings Values",
-      },
-    },
-  };
   const data = {
     labels: userStocksSymbols,
     datasets: [
@@ -67,12 +52,12 @@ export const PieChart = ({ userInfo, stockData, loading }: LineChartProps) => {
       {loading ? (
         <Loading />
       ) : (
-        <Flex w="60%" flexDirection="column" p="3">
+        <Box minWidth="50vw" flexDirection="column" p="3">
           <Text textAlign="center" fontSize="lg">
             Current holdings:
           </Text>
-          <Chart type="pie" ref={chartRef} options={options} data={data} />
-        </Flex>
+          <Pie data={data} />
+        </Box>
       )}
     </VStack>
   );
