@@ -81,7 +81,8 @@ Tally Yo is a chat app where you gain cash by chatting with friends, or paper tr
 - [![Framer](https://img.shields.io/badge/Framer-black?style=for-the-badge&logo=framer&logoColor=blue)][framer-url]
 - [![Vite](https://img.shields.io/badge/vite-%23646CFF.svg?style=for-the-badge&logo=vite&logoColor=white)][vite-url]
 - [![Firebase](https://img.shields.io/badge/firebase-%23039BE5.svg?style=for-the-badge&logo=firebase)][firebase-url]
-- ![Jest](https://img.shields.io/badge/-jest-%23C21325?style=for-the-badge&logo=jest&logoColor=white)\*with Vitest
+- [![Vitest](https://img.shields.io/badge/Vitest-6E9F18.svg?style=for-the-badge&logo=Vitest&logoColor=white)][vitest-url]
+- [![TestingLibrary](https://img.shields.io/badge/Testing%20Library-E33332.svg?style=for-the-badge&logo=Testing-Library&logoColor=white)][testing-libray-url]
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -174,3 +175,5 @@ Email: chadjcampbell@gmail.com
 [chakra-url]: (https://chakra-ui.com/)
 [vite-url]: (https://vitejs.dev/)
 [firebase-url]: (https://firebase.google.com/)
+[vitest-url]: (https://vitest.dev/)
+[testing-libray-url]: (https://testing-library.com/)
