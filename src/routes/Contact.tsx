@@ -45,7 +45,6 @@ const Contact = () => {
         )
         .then(
           (result) => {
-            console.log(result.text);
             toast({
               title: "Message Sent!",
               description: "Thanks for reaching out.",
@@ -57,7 +56,7 @@ const Contact = () => {
             formTarget.reset();
           },
           (error) => {
-            console.log(error.text);
+            console.error(error.text);
             toast({
               title: "Message Failed!",
               description: "Trolls may have locked up my mailJS account.",

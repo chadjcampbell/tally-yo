@@ -17,6 +17,7 @@ const Portfolio = () => {
   const [userInfo, setUserInfo] = useState<DocumentData | null>(null);
   const [stockData, setStockData] = useState<YFStockData[] | null>(null);
   const [loading, setLoading] = useState(true);
+  const { user } = useContext(AuthContext);
 
   const userStocksSymbols = userInfo?.stocks.map(
     (stock: firebaseStockInfo) => stock.stock
@@ -41,7 +42,6 @@ const Portfolio = () => {
           .then((response) => {
             setStockData(response.data.quoteResponse.result);
             setLoading(false);
-            console.log(response.data.quoteResponse.result);
           })
           .catch((error) => {
             console.error(error);
@@ -52,11 +52,8 @@ const Portfolio = () => {
 
   useEffect(() => {
     setStockData(backupArrayQuote as YFStockData[]);
-    console.log(backupArrayQuote);
     setLoading(false);
   });
-
-  const { user } = useContext(AuthContext);
 
   user &&
     useEffect(() => {
@@ -90,13 +87,16 @@ const Portfolio = () => {
             </HStack>
           </CardHeader>
           <CardBody minHeight="75vh" width="full">
-            <PortfolioSummary stockData={stockData} userInfo={userInfo} />
             {userInfo && stockData && (
-              <PieChart
-                userInfo={userInfo}
-                stockData={stockData}
-                loading={loading}
-              />
+              <>
+                <PortfolioSummary stockData={stockData} userInfo={userInfo} />
+
+                <PieChart
+                  userInfo={userInfo}
+                  stockData={stockData}
+                  loading={loading}
+                />
+              </>
             )}
           </CardBody>
         </Card>

@@ -43,10 +43,6 @@ export const PieChart = ({ userInfo, stockData, loading }: LineChartProps) => {
     ],
   };
 
-  useEffect(() => {
-    console.log(userInfo);
-  }, []);
-
   return (
     <VStack borderRadius="md" shadow="lg">
       {loading ? (

@@ -54,7 +54,6 @@ export function SellInfo({ stock }: SellInfoProps) {
           .then((response) => {
             setAPIstockInfo(response.data.quoteResponse.result[0]);
             setLoading(false);
-            console.log(response.data.quoteResponse.result[0]);
           })
           .then(() => setLoading(false))
           .catch((error) => {
@@ -68,7 +67,6 @@ export function SellInfo({ stock }: SellInfoProps) {
   useEffect(() => {
     const getStockData = () => {
       setAPIstockInfo(backupQuote);
-      console.log(backupQuote);
       setTimeout(() => {
         setLoading(false);
       }, 500);

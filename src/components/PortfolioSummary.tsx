@@ -19,10 +19,9 @@ const PortfolioSummary = ({ userInfo, stockData }: PortfolioSummaryProps) => {
           stock.quantity * currentPrice(stock.stock, stockData)
       );
     }
-    return stockTotalsArray.reduce(
-      (partialSum: number, a: number) => partialSum + a,
-      0
-    );
+    return stockTotalsArray.reduce((partialSum: number, a: number) => {
+      return partialSum + a;
+    }, 0);
   };
   const totalStockCost = () => {
     if (userInfo && stockData) {
@@ -36,9 +35,7 @@ const PortfolioSummary = ({ userInfo, stockData }: PortfolioSummaryProps) => {
     );
   };
   const percentChange =
-    ((Number(totalStockValue) - Number(totalStockCost)) /
-      Math.abs(Number(totalStockCost))) *
-    100;
+    ((totalStockValue() - totalStockCost()) / Math.abs(totalStockCost())) * 100;
 
   return (
     <VStack>
@@ -116,9 +113,7 @@ const PortfolioSummary = ({ userInfo, stockData }: PortfolioSummaryProps) => {
         </Box>
         <Box m="2" shadow="lg" bgColor="white" borderRadius="md" p="1">
           <Text>Total $ Change:</Text>
-          <ProfitBox
-            priceChange={Number(totalStockValue) - Number(totalStockCost)}
-          />
+          <ProfitBox priceChange={totalStockValue() - totalStockCost()} />
         </Box>
       </Flex>
     </VStack>

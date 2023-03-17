@@ -60,7 +60,6 @@ const Buy = () => {
             //slice top 10 since the full data quote only supports 10 stocks
             const trimmedStocks = trendingSymbolsResponse.slice(0, 10);
             setTrendingSymbols(trimmedStocks);
-            console.log(trimmedStocks);
           })
           .catch((error) => {
             console.error(error);
@@ -77,7 +76,6 @@ const Buy = () => {
           .then((response) => {
             setTrendingData(response.data.quoteResponse.result);
             setLoading(false);
-            console.log(response);
           })
           .catch((error) => {
             console.error(error);
@@ -100,7 +98,7 @@ const Buy = () => {
         .request(fullDataOptions(searchStock))
         .then((response) => {
           setSearchResult(response.data.quoteResponse.result[0]);
-          console.log(response);
+
           const formTarget = e.target as HTMLFormElement;
           formTarget.reset();
         })

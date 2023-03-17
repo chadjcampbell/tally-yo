@@ -80,7 +80,7 @@ const Search = () => {
         [chatID + ".date"]: serverTimestamp(),
       });
     } catch (err) {
-      console.log(err);
+      console.error(err);
     } finally {
       setSearchUser(null);
     }

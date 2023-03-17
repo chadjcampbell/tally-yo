@@ -55,7 +55,6 @@ const StockCard = ({ stock }: StockCardProps) => {
           .request(chartDataOptions(stock.symbol))
           .then((response) => {
             setChartData(response.data.chart.result[0]);
-            console.log(response.data.chart.result[0]);
           })
           .catch((error) => {
             console.error(error);

@@ -79,7 +79,7 @@ const Register = () => {
           },
           (error) => {
             setError(true);
-            console.log(error);
+            console.error(error);
             setLoading(false);
             navigate("/register");
           },

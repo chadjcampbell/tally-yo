@@ -74,7 +74,6 @@ export const LineChart = ({ stock, chartDatafromAPI }: LineChartProps) => {
   };
 
   useEffect(() => {
-    console.log(chartDatafromAPI);
     const chart = chartRef.current;
 
     if (!chart) {
