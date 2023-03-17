@@ -66,9 +66,9 @@
 ## About The Project
 
 <div align="center">
-    <img src="public/tallyyoscreenshot2.png" alt="Screenshot" width="400" height="200">
+    <img src="public/tyss1.png" alt="Screenshot" width="400" height="200">
 </div>
-Tally Yo is a chat app where you gain coins by chatting with friends. Then you use those coins to buy and sell collectables.
+Tally Yo is a chat app where you gain cash by chatting with friends, or paper trading stocks. You can search, buy, and sell, then check out how you're picks are doing with portfolio performance.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -81,6 +81,7 @@ Tally Yo is a chat app where you gain coins by chatting with friends. Then you u
 - [![Framer](https://img.shields.io/badge/Framer-black?style=for-the-badge&logo=framer&logoColor=blue)][framer-url]
 - [![Vite](https://img.shields.io/badge/vite-%23646CFF.svg?style=for-the-badge&logo=vite&logoColor=white)][vite-url]
 - [![Firebase](https://img.shields.io/badge/firebase-%23039BE5.svg?style=for-the-badge&logo=firebase)][firebase-url]
+- ![Jest](https://img.shields.io/badge/-jest-%23C21325?style=for-the-badge&logo=jest&logoColor=white)\*with Vitest
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -111,11 +112,12 @@ To get a local copy up and running follow these simple example steps.
 
 ## Features
 
-The items are fetched in the Collectibles route, from the Animal Crossing API that you can find (<a href="http://acnhapi.com/">here</a>). Most of the collectibles functionality and user auth and state is handled by a context provider, while smaller functionality like the styling, tooltips, modals, etc. are plain useState. The back end is done with BaaS Firebase. The styling was done with Chakra UI components, with some custom overrides where needed.
+The stock info is fetched in the Buy/Sell route, from the YH Finance API that you can find (<a href="https://financeapi.net/">here</a>). Most of the chat functionality and user auth and state is handled by a context provider, while smaller functionality like the styling, tooltips, modals, etc. are plain useState. The back end is done with BaaS Firebase. The styling was done with Chakra UI components, with some custom overrides where needed. 30 day stock performance line chart and portfolio holding pie chart done with ChartJS.
 
 <div align="center">
-    <img src="public/tallyyoscreenshot1.png" alt="Screenshot" width="400" height="200">
-    <img src="public/tallyyoscreenshot3.png" alt="Screenshot" width="400" height="200">
+    <img src="public/tyss2.png" alt="Screenshot" width="400" height="200">
+    <img src="public/tyss3.png" alt="Screenshot" width="400" height="200">
+    <img src="public/tyss4.png" alt="Screenshot" width="400" height="200">
 </div>
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
@@ -124,9 +126,9 @@ The items are fetched in the Collectibles route, from the Animal Crossing API th
 
 ## Roadmap
 
-- [ ] Different ways to earn coins
-- [ ] Trade collectibles
-- [ ] Testing
+- [ ] Something to spend the "tally cash" on like collectibles
+- [ ] Trade collectibles?
+- [ ] More testing
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
