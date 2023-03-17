@@ -1,0 +1,5 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`Is a static contact page 1`] = `<Contact />`;
+
+exports[`toUpperCase 1`] = `<Contact />`;
