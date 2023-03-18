@@ -16,16 +16,25 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (firebaseUser) => {
       setUser(firebaseUser);
-      const keyDoc = query(collection(db, "yfKey"));
-      const querySnapshot = await getDocs(keyDoc);
-      setYfKey(querySnapshot.docs[0].data().key);
-      console.log(querySnapshot.docs[0].data().key);
-      setLoading(false);
     });
     return () => {
       unsubscribe();
     };
   }, []);
+
+  useEffect(() => {
+    const getKey = async () => {
+      const keyDoc = query(collection(db, "yfKey"));
+      const querySnapshot = await getDocs(keyDoc);
+      setYfKey(querySnapshot.docs[0].data().key);
+      setLoading(false);
+    };
+    user && getKey();
+    return () => {
+      setYfKey(null);
+      setLoading(false);
+    };
+  }, [user]);
 
   return (
     <AuthContext.Provider value={{ yfKey, user, loading, setLoading }}>

@@ -9,6 +9,8 @@ import {
   HStack,
   Input,
   VStack,
+  CardHeader,
+  CardBody,
 } from "@chakra-ui/react";
 import axios from "axios";
 import { FormEvent, useContext, useEffect, useState } from "react";
@@ -22,6 +24,7 @@ const Buy = () => {
   const [trendingSymbols, setTrendingSymbols] = useState<string[] | null>(null);
   const [trendingData, setTrendingData] = useState<YFStockData[] | null>(null);
   const [searchResult, setSearchResult] = useState<YFStockData | null>(null);
+  const [badSearch, setBadSearch] = useState(false);
   const [loading, setLoading] = useState(true);
   const { yfKey } = useContext(AuthContext);
 
@@ -97,8 +100,13 @@ const Buy = () => {
       axios
         .request(fullDataOptions(searchStock))
         .then((response) => {
-          setSearchResult(response.data.quoteResponse.result[0]);
-
+          if (response.data.quoteResponse.result.length === 0) {
+            setBadSearch(true);
+            setSearchResult(null);
+          } else {
+            setBadSearch(false);
+            setSearchResult(response.data.quoteResponse.result[0]);
+          }
           const formTarget = e.target as HTMLFormElement;
           formTarget.reset();
         })
@@ -121,11 +129,19 @@ const Buy = () => {
                   Search
                 </Button>
               </HStack>
-              <FormHelperText textAlign="center">e.g. 'twtr' </FormHelperText>
+              <FormHelperText textAlign="center">e.g. 'msft' </FormHelperText>
             </FormControl>
           </form>
         </Card>
       </Flex>
+      {badSearch && (
+        <Card w="250px" h="250px" shadow="lg" m="3" p="3">
+          <CardHeader fontSize="lg" textAlign="center">
+            No stock found
+          </CardHeader>
+          <CardBody textAlign="center">Please try again</CardBody>
+        </Card>
+      )}
       {searchResult && (
         <Flex align="center" justify="center" mb="5">
           <StockCard stock={searchResult} key={searchResult.shortName} />
