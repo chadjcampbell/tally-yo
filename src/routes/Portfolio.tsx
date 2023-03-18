@@ -32,26 +32,22 @@ const Portfolio = () => {
     };
   };
 
-  false &&
-    useEffect(() => {
-      const getStockData = () => {
-        axios
-          .request(fullDataOptions(userStocksSymbols))
-          .then((response) => {
-            setStockData(response.data.quoteResponse.result);
-            setLoading(false);
-          })
-          .catch((error) => {
-            console.error(error);
-          });
-      };
-      getStockData();
-    }, []);
-
-  useEffect(() => {
-    setStockData(backupArrayQuote as YFStockData[]);
-    setLoading(false);
-  });
+  // FIX THIS!
+  /*   useEffect(() => {
+    const getStockData = () => {
+      axios
+        .request(fullDataOptions(userStocksSymbols))
+        .then((response) => {
+          setStockData(response.data.quoteResponse.result);
+          console.log(response);
+          setLoading(false);
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    };
+    userStocksSymbols && getStockData();
+  }, [userStocksSymbols]); */
 
   user &&
     useEffect(() => {

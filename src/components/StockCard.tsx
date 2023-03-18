@@ -48,24 +48,16 @@ const StockCard = ({ stock }: StockCardProps) => {
     };
   };
 
-  false &&
-    useEffect(() => {
-      if (isOpen) {
-        axios
-          .request(chartDataOptions(stock.symbol))
-          .then((response) => {
-            setChartData(response.data.chart.result[0]);
-          })
-          .catch((error) => {
-            console.error(error);
-          });
-      }
-    }, [isOpen]);
-
-  //FAKE API CALL TO SAVE CALL LIMIT
   useEffect(() => {
     if (isOpen) {
-      setChartData(backupChart);
+      axios
+        .request(chartDataOptions(stock.symbol))
+        .then((response) => {
+          setChartData(response.data.chart.result[0]);
+        })
+        .catch((error) => {
+          console.error(error);
+        });
     }
   }, [isOpen]);
 

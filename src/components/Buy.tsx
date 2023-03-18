@@ -49,49 +49,43 @@ const Buy = () => {
   };
 
   //fetch trending stock symbols
-  false &&
-    useEffect(() => {
-      if (trendingSymbols === null) {
-        axios
-          .request(trendingOptions)
-          .then((response) => {
-            //map through api response to get an array of stock symbols
-            const trendingSymbolsResponse =
-              response.data.finance.result[0].quotes.map(
-                (stock: { symbol: string }) => stock.symbol
-              );
-            //slice top 10 since the full data quote only supports 10 stocks
-            const trimmedStocks = trendingSymbolsResponse.slice(0, 10);
-            setTrendingSymbols(trimmedStocks);
-          })
-          .catch((error) => {
-            console.error(error);
-          });
-      }
-    }, []);
+
+  useEffect(() => {
+    if (trendingSymbols === null) {
+      axios
+        .request(trendingOptions)
+        .then((response) => {
+          //map through api response to get an array of stock symbols
+          const trendingSymbolsResponse =
+            response.data.finance.result[0].quotes.map(
+              (stock: { symbol: string }) => stock.symbol
+            );
+          //slice top 10 since the full data quote only supports 10 stocks
+          const trimmedStocks = trendingSymbolsResponse.slice(0, 10);
+          setTrendingSymbols(trimmedStocks);
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    }
+  }, []);
 
   //if trendingSymbols have been fetched, get full data for each
-  false &&
-    useEffect(() => {
-      const getTrendingData = () => {
-        axios
-          .request(fullDataOptions(trendingSymbols))
-          .then((response) => {
-            setTrendingData(response.data.quoteResponse.result);
-            setLoading(false);
-          })
-          .catch((error) => {
-            console.error(error);
-          });
-      };
-      trendingSymbols && getTrendingData();
-    }, [trendingSymbols]);
 
-  //CURRENT REAL API FETCHES ARE FALSED TO SAVE API LIMIT, USING BACKUP
   useEffect(() => {
-    setTrendingData(trendingBackup as YFStockData[]);
-    setLoading(false);
-  }, []);
+    const getTrendingData = () => {
+      axios
+        .request(fullDataOptions(trendingSymbols))
+        .then((response) => {
+          setTrendingData(response.data.quoteResponse.result);
+          setLoading(false);
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    };
+    trendingSymbols && getTrendingData();
+  }, [trendingSymbols]);
 
   const handleSearch = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();

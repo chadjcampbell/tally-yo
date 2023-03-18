@@ -55,7 +55,7 @@ const Sell = () => {
               <Tr key={stock.stock}>
                 <Td>{stock.stock}</Td>
                 <Td isNumeric>{stock.quantity}</Td>
-                <Td isNumeric>${stock.cost}</Td>
+                <Td isNumeric>${stock.cost.toFixed(2)}</Td>
                 <Td textAlign="right">
                   <SellInfo stock={stock} />
                 </Td>

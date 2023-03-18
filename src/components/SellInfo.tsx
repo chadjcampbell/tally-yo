@@ -45,31 +45,19 @@ export function SellInfo({ stock }: SellInfoProps) {
     };
   };
 
-  false &&
-    useEffect(() => {
-      const getStockData = () => {
-        setLoading(true);
-        axios
-          .request(fullDataOptions(stock.stock))
-          .then((response) => {
-            setAPIstockInfo(response.data.quoteResponse.result[0]);
-            setLoading(false);
-          })
-          .then(() => setLoading(false))
-          .catch((error) => {
-            console.error(error);
-          });
-      };
-      isOpen && getStockData();
-    }, [isOpen]);
-
-  //FAKE API CALL DATA TO SAVE LIMIT
   useEffect(() => {
     const getStockData = () => {
-      setAPIstockInfo(backupQuote);
-      setTimeout(() => {
-        setLoading(false);
-      }, 500);
+      setLoading(true);
+      axios
+        .request(fullDataOptions(stock.stock))
+        .then((response) => {
+          setAPIstockInfo(response.data.quoteResponse.result[0]);
+          setLoading(false);
+        })
+        .then(() => setLoading(false))
+        .catch((error) => {
+          console.error(error);
+        });
     };
     isOpen && getStockData();
   }, [isOpen]);
@@ -100,7 +88,7 @@ export function SellInfo({ stock }: SellInfoProps) {
                   <CardHeader>
                     <Heading size="md">Your Cost</Heading>
                   </CardHeader>
-                  <CardBody>${stock.cost}</CardBody>
+                  <CardBody>${stock.cost.toFixed(2)}</CardBody>
                 </Card>
                 <Card align="center">
                   <CardHeader>
