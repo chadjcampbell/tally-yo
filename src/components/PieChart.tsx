@@ -16,7 +16,6 @@ type LineChartProps = {
   stockData: YFStockData[];
   loading: boolean;
 };
-const YF_KEY = import.meta.env.VITE_YF;
 
 export const PieChart = ({ userInfo, stockData, loading }: LineChartProps) => {
   const userStocksSymbols = userInfo?.stocks.map(

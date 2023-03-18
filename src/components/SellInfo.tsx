@@ -15,7 +15,8 @@ import {
   Heading,
 } from "@chakra-ui/react";
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
+import { AuthContext } from "../context/AuthContext";
 import { YFStockData } from "../types/YFStockData";
 import { backupQuote } from "../utils/backupQuote";
 import Loading from "./Loading";
@@ -27,12 +28,11 @@ type SellInfoProps = {
   stock: firebaseStockInfo;
 };
 
-const YF_KEY = import.meta.env.VITE_YF;
-
 export function SellInfo({ stock }: SellInfoProps) {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [loading, setLoading] = useState(true);
   const [APIstockInfo, setAPIstockInfo] = useState<YFStockData | null>(null);
+  const { yfKey } = useContext(AuthContext);
 
   const fullDataOptions = (symbols: string | null) => {
     return {
@@ -40,7 +40,7 @@ export function SellInfo({ stock }: SellInfoProps) {
       url: `https://yfapi.net/v6/finance/quote?region=US&lang=en&symbols=${symbols}`,
       headers: {
         accept: "application/json",
-        "x-api-key": YF_KEY,
+        "x-api-key": yfKey,
       },
     };
   };

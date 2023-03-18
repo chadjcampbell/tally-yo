@@ -11,26 +11,26 @@ import {
   VStack,
 } from "@chakra-ui/react";
 import axios from "axios";
-import { FormEvent, useEffect, useState } from "react";
+import { FormEvent, useContext, useEffect, useState } from "react";
+import { AuthContext } from "../context/AuthContext";
 import { YFStockData } from "../types/YFStockData";
 import { trendingBackup } from "../utils/backupTrending";
 import Loading from "./Loading";
 import StockCard from "./StockCard";
-
-const YF_KEY = import.meta.env.VITE_YF;
 
 const Buy = () => {
   const [trendingSymbols, setTrendingSymbols] = useState<string[] | null>(null);
   const [trendingData, setTrendingData] = useState<YFStockData[] | null>(null);
   const [searchResult, setSearchResult] = useState<YFStockData | null>(null);
   const [loading, setLoading] = useState(true);
+  const { yfKey } = useContext(AuthContext);
 
   const trendingOptions = {
     method: "GET",
     url: "https://yfapi.net/v1/finance/trending/US",
     headers: {
       accept: "application/json",
-      "x-api-key": YF_KEY,
+      "x-api-key": yfKey,
     },
   };
 
@@ -40,7 +40,7 @@ const Buy = () => {
       url: `https://yfapi.net/v6/finance/quote?region=US&lang=en&symbols=${symbols}`,
       headers: {
         accept: "application/json",
-        "x-api-key": YF_KEY,
+        "x-api-key": yfKey,
       },
     };
   };

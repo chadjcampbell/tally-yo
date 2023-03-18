@@ -17,7 +17,8 @@ import {
   useDisclosure,
 } from "@chakra-ui/react";
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
+import { AuthContext } from "../context/AuthContext";
 import { YFChartData } from "../types/YFChartData";
 import { YFStockData } from "../types/YFStockData";
 import { backupChart } from "../utils/backupChart";
@@ -27,8 +28,6 @@ import Loading from "./Loading";
 import PercentBox from "./PercentBox";
 import StockBuyerBtns from "./StockBuyerBtns";
 
-const YF_KEY = import.meta.env.VITE_YF;
-
 type StockCardProps = {
   stock: YFStockData;
 };
@@ -36,6 +35,7 @@ type StockCardProps = {
 const StockCard = ({ stock }: StockCardProps) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [chartData, setChartData] = useState<YFChartData | null>(null);
+  const { yfKey } = useContext(AuthContext);
 
   const chartDataOptions = (symbol: string | null) => {
     return {
@@ -43,7 +43,7 @@ const StockCard = ({ stock }: StockCardProps) => {
       url: `https://yfapi.net/v8/finance/chart/${symbol}?range=1mo&region=US&interval=1d&lang=en`,
       headers: {
         accept: "application/json",
-        "x-api-key": YF_KEY,
+        "x-api-key": yfKey,
       },
     };
   };

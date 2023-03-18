@@ -11,13 +11,11 @@ import { db } from "../firebase";
 import { YFStockData } from "../types/YFStockData";
 import { backupArrayQuote } from "../utils/backupArrayQuote";
 
-const YF_KEY = import.meta.env.VITE_YF;
-
 const Portfolio = () => {
   const [userInfo, setUserInfo] = useState<DocumentData | null>(null);
   const [stockData, setStockData] = useState<YFStockData[] | null>(null);
   const [loading, setLoading] = useState(true);
-  const { user } = useContext(AuthContext);
+  const { user, yfKey } = useContext(AuthContext);
 
   const userStocksSymbols = userInfo?.stocks.map(
     (stock: firebaseStockInfo) => stock.stock
@@ -29,7 +27,7 @@ const Portfolio = () => {
       url: `https://yfapi.net/v6/finance/quote?region=US&lang=en&symbols=${symbols}`,
       headers: {
         accept: "application/json",
-        "x-api-key": YF_KEY,
+        "x-api-key": yfKey,
       },
     };
   };
