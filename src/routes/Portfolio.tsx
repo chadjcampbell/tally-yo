@@ -33,21 +33,21 @@ const Portfolio = () => {
   };
 
   // FIX THIS!
-  /*   useEffect(() => {
+
+  useEffect(() => {
     const getStockData = () => {
       axios
         .request(fullDataOptions(userStocksSymbols))
         .then((response) => {
           setStockData(response.data.quoteResponse.result);
-          console.log(response);
           setLoading(false);
         })
         .catch((error) => {
           console.error(error);
         });
     };
-    userStocksSymbols && getStockData();
-  }, [userStocksSymbols]); */
+    getStockData();
+  }, []);
 
   user &&
     useEffect(() => {
