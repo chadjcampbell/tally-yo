@@ -5,11 +5,10 @@ import { useContext, useEffect, useState } from "react";
 import Loading from "../components/Loading";
 import { PieChart } from "../components/PieChart";
 import PortfolioSummary from "../components/PortfolioSummary";
-import { firebaseStockInfo } from "../components/Sell";
 import { AuthContext } from "../context/AuthContext";
 import { db } from "../firebase";
 import { YFStockData } from "../types/YFStockData";
-import { backupArrayQuote } from "../utils/backupArrayQuote";
+import { getUserSymbols } from "../utils/getUserSymbols";
 
 const Portfolio = () => {
   const [userInfo, setUserInfo] = useState<DocumentData | null>(null);
@@ -25,9 +24,6 @@ const Portfolio = () => {
       },
     };
   };
-  const userStocksSymbols = userInfo?.stocks.map(
-    (stock: firebaseStockInfo) => stock.stock
-  );
 
   user &&
     useEffect(() => {
@@ -42,7 +38,7 @@ const Portfolio = () => {
   useEffect(() => {
     const getStockData = () => {
       axios
-        .request(fullDataOptions(userStocksSymbols))
+        .request(fullDataOptions(getUserSymbols(userInfo as DocumentData)))
         .then((response) => {
           setStockData(response.data.quoteResponse.result);
           setLoading(false);
@@ -51,8 +47,8 @@ const Portfolio = () => {
           console.error(error);
         });
     };
-    getStockData();
-  }, []);
+    userInfo && getStockData();
+  }, [userInfo]);
 
   return (
     <>
@@ -76,17 +72,13 @@ const Portfolio = () => {
             </HStack>
           </CardHeader>
           <CardBody minHeight="75vh" width="full">
-            {userInfo && stockData && (
-              <>
-                <PortfolioSummary stockData={stockData} userInfo={userInfo} />
+            <PortfolioSummary stockData={stockData} userInfo={userInfo} />
 
-                <PieChart
-                  userInfo={userInfo}
-                  stockData={stockData}
-                  loading={loading}
-                />
-              </>
-            )}
+            <PieChart
+              userInfo={userInfo as DocumentData}
+              stockData={stockData as YFStockData[]}
+              loading={loading}
+            />
           </CardBody>
         </Card>
       )}

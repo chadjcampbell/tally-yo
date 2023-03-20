@@ -44,9 +44,9 @@ const PortfolioSummary = ({ userInfo, stockData }: PortfolioSummaryProps) => {
           <Text>Cash:</Text>
           {userInfo ? (
             <Text color="blue.600" fontSize="2xl">
-              $
               {userInfo?.tally.toLocaleString("en-US", {
-                minimumFractionDigits: 2,
+                style: "currency",
+                currency: "USD",
               })}
             </Text>
           ) : (
@@ -69,9 +69,9 @@ const PortfolioSummary = ({ userInfo, stockData }: PortfolioSummaryProps) => {
           <Text>Stocks:</Text>
           {userInfo ? (
             <Text color="blue.600" fontSize="2xl">
-              $
               {totalStockValue().toLocaleString("en-US", {
-                minimumFractionDigits: 2,
+                style: "currency",
+                currency: "USD",
               })}
             </Text>
           ) : (
@@ -94,9 +94,9 @@ const PortfolioSummary = ({ userInfo, stockData }: PortfolioSummaryProps) => {
           <Text>Net Worth:</Text>
           {userInfo ? (
             <Text color="blue.600" fontSize="2xl">
-              $
               {(totalStockValue() + userInfo.tally).toLocaleString("en-US", {
-                minimumFractionDigits: 2,
+                style: "currency",
+                currency: "USD",
               })}
             </Text>
           ) : (

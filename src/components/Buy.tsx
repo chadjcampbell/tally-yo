@@ -61,10 +61,11 @@ const Buy = () => {
           //slice top 10 since the full data quote only supports 10 stocks
           const trimmedStocks = trendingSymbolsResponse.slice(0, 10);
           setTrendingSymbols(trimmedStocks);
-          console.log(trimmedStocks);
         })
         .catch((error) => {
           console.error(error);
+          setTrendingData(trendingBackup as YFStockData[]);
+          setLoading(false);
         });
     }
   }, []);
