@@ -9,7 +9,7 @@ import {
   Tooltip,
   Legend,
 } from "chart.js";
-import { Chart } from "react-chartjs-2";
+import { Line } from "react-chartjs-2";
 import { YFStockData } from "../types/YFStockData";
 import { YFChartData } from "../types/YFChartData";
 import { HStack, VStack, Text } from "@chakra-ui/react";
@@ -30,8 +30,8 @@ type LineChartProps = {
 };
 
 export const LineChart = ({ stock, chartDatafromAPI }: LineChartProps) => {
-  const chartRef = useRef<ChartJS>(null);
-  const [chartData, setChartData] = useState<ChartData<"bar">>({
+  const chartRef = useRef<any>(null);
+  const [chartData, setChartData] = useState<ChartData<"line">>({
     datasets: [],
   });
 
@@ -100,7 +100,7 @@ export const LineChart = ({ stock, chartDatafromAPI }: LineChartProps) => {
           <PercentBox percent={thirtyDayPercent} />
         </HStack>
       </VStack>
-      <Chart ref={chartRef} type="line" data={chartData} />
+      <Line ref={chartRef} data={chartData} />
     </VStack>
   );
 };

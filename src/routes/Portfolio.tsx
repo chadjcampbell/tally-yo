@@ -1,4 +1,11 @@
-import { Card, CardHeader, HStack, Heading, CardBody } from "@chakra-ui/react";
+import {
+  Card,
+  CardHeader,
+  HStack,
+  Heading,
+  CardBody,
+  Text,
+} from "@chakra-ui/react";
 import axios from "axios";
 import { doc, DocumentData, onSnapshot } from "firebase/firestore";
 import { useContext, useEffect, useState } from "react";
@@ -37,15 +44,19 @@ const Portfolio = () => {
 
   useEffect(() => {
     const getStockData = () => {
-      axios
-        .request(fullDataOptions(getUserSymbols(userInfo as DocumentData)))
-        .then((response) => {
-          setStockData(response.data.quoteResponse.result);
-          setLoading(false);
-        })
-        .catch((error) => {
-          console.error(error);
-        });
+      if (userInfo?.stocks.length > 0) {
+        axios
+          .request(fullDataOptions(getUserSymbols(userInfo as DocumentData)))
+          .then((response) => {
+            setStockData(response.data.quoteResponse.result);
+            setLoading(false);
+          })
+          .catch((error) => {
+            console.error(error);
+          });
+      } else {
+        setLoading(false);
+      }
     };
     userInfo && getStockData();
   }, [userInfo]);
@@ -72,13 +83,18 @@ const Portfolio = () => {
             </HStack>
           </CardHeader>
           <CardBody minHeight="75vh" width="full">
-            <PortfolioSummary stockData={stockData} userInfo={userInfo} />
-
-            <PieChart
-              userInfo={userInfo as DocumentData}
-              stockData={stockData as YFStockData[]}
-              loading={loading}
-            />
+            {userInfo?.stocks.length === 0 ? (
+              <Text>Your stock portfolio is currently empty</Text>
+            ) : (
+              <>
+                <PortfolioSummary stockData={stockData} userInfo={userInfo} />
+                <PieChart
+                  userInfo={userInfo as DocumentData}
+                  stockData={stockData as YFStockData[]}
+                  loading={loading}
+                />
+              </>
+            )}
           </CardBody>
         </Card>
       )}
