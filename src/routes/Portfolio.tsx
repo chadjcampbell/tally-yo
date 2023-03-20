@@ -16,23 +16,28 @@ const Portfolio = () => {
   const [stockData, setStockData] = useState<YFStockData[] | null>(null);
   const [loading, setLoading] = useState(true);
   const { user, yfKey } = useContext(AuthContext);
-
-  const userStocksSymbols = userInfo?.stocks.map(
-    (stock: firebaseStockInfo) => stock.stock
-  );
-
   const fullDataOptions = (symbols: string[] | null) => {
     return {
       method: "GET",
       url: `https://yfapi.net/v6/finance/quote?region=US&lang=en&symbols=${symbols}`,
       headers: {
-        accept: "application/json",
         "x-api-key": yfKey,
       },
     };
   };
+  const userStocksSymbols = userInfo?.stocks.map(
+    (stock: firebaseStockInfo) => stock.stock
+  );
 
-  // FIX THIS!
+  user &&
+    useEffect(() => {
+      const unsub = onSnapshot(doc(db, "users", user.uid), (doc) => {
+        setUserInfo(doc.data()!);
+      });
+      return () => {
+        unsub();
+      };
+    }, []);
 
   useEffect(() => {
     const getStockData = () => {
@@ -48,16 +53,6 @@ const Portfolio = () => {
     };
     getStockData();
   }, []);
-
-  user &&
-    useEffect(() => {
-      const unsub = onSnapshot(doc(db, "users", user.uid), (doc) => {
-        setUserInfo(doc.data()!);
-      });
-      return () => {
-        unsub();
-      };
-    }, []);
 
   return (
     <>

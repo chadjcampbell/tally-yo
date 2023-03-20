@@ -42,7 +42,6 @@ const StockCard = ({ stock }: StockCardProps) => {
       method: "GET",
       url: `https://yfapi.net/v8/finance/chart/${symbol}?range=1mo&region=US&interval=1d&lang=en`,
       headers: {
-        accept: "application/json",
         "x-api-key": yfKey,
       },
     };

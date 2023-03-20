@@ -39,7 +39,6 @@ export function SellInfo({ stock }: SellInfoProps) {
       method: "GET",
       url: `https://yfapi.net/v6/finance/quote?region=US&lang=en&symbols=${symbols}`,
       headers: {
-        accept: "application/json",
         "x-api-key": yfKey,
       },
     };

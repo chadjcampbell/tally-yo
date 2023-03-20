@@ -32,7 +32,6 @@ const Buy = () => {
     method: "GET",
     url: "https://yfapi.net/v1/finance/trending/US",
     headers: {
-      accept: "application/json",
       "x-api-key": yfKey,
     },
   };
@@ -42,7 +41,6 @@ const Buy = () => {
       method: "GET",
       url: `https://yfapi.net/v6/finance/quote?region=US&lang=en&symbols=${symbols}`,
       headers: {
-        accept: "application/json",
         "x-api-key": yfKey,
       },
     };
@@ -63,6 +61,7 @@ const Buy = () => {
           //slice top 10 since the full data quote only supports 10 stocks
           const trimmedStocks = trendingSymbolsResponse.slice(0, 10);
           setTrendingSymbols(trimmedStocks);
+          console.log(trimmedStocks);
         })
         .catch((error) => {
           console.error(error);
@@ -82,6 +81,8 @@ const Buy = () => {
         })
         .catch((error) => {
           console.error(error);
+          setTrendingData(trendingBackup as YFStockData[]);
+          setLoading(false);
         });
     };
     trendingSymbols && getTrendingData();
