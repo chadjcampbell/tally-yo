@@ -38,7 +38,7 @@ const Message = ({ message }: MessageProps) => {
   } else {
     return (
       <Flex direction="row" align="center" justify="left">
-        <Avatar size={"md"} src={data.user?.photoURL || undefined} />
+        <Avatar size={"md"} src={data?.user?.photoURL || undefined} />
         <Box
           m="2"
           p="3"
