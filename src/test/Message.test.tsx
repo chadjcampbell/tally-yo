@@ -1,9 +1,9 @@
-import { describe, expect, test, vi } from "vitest";
+import { describe, expect, test } from "vitest";
 import { render, screen } from "@testing-library/react";
 import Message from "../components/Message";
 
-describe("Conditional rendering of loading", () => {
-  test("should show loading if userInfo is undefined", () => {
+describe("Message component", () => {
+  test("shows message when passed valid prop", () => {
     const fakeTime = Date.now();
     const testMessage = {
       id: "1",
