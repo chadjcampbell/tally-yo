@@ -4,7 +4,6 @@ import {
   Heading,
   CardBody,
   HStack,
-  Image,
   Text,
   Box,
 } from "@chakra-ui/react";
