@@ -19,6 +19,7 @@ import {
   MenuButton,
   MenuItem,
   MenuList,
+  Button,
 } from "@chakra-ui/react";
 import {
   FiHome,
@@ -217,9 +218,14 @@ const MobileNav = ({ onOpen, ...rest }: MobileProps) => {
               py={2}
               transition="all 0.3s"
               _focus={{ boxShadow: "none" }}
+              as={Button}
             >
               <HStack>
-                <Avatar size={"sm"} src={user?.photoURL || undefined} />
+                <Avatar
+                  size={"sm"}
+                  src={user?.photoURL || undefined}
+                  name={`${user?.displayName} avatar`}
+                />
                 <VStack
                   display={{ base: "none", md: "flex" }}
                   alignItems="flex-start"

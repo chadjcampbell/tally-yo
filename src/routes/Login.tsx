@@ -69,7 +69,7 @@ const Login = () => {
     <Flex
       bgImage={CONFETTI_LIGHT}
       flexDirection="column"
-      width="100wh"
+      width="100vw"
       height="100vh"
       backgroundColor="gray.200"
       justifyContent="center"
