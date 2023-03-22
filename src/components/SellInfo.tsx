@@ -18,7 +18,7 @@ import axios from "axios";
 import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../context/AuthContext";
 import { YFStockData } from "../types/YFStockData";
-import { backupQuote } from "../utils/backupQuote";
+import { fullDataOptions } from "../utils/fetchDataOptions";
 import Loading from "./Loading";
 import ProfitBox from "./ProfitBox";
 import { firebaseStockInfo } from "./Sell";
@@ -34,21 +34,11 @@ export function SellInfo({ stock }: SellInfoProps) {
   const [APIstockInfo, setAPIstockInfo] = useState<YFStockData | null>(null);
   const { yfKey } = useContext(AuthContext);
 
-  const fullDataOptions = (symbols: string | null) => {
-    return {
-      method: "GET",
-      url: `https://yfapi.net/v6/finance/quote?region=US&lang=en&symbols=${symbols}`,
-      headers: {
-        "x-api-key": yfKey,
-      },
-    };
-  };
-
   useEffect(() => {
     const getStockData = () => {
       setLoading(true);
       axios
-        .request(fullDataOptions(stock.stock))
+        .request(fullDataOptions(stock.stock, yfKey))
         .then((response) => {
           setAPIstockInfo(response.data.quoteResponse.result[0]);
           setLoading(false);

@@ -15,6 +15,7 @@ import PortfolioSummary from "../components/PortfolioSummary";
 import { AuthContext } from "../context/AuthContext";
 import { db } from "../firebase";
 import { YFStockData } from "../types/YFStockData";
+import { fullDataOptions } from "../utils/fetchDataOptions";
 import { getUserSymbols } from "../utils/getUserSymbols";
 
 const Portfolio = () => {
@@ -22,15 +23,6 @@ const Portfolio = () => {
   const [stockData, setStockData] = useState<YFStockData[] | null>(null);
   const [loading, setLoading] = useState(true);
   const { user, yfKey } = useContext(AuthContext);
-  const fullDataOptions = (symbols: string[] | null) => {
-    return {
-      method: "GET",
-      url: `https://yfapi.net/v6/finance/quote?region=US&lang=en&symbols=${symbols}`,
-      headers: {
-        "x-api-key": yfKey,
-      },
-    };
-  };
 
   user &&
     useEffect(() => {
@@ -46,7 +38,9 @@ const Portfolio = () => {
     const getStockData = () => {
       if (userInfo?.stocks.length > 0) {
         axios
-          .request(fullDataOptions(getUserSymbols(userInfo as DocumentData)))
+          .request(
+            fullDataOptions(getUserSymbols(userInfo as DocumentData), yfKey)
+          )
           .then((response) => {
             setStockData(response.data.quoteResponse.result);
             setLoading(false);

@@ -17,6 +17,7 @@ import { FormEvent, useContext, useEffect, useState } from "react";
 import { AuthContext } from "../context/AuthContext";
 import { YFStockData } from "../types/YFStockData";
 import { trendingBackup } from "../utils/backupTrending";
+import { trendingOptions, fullDataOptions } from "../utils/fetchDataOptions";
 import Loading from "./Loading";
 import StockCard from "./StockCard";
 
@@ -28,30 +29,12 @@ const Buy = () => {
   const [loading, setLoading] = useState(true);
   const { yfKey } = useContext(AuthContext);
 
-  const trendingOptions = {
-    method: "GET",
-    url: "https://yfapi.net/v1/finance/trending/US",
-    headers: {
-      "x-api-key": yfKey,
-    },
-  };
-
-  const fullDataOptions = (symbols: string[] | null) => {
-    return {
-      method: "GET",
-      url: `https://yfapi.net/v6/finance/quote?region=US&lang=en&symbols=${symbols}`,
-      headers: {
-        "x-api-key": yfKey,
-      },
-    };
-  };
-
   //fetch trending stock symbols
 
   useEffect(() => {
     if (trendingSymbols === null) {
       axios
-        .request(trendingOptions)
+        .request(trendingOptions(yfKey))
         .then((response) => {
           //map through api response to get an array of stock symbols
           const trendingSymbolsResponse =
@@ -75,7 +58,7 @@ const Buy = () => {
   useEffect(() => {
     const getTrendingData = () => {
       axios
-        .request(fullDataOptions(trendingSymbols))
+        .request(fullDataOptions(trendingSymbols, yfKey))
         .then((response) => {
           setTrendingData(response.data.quoteResponse.result);
           setLoading(false);
@@ -94,7 +77,7 @@ const Buy = () => {
     const searchStock = e.currentTarget.stockName.value;
     if (searchStock !== "") {
       axios
-        .request(fullDataOptions(searchStock))
+        .request(fullDataOptions(searchStock, yfKey))
         .then((response) => {
           if (response.data.quoteResponse.result.length === 0) {
             setBadSearch(true);

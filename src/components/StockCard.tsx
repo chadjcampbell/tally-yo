@@ -21,7 +21,7 @@ import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../context/AuthContext";
 import { YFChartData } from "../types/YFChartData";
 import { YFStockData } from "../types/YFStockData";
-import { backupChart } from "../utils/backupChart";
+import { chartDataOptions } from "../utils/fetchDataOptions";
 import { stringToColor } from "../utils/stringToColor";
 import { LineChart } from "./LineChart";
 import Loading from "./Loading";
@@ -37,20 +37,10 @@ const StockCard = ({ stock }: StockCardProps) => {
   const [chartData, setChartData] = useState<YFChartData | null>(null);
   const { yfKey } = useContext(AuthContext);
 
-  const chartDataOptions = (symbol: string | null) => {
-    return {
-      method: "GET",
-      url: `https://yfapi.net/v8/finance/chart/${symbol}?range=1mo&region=US&interval=1d&lang=en`,
-      headers: {
-        "x-api-key": yfKey,
-      },
-    };
-  };
-
   useEffect(() => {
     if (isOpen) {
       axios
-        .request(chartDataOptions(stock.symbol))
+        .request(chartDataOptions(stock.symbol, yfKey))
         .then((response) => {
           setChartData(response.data.chart.result[0]);
         })
